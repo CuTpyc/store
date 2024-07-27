@@ -18,6 +18,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       DEFAULT_ADMIN_EMAIL: ${DEFAULT_ADMIN_EMAIL}
       DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD}
+      COOKIE_SECRET: ${COOKIE_SECRET}
     volumes:
       - ./source:/app
     ports:
