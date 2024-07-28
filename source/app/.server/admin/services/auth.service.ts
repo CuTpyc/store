@@ -1,10 +1,10 @@
 import { FormStrategy } from "remix-auth-form";
 import { Authenticator } from "remix-auth";
-import { sessionStorage } from "~/.server/utils/session.util";
+import { sessionStorage } from "~/.server/admin/utils/session.util";
 import {invariant} from "@remix-run/router/history"
-import { hashPassword, comparePassword } from "../utils/auth.util";
+import { hashPassword, comparePassword } from "~/.server/shared/utils/auth.util";
 import type { User } from "@prisma/client";
-import { prisma } from "../utils/prisma.utils";
+import { prisma } from "~/.server/shared/utils/prisma.utils";
 
 export const ADMIN_AUTH_STRATEGY = 'admin-pass'
 

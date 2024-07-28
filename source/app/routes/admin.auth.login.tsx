@@ -1,8 +1,8 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, json, useLoaderData } from "@remix-run/react";
 import React from "react"
-import { ADMIN_AUTH_STRATEGY, authenticator } from "~/.server/services/auth.service";
-import { commitSession, getSession } from "~/.server/utils/session.util";
+import { ADMIN_AUTH_STRATEGY, authenticator } from "~/.server/admin/services/auth.service";
+import { commitSession, getSession } from "~/.server/admin/utils/session.util";
 
 
 export async function action({ request }: ActionFunctionArgs) {
