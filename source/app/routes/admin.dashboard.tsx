@@ -1,13 +1,7 @@
-import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { authenticator } from "~/.server/admin/services/auth.service";
+import { adminDashboardLoader } from "~/.server/admin/loaders/dashboard.loader";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-    const user = await authenticator.isAuthenticated(request, {
-      failureRedirect: "/admin/auth/login",
-    });
-    return json(user);
-  };
+export const loader = adminDashboardLoader
 
 export default function Index() {
     const data = useLoaderData<typeof loader>()
