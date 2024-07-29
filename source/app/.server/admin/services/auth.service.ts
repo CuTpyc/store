@@ -5,6 +5,9 @@ import {invariant} from "@remix-run/router/history"
 import { hashPassword, comparePassword } from "~/.server/shared/utils/auth.util";
 import type { User } from "@prisma/client";
 import { prisma } from "~/.server/shared/utils/prisma.utils";
+import { validator } from "~/routes/admin._auth.auth.login";
+import { validationError } from "remix-validated-form";
+import { ValidatorErrorWrapper } from "~/.server/shared/errors/validation-error-wrapper.";
 
 export const ADMIN_AUTH_STRATEGY = 'admin-pass'
 
@@ -19,16 +22,17 @@ const findUser = async (email: string, password: string): Promise<User> => {
 }
 
 authenticator.use(
-  new FormStrategy(async ({form}) => {
-    const email = form.get('email');
-    const password = form.get('password');
+  new FormStrategy(async (form) => {
 
-    // You can validate the inputs however you want
-    invariant(typeof email === 'string', 'email must be a string');
-    invariant(email.length > 0, 'email must not be empty');
+    const data = await validator.validate(
+      form
+    );
 
-    invariant(typeof password === 'string', 'password must be a string');
-    invariant(password.length > 0, 'password must not be empty');
+    if (data.error) {
+      throw new ValidatorErrorWrapper(data.error)
+    }
+
+    const { email, password } = data.data
 
     return await findUser(email, password);
   }),

@@ -17,9 +17,4 @@ export const ValidatedSubmitButton = (props: IValidatedSubmitButtonProps) => {
         >{text}</Button>
     );
 
-    return (
-        <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-    );
 };
