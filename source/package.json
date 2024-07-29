@@ -19,6 +19,7 @@
     "@remix-run/node": "^2.10.3",
     "@remix-run/react": "^2.10.3",
     "@remix-run/serve": "^2.10.3",
+    "@rvf/zod": "^0.0.16",
     "@shopify/polaris": "^13.8.0",
     "bcryptjs": "^2.4.3",
     "isbot": "^4.1.0",
@@ -26,7 +27,10 @@
     "react-dom": "^18.2.0",
     "remix-auth": "^3.7.0",
     "remix-auth-form": "^1.5.0",
-    "tsx": "^4.16.2"
+    "remix-validated-form": "^5.1.5",
+    "tsx": "^4.16.2",
+    "zod": "^3.23.8",
+    "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.10.3",
