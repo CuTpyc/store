@@ -1,8 +1,8 @@
 
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { adminAuthLoginAction } from "~/.server/admin/actions/auth.login.action";
 import { adminAuthLoader } from "~/.server/admin/loaders/auth.login.loader";
-import { adminAuthAction } from "~/.server/admin/actions/auth.login.action";
-import { Button, Card, FormLayout, TextField, Text, Box, Banner, TextContainer } from "@shopify/polaris";
+import { Card, FormLayout, Text, Box, Banner } from "@shopify/polaris";
 import { useState } from "react";
 import { withZod } from "@rvf/zod";
 import { z } from "zod";
@@ -11,7 +11,7 @@ import { ValidatedTextField } from "~/admin/ui/ValidatedTextField/ValidatedTextF
 import { ValidatedSubmitButton } from "~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton";
 
 
-export const action = adminAuthAction
+export const action = adminAuthLoginAction
 
 export const loader = adminAuthLoader
 
