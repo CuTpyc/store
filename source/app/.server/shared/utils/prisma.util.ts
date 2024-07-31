@@ -1,7 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+import {PrismaClient} from '@prisma/client'
 
 let prisma: PrismaClient
 declare global {
+  // eslint-disable-next-line no-var
   var __db: PrismaClient | undefined
 }
 
@@ -16,4 +17,4 @@ if (process.env.NODE_ENV === 'production') {
   prisma = global.__db
 }
 
-export { prisma }
+export {prisma}

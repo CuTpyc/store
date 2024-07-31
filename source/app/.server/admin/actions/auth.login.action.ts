@@ -1,9 +1,9 @@
 import {ActionFunctionArgs} from '@remix-run/node';
 import {ADMIN_AUTH_STRATEGY, authenticator} from '~/.server/admin/services/auth.service';
-import {EAdminNavigation} from '~/.server/admin/constants/navigation.constant';
+import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {AuthorizationError} from 'remix-auth';
 import {validationError} from 'remix-validated-form';
-import { ValidatorErrorWrapper } from '~/.server/shared/errors/validator-error-wrapper';
+import {ValidatorErrorWrapper} from '~/.server/shared/errors/validator-error-wrapper';
 
 export async function adminAuthLoginAction({request}: ActionFunctionArgs) {
   try {

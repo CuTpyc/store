@@ -3,7 +3,7 @@ import {BaseLayout} from '~/admin/layouts/BaseLayout/BaseLayout';
 import {Outlet} from '@remix-run/react';
 
 
-export default function AdminDashboard() {
+export default function AdminUsers() {
   return (
     <BaseLayout>
       <Outlet/>
