@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
 import {useLoaderData} from '@remix-run/react';
-import {adminDashboardLoader} from '~/.server/admin/loaders/dashboard.loader';
 import {Page} from '@shopify/polaris';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
@@ -8,8 +7,9 @@ import {ValidatedForm} from 'remix-validated-form';
 import {UsersPrimaryInfoForm} from '~/admin/components/UsersPrimaryInfoForm/UsersPrimaryInfoForm';
 import {usersPrimaryInfoFormValidator} from '~/admin/components/UsersPrimaryInfoForm/UsersPrimaryInfoForm.validator';
 import {adminUsersPrimaryAction} from '~/.server/admin/actions/users.primary.action';
+import {adminUsersSingleLoader} from '~/.server/admin/loaders/users.single.loader';
 
-export const loader = adminDashboardLoader;
+export const loader = adminUsersSingleLoader;
 
 export const action = adminUsersPrimaryAction;
 

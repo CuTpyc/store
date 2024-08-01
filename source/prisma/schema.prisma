@@ -15,18 +15,18 @@ datasource db {
 
 // Models
 model User {
-  id      Int      @id @default(autoincrement())
-  fullName    String?
-  email   String   @unique
-  password    String
-  role    AdminRole     @default(STAFF)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  deletedAt  DateTime?
+  id        Int       @id @default(autoincrement())
+  fullName  String?
+  email     String    @unique
+  password  String
+  role      AdminRole @default(STUFF)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 }
 
 // Enums
 enum AdminRole {
-  STAFF
+  STUFF
   ADMIN
 }

@@ -5,7 +5,7 @@ import {AppBar} from '~/admin/components/AppBar/AppBar';
 import {TUserDto} from '~/.server/admin/dto/user.dto';
 
 export type BaseLayoutProps = PropsWithChildren<{
-  user: TUserDto
+  user: TUserDto;
 }>
 
 export const BaseLayout: FC<BaseLayoutProps> = ({children, user}) => {
