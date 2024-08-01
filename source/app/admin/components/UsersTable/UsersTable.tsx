@@ -4,15 +4,7 @@ import {TUserDto} from '~/.server/admin/dto/user.dto';
 import type {NonEmptyArray} from '@shopify/polaris/build/ts/src/types';
 import {IndexTableHeading} from '@shopify/polaris/build/ts/src/components/IndexTable/IndexTable';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
-
-const setRoleStatusColor = (role: string) => {
-  if (role === "ADMIN") {
-    return 'success';
-  } 
-  if (role === "STAFF") {
-    return 'attention'
-  }
-}
+import {UserRoleBadge} from '~/admin/components/UsersTable/UserRoleBadge';
 
 
 export const AdminUsersTable: FC<{ users: TUserDto[] }> = ({users}) => {
@@ -44,7 +36,7 @@ export const AdminUsersTable: FC<{ users: TUserDto[] }> = ({users}) => {
           <Link url={`${EAdminNavigation.users}/${id}`}>{email}</Link>
         </IndexTable.Cell>
         <IndexTable.Cell>{fullName}</IndexTable.Cell>
-        <IndexTable.Cell><Badge tone={setRoleStatusColor(role)}>{role}</Badge></IndexTable.Cell>
+        <IndexTable.Cell><UserRoleBadge role={role}/></IndexTable.Cell>
         <IndexTable.Cell>{createdAt}</IndexTable.Cell>
         <IndexTable.Cell>{updatedAt}</IndexTable.Cell>
         <IndexTable.Cell>{deletedAt}</IndexTable.Cell>

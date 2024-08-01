@@ -1,11 +1,14 @@
 import {TopBar, TopBarProps} from '@shopify/polaris';
 import {FC, useCallback, useState} from 'react';
+import {TUserDto} from '~/.server/admin/dto/user.dto';
+import {UserMenu} from '~/admin/components/AppBar/UserMenu';
 
 export interface AppBarProps {
   onNavigationToggle: TopBarProps['onNavigationToggle'];
+  user: TUserDto;
 }
 
-export const AppBar: FC<AppBarProps> = ({onNavigationToggle}) => {
+export const AppBar: FC<AppBarProps> = ({onNavigationToggle, user}) => {
   const [userMenuActive, setUserMenuActive] = useState(false);
 
   const toggleUserMenuActive = useCallback(
@@ -13,27 +16,10 @@ export const AppBar: FC<AppBarProps> = ({onNavigationToggle}) => {
     [],
   );
 
-  const userMenuActions = [
-    {
-      items: [{content: 'Community forums'}],
-    },
-  ];
-
-  const userMenuMarkup = (
-    <TopBar.UserMenu
-      actions={userMenuActions}
-      name="Dharma"
-      detail={'storeName'}
-      initials="D"
-      open={userMenuActive}
-      onToggle={toggleUserMenuActive}
-    />
-  );
-
   return (
     <TopBar
       showNavigationToggle
-      userMenu={userMenuMarkup}
+      userMenu={<UserMenu user={user} userMenuActive={userMenuActive} toggleUserMenuActive={toggleUserMenuActive}/>}
       onNavigationToggle={onNavigationToggle}
     />
   );

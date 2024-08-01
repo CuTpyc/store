@@ -4,7 +4,11 @@ import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {userMapper} from '~/.server/admin/mappers/user.mapper';
 import {prisma} from '~/.server/shared/utils/prisma.util';
 
-export async function adminDashboardLoader({request}: LoaderFunctionArgs) {
+export async function adminLoader({request}: LoaderFunctionArgs) {
+  if (request.url.includes(EAdminNavigation.authLogin)) {
+    return json({user: null});
+  }
+
   const {id} = await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
