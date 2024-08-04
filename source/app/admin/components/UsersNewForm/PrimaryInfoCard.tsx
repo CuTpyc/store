@@ -1,9 +1,7 @@
-import {BlockStack, Card, FormLayout, Text} from '@shopify/polaris';
-import React from 'react';
-import {ValidatedTextField} from '~/admin/ui/ValidatedTextField/ValidatedTextField';
+import { BlockStack, Card, FormLayout, Text } from "@shopify/polaris";
+import { ValidatedTextField } from "~/admin/ui/ValidatedTextField/ValidatedTextField";
 
 export const PrimaryInfoCard = () => {
-
   return (
     <Card>
       <BlockStack gap="200">

@@ -1,4 +1,4 @@
-import {adminAuthLogoutLoader} from '~/.server/admin/loaders/auth.logout.loader';
+import { adminAuthLogoutLoader } from "~/.server/admin/loaders/auth.logout.loader";
 
 export const loader = adminAuthLogoutLoader;
 

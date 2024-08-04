@@ -7,41 +7,46 @@ import {
   InlineStack,
   Modal,
   SelectProps,
-  Text
-} from '@shopify/polaris';
-import {EditIcon} from '@shopify/polaris-icons';
-import React, {FC, useCallback, useMemo, useState} from 'react';
-import {TUserDto} from '~/.server/admin/dto/user.dto';
-import {ValidatedForm} from 'remix-validated-form';
-import {$Enums} from '@prisma/client';
-import {ValidatedSelect} from '~/admin/ui/ValidatedSelect/ValidatedSelect';
-import {usersRoleFormValidator} from '~/admin/components/UsersSingle/UsersRoleForm.validator';
-import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
+  Text,
+} from "@shopify/polaris";
+import { EditIcon } from "@shopify/polaris-icons";
+import { FC, useCallback, useMemo, useState } from "react";
+import { TUserDto } from "~/.server/admin/dto/user.dto";
+import { ValidatedForm } from "remix-validated-form";
+import { $Enums } from "@prisma/client";
+import { ValidatedSelect } from "~/admin/ui/ValidatedSelect/ValidatedSelect";
+import { usersRoleFormValidator } from "~/admin/components/UsersSingle/UsersRoleForm.validator";
+import { ValidatedSubmitButton } from "~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton";
 
 export type RoleCardProps = {
   user: TUserDto;
-}
+};
 
 export const RoleCard: FC<RoleCardProps> = (props) => {
-  const {user: {role, id}} = props;
+  const {
+    user: { role, id },
+  } = props;
   const [active, setActive] = useState(false);
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
-  const roleOptions: SelectProps['options'] = useMemo(() => ([
-    {
-      label: 'Select role',
-      value: '',
-    },
-    {
-      label: 'Admin',
-      value: $Enums.AdminRole.ADMIN,
-    },
-    {
-      label: 'Staff',
-      value: $Enums.AdminRole.STUFF,
-    }
-  ]), []);
+  const roleOptions: SelectProps["options"] = useMemo(
+    () => [
+      {
+        label: "Select role",
+        value: "",
+      },
+      {
+        label: "Admin",
+        value: $Enums.AdminRole.ADMIN,
+      },
+      {
+        label: "Staff",
+        value: $Enums.AdminRole.STAFF,
+      },
+    ],
+    []
+  );
 
   return (
     <Card>
@@ -66,7 +71,12 @@ export const RoleCard: FC<RoleCardProps> = (props) => {
         onClose={toggleActive}
         title="Change role"
       >
-        <ValidatedForm validator={usersRoleFormValidator} method="post" onSubmit={toggleActive}>
+        <ValidatedForm
+          validator={usersRoleFormValidator}
+          method="post"
+          onSubmit={toggleActive}
+        >
+          <input type="hidden" name="actionType" value="updateRole" />
           <Modal.Section>
             <FormLayout>
               <ValidatedSelect
@@ -79,7 +89,7 @@ export const RoleCard: FC<RoleCardProps> = (props) => {
           </Modal.Section>
           <Modal.Section>
             <InlineStack direction="row-reverse" align="end" gap="200">
-              <ValidatedSubmitButton text={'Save'} variant="primary"/>
+              <ValidatedSubmitButton text={"Save"} variant="primary" />
               <Button onClick={toggleActive}>Cancel</Button>
             </InlineStack>
           </Modal.Section>

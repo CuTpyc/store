@@ -1,6 +1,13 @@
-import {env} from 'node:process';
+import { env } from "node:process";
+import { IEnvironment } from "~/.server/shared/interfaces/environment.interface";
 
-export const environment = {
+if (!env.DEFAULT_ADMIN_EMAIL || !env.DEFAULT_ADMIN_PASSWORD) {
+  throw new Error(
+    "Environment variables DEFAULT_ADMIN_EMAIL and DEFAULT_ADMIN_PASSWORD must be set."
+  );
+}
+
+export const environment: IEnvironment = {
   environment: {
     isProduction: false,
     isDevelopment: true,
@@ -8,12 +15,12 @@ export const environment = {
     isTesting: false,
   },
   cookie: {
-    secret: String(env.COOKIE_SECRET || 'some secret'),
+    secret: env.COOKIE_SECRET || "some secret",
   },
   users: {
     admin: {
-      email: String(env.DEFAULT_ADMIN_EMAIL),
-      password: String(env.DEFAULT_ADMIN_PASSWORD),
-    }
-  }
-}
+      email: env.DEFAULT_ADMIN_EMAIL,
+      password: env.DEFAULT_ADMIN_PASSWORD,
+    },
+  },
+};

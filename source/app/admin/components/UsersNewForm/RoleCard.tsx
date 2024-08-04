@@ -1,25 +1,32 @@
-import {BlockStack, Card, FormLayout, SelectProps, Text} from '@shopify/polaris';
-import React, {useMemo} from 'react';
-import {ValidatedSelect} from '~/admin/ui/ValidatedSelect/ValidatedSelect';
-import {$Enums} from '@prisma/client';
+import {
+  BlockStack,
+  Card,
+  FormLayout,
+  SelectProps,
+  Text,
+} from "@shopify/polaris";
+import { useMemo } from "react";
+import { $Enums } from "@prisma/client";
+import { ValidatedSelect } from "~/admin/ui/ValidatedSelect/ValidatedSelect";
 
 export const RoleCard = () => {
-
-  const roleOptions: SelectProps['options'] = useMemo(() => ([
-    {
-      label: 'Select role',
-      value: '',
-    },
-    {
-      label: 'Admin',
-      value: $Enums.AdminRole.ADMIN,
-    },
-    {
-      label: 'Staff',
-      value: $Enums.AdminRole.STAFF,
-    }
-  ]), []);
-
+  const roleOptions: SelectProps["options"] = useMemo(
+    () => [
+      {
+        label: "Select role",
+        value: "",
+      },
+      {
+        label: "Admin",
+        value: $Enums.AdminRole.ADMIN,
+      },
+      {
+        label: "Staff",
+        value: $Enums.AdminRole.STAFF,
+      },
+    ],
+    []
+  );
 
   return (
     <Card>
@@ -28,11 +35,7 @@ export const RoleCard = () => {
           Role
         </Text>
         <FormLayout>
-          <ValidatedSelect
-            label={null}
-            name="role"
-            options={roleOptions}
-          />
+          <ValidatedSelect label={null} name="role" options={roleOptions} />
         </FormLayout>
       </BlockStack>
     </Card>

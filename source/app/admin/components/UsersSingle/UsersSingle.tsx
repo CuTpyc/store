@@ -1,5 +1,5 @@
 import {BlockStack, Layout} from '@shopify/polaris';
-import React, {FC} from 'react';
+import {FC} from 'react';
 import {TUserDto} from '~/.server/admin/dto/user.dto';
 import {PrimaryInfoCard} from '~/admin/components/UsersSingle/PrimaryInfoCard';
 import {RoleCard} from '~/admin/components/UsersSingle/RoleCard';

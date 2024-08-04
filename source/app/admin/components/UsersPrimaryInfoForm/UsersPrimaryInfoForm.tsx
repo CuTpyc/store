@@ -1,16 +1,18 @@
-import {BlockStack, Card, FormLayout, Text} from '@shopify/polaris';
-import React, {FC} from 'react';
-import {ValidatedTextField} from '~/admin/ui/ValidatedTextField/ValidatedTextField';
-import {TUserDto} from '~/.server/admin/dto/user.dto';
-import {splitFirstName} from '~/admin/utils/user.util';
+import { BlockStack, Card, FormLayout, Text } from "@shopify/polaris";
+import { FC } from "react";
+import { ValidatedTextField } from "~/admin/ui/ValidatedTextField/ValidatedTextField";
+import { TUserDto } from "~/.server/admin/dto/user.dto";
+import { splitFirstName } from "~/admin/utils/user.util";
 
 export type UsersPrimaryInfoFormProps = {
-  user: Pick<TUserDto, 'fullName' | 'email'>;
+  user: Pick<TUserDto, "fullName" | "email">;
 };
 
 export const UsersPrimaryInfoForm: FC<UsersPrimaryInfoFormProps> = (props) => {
-  const {user: {fullName, email}} = props;
-  const [firstName, lastName] = splitFirstName(fullName || '');
+  const {
+    user: { fullName, email },
+  } = props;
+  const [firstName, lastName] = splitFirstName(fullName || "");
 
   return (
     <Card>
