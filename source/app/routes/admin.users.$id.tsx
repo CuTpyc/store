@@ -5,13 +5,13 @@ import { DeleteIcon } from "@shopify/polaris-icons";
 import { EAdminNavigation } from "~/admin/constants/navigation.constant";
 import { UsersSingle } from "~/admin/components/UsersSingle/UsersSingle";
 import { adminUsersSingleLoader } from "~/.server/admin/loaders/users.single.loader";
-import { adminUsersRoleAction } from "~/.server/admin/actions/users.role.action";
 import { DeleteModal } from "~/admin/components/UsersSingle/DeleteModal";
 import { useCallback, useState } from "react";
+import { adminUsersModificationAction } from "~/.server/admin/actions/users.modification.actions";
 
 export const loader = adminUsersSingleLoader;
 
-export const action = adminUsersRoleAction;
+export const action = adminUsersModificationAction;
 
 
 
@@ -56,17 +56,12 @@ export default function AdminUsersSingle() {
     >
       <UsersSingle user={user} />
       <Layout.Section variant="oneThird">
-        <Form
-          action={`${EAdminNavigation.users}/${user.id}/delete`}
-          method="post"
-        >
-          <DeleteModal
-            user={user}
-            active={active}
-            toggleActive={toggleActive}
-            handleDelete={handleDelete}
-          />
-        </Form>
+        <DeleteModal
+          user={user}
+          active={active}
+          toggleActive={toggleActive}
+          handleDelete={handleDelete}
+        />
       </Layout.Section>
     </Page>
   );
