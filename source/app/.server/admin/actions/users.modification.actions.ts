@@ -45,7 +45,7 @@ export async function adminUsersModificationAction({
       break;
 
     case EActionType.deleteUser:
-        deleteSingleUser(request, params)
+        deleteSingleUser(user.id)
 
     default:
       return redirect(EAdminNavigation.users);

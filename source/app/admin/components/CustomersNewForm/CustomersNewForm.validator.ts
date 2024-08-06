@@ -23,6 +23,18 @@ export const passwordRule = z
   .min(8, { message: "Password must be greater than 8" });
 export const passwordConfirmRule = z.string();
 
+export const phone = z
+  .string()
+  .trim()
+
+export const note = z
+.string()
+.trim()
+
+
+
+
+
 export const customersNewFormValidator = withZod(
   z
     .object({
@@ -31,9 +43,12 @@ export const customersNewFormValidator = withZod(
       lastName: lastNameRule,
       password: passwordRule,
       passwordConfirm: passwordConfirmRule,
+      phone: phone,
+      note: note,
     })
     .refine((data) => data.password === data.passwordConfirm, {
       message: "Passwords don't match",
       path: ["passwordConfirm"], // path of error
     })
 );
+

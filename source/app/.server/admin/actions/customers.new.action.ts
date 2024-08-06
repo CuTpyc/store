@@ -2,10 +2,10 @@ import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { EAdminNavigation } from "~/admin/constants/navigation.constant";
 import { validationError } from "remix-validated-form";
 import { prisma } from "~/.server/shared/utils/prisma.util";
-import { $Enums } from "@prisma/client";
 import { authenticator } from "~/.server/admin/services/auth.service";
-import { usersNewFormValidator } from "~/admin/components/UsersNewForm/UsersNewForm.validator";
+
 import { customersNewFormValidator } from "~/admin/components/CustomersNewForm/CustomersNewForm.validator";
+import { customersAddressesNewFormValidator } from "~/admin/components/CustomersNewForm/CustomersAddressNewForm.validator";
 
 export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
@@ -14,12 +14,18 @@ export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
 
   // validate form data
   const data = await customersNewFormValidator.validate(await request.formData());
-  console.warn(data)
   if (data.error) {
     return validationError(data.error);
   }
-  
-  const { email, password, lastName, firstName, } = data.data;
+
+  const addressesData = await customersAddressesNewFormValidator.validate(await request.formData());
+  if (addressesData.error) {
+    return validationError(addressesData.error);
+  }
+
+  const { email, password, lastName, firstName, phone, note,} = data.data;
+
+  const { country, city, postalCode, phoneForAddress } = addressesData.data
 
   // check unique email
   const exist = await prisma.customer.findFirst({ where: { email } });
@@ -30,7 +36,7 @@ export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
       },
     });
   }
-
+  console.log(prisma.customer)
   // create new User
   const newCustomer = await prisma.customer.create({
     data: {
@@ -38,8 +44,19 @@ export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
       password,
       firstName,
       lastName,
+      phone,
+      note
     },
   });
+
+  const newCustomerAddresse = await prisma.customerAddress.create({
+    data: {
+      country,
+      city,
+      postalCode,
+      phoneForAddress,
+    }
+  })
 
   return redirect(`${EAdminNavigation.customers}/${newCustomer.id}`);
 }

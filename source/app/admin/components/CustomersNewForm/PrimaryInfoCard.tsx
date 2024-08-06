@@ -30,31 +30,20 @@ export const PrimaryInfoCard = () => {
             autoComplete="email"
           />
           <ValidatedTextField
-            label="Country"
+            label="Phone"
             type="text"
-            name="country"
-            autoComplete="country"
+            name="phone"
+            autoComplete="phone-number"
           />
           <ValidatedTextField
-            label="Address"
+            label="Note"
             type="text"
-            name="address"
-            autoComplete="address"
-          />
-          <ValidatedTextField
-            label="City"
-            type="text"
-            name="city"
-            autoComplete="city"
-          />
-          <ValidatedTextField
-            label="Postal code"
-            type="text"
-            name="postaCode"
-            autoComplete="postal-code"
+            name="note"
+            autoComplete="note"
           />
         </FormLayout>
       </BlockStack>
     </Card>
+
   );
 };
