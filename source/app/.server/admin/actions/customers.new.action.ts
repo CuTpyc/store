@@ -5,38 +5,41 @@ import { prisma } from "~/.server/shared/utils/prisma.util";
 import { $Enums } from "@prisma/client";
 import { authenticator } from "~/.server/admin/services/auth.service";
 import { usersNewFormValidator } from "~/admin/components/UsersNewForm/UsersNewForm.validator";
+import { customersNewFormValidator } from "~/admin/components/CustomersNewForm/CustomersNewForm.validator";
 
-export async function adminUsersNewAction({ request }: ActionFunctionArgs) {
+export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
 
   // validate form data
-  const data = await usersNewFormValidator.validate(await request.formData());
+  const data = await customersNewFormValidator.validate(await request.formData());
+  console.warn(data)
   if (data.error) {
     return validationError(data.error);
   }
-  const { email, password, lastName, firstName, role } = data.data;
+  
+  const { email, password, lastName, firstName, } = data.data;
 
   // check unique email
-  const exist = await prisma.user.findFirst({ where: { email } });
+  const exist = await prisma.customer.findFirst({ where: { email } });
   if (exist) {
     return validationError({
       fieldErrors: {
-        email: "User already exists",
+        email: "Customer already exists",
       },
     });
   }
 
   // create new User
-  const newUser = await prisma.user.create({
+  const newCustomer = await prisma.customer.create({
     data: {
       email,
       password,
-      fullName: `${firstName} ${lastName}`,
-      role: role as $Enums.AdminRole,
+      firstName,
+      lastName,
     },
   });
 
-  return redirect(`${EAdminNavigation.users}/${newUser.id}`);
+  return redirect(`${EAdminNavigation.customers}/${newCustomer.id}`);
 }

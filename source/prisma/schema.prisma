@@ -19,7 +19,7 @@ model User {
   fullName  String?
   email     String    @unique
   password  String
-  role      AdminRole @default(STUFF)
+  role      AdminRole @default(STAFF)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -27,6 +27,40 @@ model User {
 
 // Enums
 enum AdminRole {
-  STUFF
+  STAFF
   ADMIN
+}
+
+
+model Customer {
+  id         Int       @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  email      String    @unique
+  password   String
+  phone      String?
+  note       String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  addresses  CustomerAddress[]
+}
+
+model CustomerAddress {
+  id         Int       @id @default(autoincrement())
+  customerId Int
+  country    String
+  firstName  String?
+  lastName   String?
+  company    String?
+  address    String
+  apartment  String?
+  city       String
+  postalCode String
+  phone      String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  customer   Customer  @relation(fields: [customerId], references: [id])
 }

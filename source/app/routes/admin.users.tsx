@@ -11,7 +11,7 @@ export default function AdminUsers() {
   }
 
   return (
-    <BaseLayout user={data.user}>
+    <BaseLayout user={data.user} >
       <Outlet />
     </BaseLayout>
   );

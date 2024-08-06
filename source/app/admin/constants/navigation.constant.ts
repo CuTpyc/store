@@ -5,6 +5,7 @@ export enum EAdminNavigation {
   users = "/admin/users",
   usersCreate = "/admin/users/new",
   customers = "/admin/customers",
+  customersCreate = "/admin/customers/new",
   categories = "/admin/categories",
   products = "/admin/products",
   orders = "/admin/orders",
