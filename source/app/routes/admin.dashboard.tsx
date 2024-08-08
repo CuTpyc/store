@@ -1,10 +1,11 @@
-import React from "react";
-import { BaseLayout } from "~/admin/layouts/BaseLayout/BaseLayout";
-import { Outlet, useRouteLoaderData } from "@remix-run/react";
-import { adminLoader } from "~/.server/admin/loaders/admin.loader";
+import React from 'react';
+import {BaseLayout} from '~/admin/layouts/BaseLayout/BaseLayout';
+import {Outlet, useRouteLoaderData} from '@remix-run/react';
+import {adminLoader} from '~/.server/admin/loaders/admin.loader';
+
 
 export default function AdminDashboard() {
-  const data = useRouteLoaderData<typeof adminLoader>("routes/admin");
+  const data = useRouteLoaderData<typeof adminLoader>('routes/admin');
 
   if (!data?.user) {
     return null;
@@ -12,7 +13,7 @@ export default function AdminDashboard() {
 
   return (
     <BaseLayout user={data.user}>
-      <Outlet />
+      <Outlet/>
     </BaseLayout>
   );
 }

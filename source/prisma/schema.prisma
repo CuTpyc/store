@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -31,36 +32,64 @@ enum AdminRole {
   ADMIN
 }
 
-
 model Customer {
-  id         Int       @id @default(autoincrement())
-  firstName  String
-  lastName   String
-  email      String    @unique
-  password   String
-  phone      String?
-  note       String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
-
-  addresses  CustomerAddress[]
+  id        Int               @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String            @unique
+  password  String
+  phone     String?
+  note      String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  deletedAt DateTime?
+  addresses CustomerAddress[]
 }
 
 model CustomerAddress {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   customerId Int
-  country    String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  country    String?
   firstName  String?
   lastName   String?
   company    String?
-  address    String
+  address    String?
   apartment  String?
-  city       String
-  postalCode String
+  city       String?
+  postalCode String?
   phone      String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
 
-  customer   Customer  @relation(fields: [customerId], references: [id])
+model Product {
+  id                Int          @id @default(autoincrement())
+  slug              String       @unique
+  title             String
+  description       String?
+  price             Float
+  compareAtPrice    Float?
+  costPerItem      Float?
+  quantity          Int
+  sku               String?
+  barcode           String?
+  status            ProductStatus
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  deletedAt         DateTime?
+  images            ProductImage[]
+}
+
+model ProductImage {
+  id        Int    @id @default(autoincrement())
+  productId Int
+  image     String
+
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+enum ProductStatus {
+  active
+  draft
 }

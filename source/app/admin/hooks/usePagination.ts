@@ -1,6 +1,6 @@
-import type { IOffsetPaginationInfoDto } from "~/.server/shared/dto/offset-pagination-info.dto";
-import { useSearchParams } from "@remix-run/react";
-import { IndexTablePaginationProps } from "@shopify/polaris/build/ts/src/components/IndexTable/IndexTable";
+import type { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination-info.dto';
+import { useSearchParams } from '@remix-run/react';
+import { IndexTablePaginationProps } from '@shopify/polaris/build/ts/src/components/IndexTable/IndexTable';
 
 export const usePagination = (
   pagination: IOffsetPaginationInfoDto
@@ -11,16 +11,16 @@ export const usePagination = (
 
   const onNext = () => {
     setSearchParams((prev) => {
-      prev.set("skip", (skip + take).toString());
-      prev.set("take", take.toString());
+      prev.set('skip', (skip + take).toString());
+      prev.set('take', take.toString());
       return prev;
     });
   };
 
   const onPrevious = () => {
     setSearchParams((prev) => {
-      prev.set("skip", (skip - take).toString());
-      prev.set("take", take.toString());
+      prev.set('skip', (skip - take).toString());
+      prev.set('take', take.toString());
       return prev;
     });
   };

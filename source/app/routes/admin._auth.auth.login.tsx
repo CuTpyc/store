@@ -1,7 +1,8 @@
-import { adminAuthLoader } from "~/.server/admin/loaders/auth.login.loader";
-import { adminAuthLoginAction } from "~/.server/admin/actions/auth.login.action";
-import { Box, Card, Text } from "@shopify/polaris";
-import { AuthLoginForm } from "~/admin/components/AuthLoginForm/AuthLoginForm";
+import React from 'react';
+import {adminAuthLoader} from '~/.server/admin/loaders/auth.login.loader';
+import {adminAuthLoginAction} from '~/.server/admin/actions/auth.login.action';
+import {Box, Card, Text} from '@shopify/polaris';
+import {AuthLoginForm} from '~/admin/components/AuthLoginForm/AuthLoginForm';
 
 export const action = adminAuthLoginAction;
 
@@ -15,7 +16,7 @@ export default function Index() {
       </Text>
 
       <Box paddingBlockStart="200">
-        <AuthLoginForm />
+        <AuthLoginForm/>
       </Box>
     </Card>
   );

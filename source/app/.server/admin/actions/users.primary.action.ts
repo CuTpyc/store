@@ -1,27 +1,24 @@
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
-import { authenticator } from "~/.server/admin/services/auth.service";
-import { EAdminNavigation } from "~/admin/constants/navigation.constant";
-import { validationError } from "remix-validated-form";
-import { prisma } from "~/.server/shared/utils/prisma.util";
-import { usersPrimaryInfoFormValidator } from "~/admin/components/UsersPrimaryInfoForm/UsersPrimaryInfoForm.validator";
-import { joinFirstName } from "~/admin/utils/user.util";
+import {ActionFunctionArgs, redirect} from '@remix-run/node';
+import {authenticator} from '~/.server/admin/services/auth.service';
+import {EAdminNavigation} from '~/admin/constants/navigation.constant';
+import {validationError} from 'remix-validated-form';
+import {prisma} from '~/.server/shared/utils/prisma.util';
+import {usersPrimaryInfoFormValidator} from '~/admin/components/UsersPrimaryInfoForm/UsersPrimaryInfoForm.validator';
+import {joinFirstName} from '~/admin/utils/user.util';
 
-export async function adminUsersPrimaryAction({
-  request,
-  params,
-}: ActionFunctionArgs) {
+export async function adminUsersPrimaryAction({request, params}: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
 
-  const { id } = params;
+  const {id} = params;
   if (!id) {
     return redirect(EAdminNavigation.users);
   }
 
   // get user
   const user = await prisma.user.findFirst({
-    where: { id: Number(id) },
+    where: {id: Number(id)}
   });
 
   // if not exist
@@ -38,25 +35,25 @@ export async function adminUsersPrimaryAction({
     return validationError(data.error);
   }
 
-  const { email, lastName, firstName } = data.data;
+  const {email, lastName, firstName} = data.data;
 
   // check unique email
-  const exist = await prisma.user.findFirst({ where: { email } });
+  const exist = await prisma.user.findFirst({where: {email}});
   if (exist && exist.id !== user.id) {
     return validationError({
       fieldErrors: {
-        email: "User already exists",
-      },
+        email: 'User already exists'
+      }
     });
   }
 
   // update user
   await prisma.user.update({
-    where: { id: user.id },
+    where: {id: user.id},
     data: {
       email,
-      fullName: joinFirstName(firstName, lastName),
-    },
+      fullName: joinFirstName(firstName, lastName)
+    }
   });
 
   // redirect to user page

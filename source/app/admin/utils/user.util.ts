@@ -1,8 +1,8 @@
 export const splitFirstName = (firstName: string): [string, string] => {
-  const split = firstName.split(" ");
+  const split = firstName.split(' ');
 
   if (split.length === 1) {
-    return [split[0], ""];
+    return [split[0], ''];
   }
 
   return [split[0], split[1]];

@@ -1,11 +1,10 @@
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
-import { EAdminNavigation } from "~/admin/constants/navigation.constant";
-import { validationError } from "remix-validated-form";
-import { prisma } from "~/.server/shared/utils/prisma.util";
-import { authenticator } from "~/.server/admin/services/auth.service";
-
-import { customersNewFormValidator } from "~/admin/components/CustomersNewForm/CustomersNewForm.validator";
-import { customersAddressesNewFormValidator } from "~/admin/components/CustomersNewForm/CustomersAddressNewForm.validator";
+import { ActionFunctionArgs, redirect } from '@remix-run/node';
+import { authenticator } from '~/.server/admin/services/auth.service';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
+import { validationError } from 'remix-validated-form';
+import { customersNewFormValidator } from '~/admin/components/CustomersNewForm/CustomersNewForm.validator';
+import { prisma } from '~/.server/shared/utils/prisma.util';
+import { hashPassword } from '~/.server/shared/utils/auth.util';
 
 export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
@@ -13,50 +12,40 @@ export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
   });
 
   // validate form data
-  const data = await customersNewFormValidator.validate(await request.formData());
+  const data = await customersNewFormValidator.validate(
+    await request.formData()
+  );
+
   if (data.error) {
     return validationError(data.error);
   }
-
-  const addressesData = await customersAddressesNewFormValidator.validate(await request.formData());
-  if (addressesData.error) {
-    return validationError(addressesData.error);
-  }
-
-  const { email, password, lastName, firstName, phone, note,} = data.data;
-
-  const { country, city, postalCode, phoneForAddress } = addressesData.data
+  const { email, password, lastName, firstName, phone, note, address } =
+    data.data;
 
   // check unique email
   const exist = await prisma.customer.findFirst({ where: { email } });
   if (exist) {
     return validationError({
       fieldErrors: {
-        email: "Customer already exists",
+        email: 'Customer already exists',
       },
     });
   }
-  console.log(prisma.customer)
-  // create new User
+
+  // create new Customer
   const newCustomer = await prisma.customer.create({
     data: {
-      email,
-      password,
       firstName,
       lastName,
+      email,
+      password: await hashPassword(password),
       phone,
-      note
+      note,
+      addresses: {
+        create: address,
+      },
     },
   });
-
-  const newCustomerAddresse = await prisma.customerAddress.create({
-    data: {
-      country,
-      city,
-      postalCode,
-      phoneForAddress,
-    }
-  })
 
   return redirect(`${EAdminNavigation.customers}/${newCustomer.id}`);
 }

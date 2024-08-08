@@ -1,4 +1,4 @@
-import { ValidatorError } from "remix-validated-form";
+import {ValidatorError} from 'remix-validated-form';
 
 export class ValidatorErrorWrapper extends Error {
   constructor(public validatorError: ValidatorError) {

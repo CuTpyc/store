@@ -1,14 +1,15 @@
-import { useField } from "remix-validated-form";
-import { Banner, Box } from "@shopify/polaris";
-import { BannerProps } from "@shopify/polaris/build/ts/src/components/Banner/Banner";
+import {useField} from 'remix-validated-form';
+import {Banner, Box} from '@shopify/polaris';
+import React from 'react';
+import {BannerProps} from '@shopify/polaris/build/ts/src/components/Banner/Banner';
 
 export type ValidatedErrorBannerProps = BannerProps & {
   name?: string;
-};
+}
 
 export const ValidatedErrorBanner = (props: ValidatedErrorBannerProps) => {
-  const { name = "error", tone = "warning", ...rest } = props;
-  const { error } = useField(name);
+  const {name = 'error', tone = 'warning', ...rest} = props;
+  const {error} = useField(name);
 
   if (!error) {
     return;
@@ -17,7 +18,9 @@ export const ValidatedErrorBanner = (props: ValidatedErrorBannerProps) => {
   return (
     <Box paddingBlockStart="200">
       <Banner tone={tone} {...rest}>
-        <p>{error}</p>
+        <p>
+          {error}
+        </p>
       </Banner>
     </Box>
   );

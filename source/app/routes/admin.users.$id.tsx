@@ -1,68 +1,87 @@
-import React from "react";
-import { Form, redirect, useLoaderData } from "@remix-run/react";
-import { Layout, Page } from "@shopify/polaris";
-import { DeleteIcon } from "@shopify/polaris-icons";
-import { EAdminNavigation } from "~/admin/constants/navigation.constant";
-import { UsersSingle } from "~/admin/components/UsersSingle/UsersSingle";
-import { adminUsersSingleLoader } from "~/.server/admin/loaders/users.single.loader";
-import { DeleteModal } from "~/admin/components/UsersSingle/DeleteModal";
-import { useCallback, useState } from "react";
-import { adminUsersModificationAction } from "~/.server/admin/actions/users.modification.actions";
+import { useState, useCallback } from 'react';
+import { useLoaderData, useActionData, useSubmit } from '@remix-run/react';
+import { Page, Banner } from '@shopify/polaris';
+import { adminUsersSingleLoader } from '~/.server/admin/loaders/users.single.loader';
+import { adminUsersRoleAction } from '~/.server/admin/actions/users.role.action';
+import { adminUsersDeleteAction } from '~/.server/admin/actions/users.delete.action';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
+import { UsersSingle } from '~/admin/components/UsersSingle/UsersSingle';
+import { LoaderFunctionArgs } from '@remix-run/node';
+import { TUserDto } from '~/.server/admin/dto/user.dto';
+import DeleteUserModal from '~/admin/components/UsersSingle/DeleteUserModal';
 
 export const loader = adminUsersSingleLoader;
 
-export const action = adminUsersModificationAction;
+export const action = async (args: LoaderFunctionArgs) => {
+  const formData = await args.request.formData();
+  const method = formData.get('_method') || args.request.method;
 
-
+  if (method === 'DELETE') {
+    return adminUsersDeleteAction(args);
+  } else {
+    return adminUsersRoleAction(args);
+  }
+};
 
 export default function AdminUsersSingle() {
-  const { user } = useLoaderData<typeof loader>();
-
+  const data = useLoaderData<{ user: TUserDto }>();
+  const actionData = useActionData();
   const [active, setActive] = useState(false);
+  const submit = useSubmit();
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
+  if (!data || !data.user) {
+    return <div>Loading...</div>;
+  }
+
+  const { user } = data;
+
   const handleDelete = () => {
-    toggleActive();
-    redirect(`${EAdminNavigation.users}/${user.id}/delete`);
+    setActive(false);
+    submit(
+      { deletedAt: user.deletedAt },
+      { method: 'post', action: `/admin/users/${user.id}?_method=delete` }
+    );
   };
 
-  return (
+  const secondaryActions = [];
 
+  if (!user.deletedAt) {
+    secondaryActions.push({
+      content: 'Remove',
+      onAction: toggleActive,
+      destructive: true,
+      accessibilityLabel: 'Delete User',
+    });
+  }
+
+  secondaryActions.push({
+    content: 'Security',
+    accessibilityLabel: 'Security',
+    url: `${EAdminNavigation.users}/${user.id}/security`,
+  });
+
+  return (
     <Page
       title={user.fullName || ''}
       backAction={{
-        url: EAdminNavigation.users
+        url: EAdminNavigation.users,
       }}
-      primaryAction={{
-        content: 'Save',
-      }}
-      secondaryActions={[
-        {
-          content: "Delete user",
-          accessibilityLabel: "Delete",
-          icon: DeleteIcon,
-          onAction: toggleActive,
-          destructive: true,
-        },
-        {
-          content: 'Security',
-          accessibilityLabel: 'Security',
-          url: `${EAdminNavigation.users}/${user.id}/security`
-        },
-
-      ]}
-
+      secondaryActions={secondaryActions}
     >
+      {actionData?.error && (
+        <Banner status='critical'>
+          <p>{actionData.error}</p>
+        </Banner>
+      )}
       <UsersSingle user={user} />
-      <Layout.Section variant="oneThird">
-        <DeleteModal
-          user={user}
-          active={active}
-          toggleActive={toggleActive}
-          handleDelete={handleDelete}
-        />
-      </Layout.Section>
+      <DeleteUserModal
+        active={active}
+        toggleActive={toggleActive}
+        handleDelete={handleDelete}
+        error={actionData?.error}
+      />
     </Page>
   );
 }

@@ -3,17 +3,17 @@ import {
   IndexFilters,
   IndexFiltersProps,
   useSetIndexFiltersMode,
-} from "@shopify/polaris";
-import React, { FC, useCallback, useState } from "react";
+} from '@shopify/polaris';
+import React, { FC, useCallback, useState } from 'react';
 import type {
   EAccountStatus,
   TAdminUsersLoaderData,
-} from "~/.server/admin/loaders/users.loader";
-import { useSearchParams } from "@remix-run/react";
-import { $Enums } from "@prisma/client";
+} from '~/.server/admin/loaders/users.loader';
+import { useSearchParams } from '@remix-run/react';
+import { $Enums } from '@prisma/client';
 
 export interface UsersTableFiltersProps {
-  query?: TAdminUsersLoaderData["query"];
+  query?: TAdminUsersLoaderData['query'];
 }
 
 export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
@@ -23,53 +23,53 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
   const [searchParams, setSearchParams] = useSearchParams();
 
   /* SORT START */
-  const sortOptions: IndexFiltersProps["sortOptions"] = [
-    { label: "ID", value: "id asc", directionLabel: "Oldest to newest" },
-    { label: "ID", value: "id desc", directionLabel: "Newest to oldest" },
-    { label: "Email", value: "email asc", directionLabel: "A-Z" },
-    { label: "Email", value: "email desc", directionLabel: "Z-A" },
-    { label: "Full Name", value: "fullName asc", directionLabel: "A-Z" },
-    { label: "Full Name", value: "fullName desc", directionLabel: "Z-A" },
-    { label: "Role", value: "role asc", directionLabel: "A-Z" },
-    { label: "Role", value: "role desc", directionLabel: "Z-A" },
+  const sortOptions: IndexFiltersProps['sortOptions'] = [
+    { label: 'ID', value: 'id asc', directionLabel: 'Oldest to newest' },
+    { label: 'ID', value: 'id desc', directionLabel: 'Newest to oldest' },
+    { label: 'Email', value: 'email asc', directionLabel: 'A-Z' },
+    { label: 'Email', value: 'email desc', directionLabel: 'Z-A' },
+    { label: 'Full Name', value: 'fullName asc', directionLabel: 'A-Z' },
+    { label: 'Full Name', value: 'fullName desc', directionLabel: 'Z-A' },
+    { label: 'Role', value: 'role asc', directionLabel: 'A-Z' },
+    { label: 'Role', value: 'role desc', directionLabel: 'Z-A' },
     {
-      label: "Created",
-      value: "createdAt asc",
-      directionLabel: "Oldest to newest",
+      label: 'Created',
+      value: 'createdAt asc',
+      directionLabel: 'Oldest to newest',
     },
     {
-      label: "Created",
-      value: "createdAt desc",
-      directionLabel: "Newest to oldest",
+      label: 'Created',
+      value: 'createdAt desc',
+      directionLabel: 'Newest to oldest',
     },
     {
-      label: "Updated",
-      value: "updatedAt asc",
-      directionLabel: "Oldest to newest",
+      label: 'Updated',
+      value: 'updatedAt asc',
+      directionLabel: 'Oldest to newest',
     },
     {
-      label: "Updated",
-      value: "updatedAt desc",
-      directionLabel: "Newest to oldest",
+      label: 'Updated',
+      value: 'updatedAt desc',
+      directionLabel: 'Newest to oldest',
     },
     {
-      label: "Deleted",
-      value: "deletedAt asc",
-      directionLabel: "Oldest to newest",
+      label: 'Deleted',
+      value: 'deletedAt asc',
+      directionLabel: 'Oldest to newest',
     },
     {
-      label: "Deleted",
-      value: "deletedAt desc",
-      directionLabel: "Newest to oldest",
+      label: 'Deleted',
+      value: 'deletedAt desc',
+      directionLabel: 'Newest to oldest',
     },
   ];
 
-  const sortOrder = query?.sort || "id_desc";
-  const sortSelected = [sortOrder.replace("_", " ")];
+  const sortOrder = query?.sort || 'id_desc';
+  const sortSelected = [sortOrder.replace('_', ' ')];
 
   const setSortSelected = (value: string[]) => {
     setSearchParams((prev) => {
-      prev.set("sort", value[0].replace(" ", "_"));
+      prev.set('sort', value[0].replace(' ', '_'));
       return prev;
     });
   };
@@ -77,7 +77,7 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
   /* SORT END */
 
   /* FILTERS START */
-  const serverQueryValue = query?.q || "";
+  const serverQueryValue = query?.q || '';
   const [queryValue, setQueryValue] = useState(serverQueryValue);
 
   const timerRef = React.useRef<number | null>(null);
@@ -92,15 +92,15 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
 
       timerRef.current = window.setTimeout(() => {
         setSearchParams((prev) => {
-          prev.delete("skip");
-          prev.delete("take");
+          prev.delete('skip');
+          prev.delete('take');
 
-          if (value === "") {
-            prev.delete("q");
+          if (value === '') {
+            prev.delete('q');
             return prev;
           }
 
-          prev.set("q", value);
+          prev.set('q', value);
           return prev;
         });
       }, 300);
@@ -120,15 +120,15 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
     (value: string[]) => {
       setRole(value);
       setSearchParams((prev) => {
-        prev.delete("skip");
-        prev.delete("take");
+        prev.delete('skip');
+        prev.delete('take');
 
         if (value.length === 0) {
-          prev.delete("role");
+          prev.delete('role');
           return prev;
         }
 
-        prev.set("role", value.join(","));
+        prev.set('role', value.join(','));
         return prev;
       });
     },
@@ -139,15 +139,15 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
     (value: EAccountStatus[]) => {
       setAccountStatus(value?.[0]);
       setSearchParams((prev) => {
-        prev.delete("skip");
-        prev.delete("take");
+        prev.delete('skip');
+        prev.delete('take');
 
         if (value.length === 0) {
-          prev.delete("accountStatus");
+          prev.delete('accountStatus');
           return prev;
         }
 
-        prev.set("accountStatus", value[0]);
+        prev.set('accountStatus', value[0]);
         return prev;
       });
     },
@@ -155,24 +155,24 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
   );
 
   const handleFiltersClearAll = useCallback(() => {
-    setQueryValue("");
+    setQueryValue('');
     setRole(undefined);
     setAccountStatus(undefined);
 
     setSearchParams((prev) => {
-      prev.delete("q");
-      prev.delete("role");
-      prev.delete("accountStatus");
-      prev.delete("skip");
-      prev.delete("take");
+      prev.delete('q');
+      prev.delete('role');
+      prev.delete('accountStatus');
+      prev.delete('skip');
+      prev.delete('take');
       return prev;
     });
   }, [setSearchParams, setAccountStatus]);
 
   const filters = [
     {
-      key: "role",
-      label: "Role",
+      key: 'role',
+      label: 'Role',
       filter: (
         <ChoiceList
           title="Role"
@@ -189,20 +189,20 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
       shortcut: true,
     },
     {
-      key: "accountStatus",
-      label: "Account Status",
+      key: 'accountStatus',
+      label: 'Account Status',
       filter: (
         <ChoiceList
           title="Role"
           titleHidden
           choices={[
             {
-              label: "Active",
-              value: "active" as const,
+              label: 'Active',
+              value: 'active' as const,
             },
             {
-              label: "Inactive",
-              value: "disabled" as const,
+              label: 'Inactive',
+              value: 'disabled' as const,
             },
           ]}
           selected={accountStatus ? [accountStatus] : []}
@@ -214,17 +214,17 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
     },
   ];
 
-  const appliedFilters: IndexFiltersProps["appliedFilters"] = [];
+  const appliedFilters: IndexFiltersProps['appliedFilters'] = [];
   if (role && !isEmpty(role)) {
-    const key = "role";
+    const key = 'role';
     appliedFilters.push({
       key,
-      label: `Users with role ${role.join(", ")}`,
+      label: `Users with role ${role.join(', ')}`,
       onRemove: handleRoleFilterChange.bind(null, []),
     });
   }
   if (accountStatus && !isEmpty(accountStatus)) {
-    const key = "accountStatus";
+    const key = 'accountStatus';
     appliedFilters.push({
       key,
       label: `Account status ${accountStatus}`,
@@ -240,7 +240,7 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
       queryValue={queryValue}
       queryPlaceholder="Search users"
       onQueryChange={handleFiltersQueryChange}
-      onQueryClear={() => handleFiltersQueryChange("")}
+      onQueryClear={() => handleFiltersQueryChange('')}
       onSort={setSortSelected}
       filters={filters}
       appliedFilters={appliedFilters}
@@ -257,6 +257,6 @@ function isEmpty(value: string | string[]): boolean {
   if (Array.isArray(value)) {
     return value.length === 0;
   } else {
-    return value === "" || value == null;
+    return value === '' || value == null;
   }
 }
