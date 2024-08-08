@@ -7,7 +7,6 @@ export const adminCustomersLoader = async () => {
   const customers = await prisma.customer.findMany({
     include: { addresses: true },
   });
-
   const customerDtos = customers.map(customerMapper);
 
   return json({ customers: customerDtos });

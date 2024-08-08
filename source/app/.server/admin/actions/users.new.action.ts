@@ -9,6 +9,7 @@ import {hashPassword} from '~/.server/shared/utils/auth.util';
 import {joinFirstName} from '~/admin/utils/user.util';
 
 export async function adminUsersNewAction({request}: ActionFunctionArgs) {
+
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });

@@ -6,15 +6,18 @@ import { customersNewFormValidator } from '~/admin/components/CustomersNewForm/C
 import { ValidatedForm } from 'remix-validated-form';
 import { ValidatedSubmitButton } from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import { adminCustomersNewAction } from '~/.server/admin/actions/customers.new.action';
+import { adminCustomersLoader } from '~/.server/admin/loaders/customers.loader';
+import { useLoaderData } from '@remix-run/react';
 
-export const action = adminCustomersNewAction;
+
+export const action = adminCustomersNewAction
 
 export default function AdminCustomersNew() {
+
   const primaryAction = useCallback(
     () => <ValidatedSubmitButton text='save' variant='primary' />,
     []
   );
-
   return (
     <ValidatedForm validator={customersNewFormValidator} method='post'>
       <Page
@@ -26,6 +29,8 @@ export default function AdminCustomersNew() {
       >
         <CustomersNewForm />
       </Page>
+      <ValidatedSubmitButton text="Submit"/>
     </ValidatedForm>
+
   );
 }

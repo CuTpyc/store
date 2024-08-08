@@ -5,9 +5,11 @@ import { PlusIcon } from '@shopify/polaris-icons';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 import { adminCustomersLoader } from '~/.server/admin/loaders/customers.loader';
 import { AdminCustomersTable } from '~/admin/components/CustomersTable/CustomersTable';
+import { adminCustomersNewAction } from '~/.server/admin/actions/customers.new.action';
+
+export const action = adminCustomersNewAction
 
 export const loader = adminCustomersLoader;
-
 export default function AdminCustomersIndex() {
   const data = useLoaderData<typeof loader>();
 

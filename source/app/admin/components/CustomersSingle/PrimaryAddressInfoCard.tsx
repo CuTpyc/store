@@ -34,13 +34,13 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             Company
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.company}
+            {address.company}
           </Text>
           <Text as='h3' variant='headingXs' fontWeight='medium'>
             Country
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.country}
+            {address.country}
           </Text>
         </BlockStack>
         <BlockStack gap='200'>
@@ -48,7 +48,7 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             City
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.city}
+            {address.city}
           </Text>
         </BlockStack>
         <BlockStack gap='200'>
@@ -56,7 +56,7 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             Address
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.address}
+            {address.address}
           </Text>
         </BlockStack>
         <BlockStack gap='200'>
@@ -64,7 +64,7 @@ export const PrimaryAddressInfoCard: FC<PrimaryAddressInfoCardProps> = ({
             Postal code
           </Text>
           <Text as='p' variant='bodyMd'>
-            {address?.postalCode}
+            {address.postalCode}
           </Text>
         </BlockStack>
       </BlockStack>

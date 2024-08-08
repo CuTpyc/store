@@ -7,7 +7,7 @@ import {
 } from 'remix-validated-form';
 import { ValidatedSubmitButton } from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import { ValidatedErrorBanner } from '~/admin/ui/ValidatedErrorBanner/ValidatedErrorBanner';
-import { customerDeleteValidator } from './CustomerDelete.validator';
+import { customerDeleteValidator } from '../../../admin/components/CustomersSingle/CustomerDelete.validator';
 
 type DeleteUserModalProps = {
   active: boolean;

@@ -42,7 +42,7 @@ export const RoleCard: FC<RoleCardProps> = (props) => {
       },
       {
         label: 'Staff',
-        value: $Enums.AdminRole.STUFF,
+        value: $Enums.AdminRole.STAFF,
       },
     ],
     []

@@ -7,6 +7,7 @@ import {usersSecurityFormValidator} from '~/admin/components/UsersSecurityForm/U
 import {hashPassword} from '~/.server/shared/utils/auth.util';
 
 export async function adminUsersSecurityAction({request, params}: ActionFunctionArgs) {
+
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });

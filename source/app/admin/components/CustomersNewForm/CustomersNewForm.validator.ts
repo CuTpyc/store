@@ -1,6 +1,7 @@
 // CustomersNewForm.validator.ts
 import { withZod } from '@rvf/zod';
 import { z } from 'zod';
+import { addressFormValidator } from '../CustomersAddressForm/CustomersAddressForm.validator';
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -34,13 +35,8 @@ export const noteRule = z
 export const passwordConfirmRule = z.string();
 
 export const addressRule = z.object({
-  company: z.string().optional(),
-  country: z.string().optional(),
-  city: z.string().optional(),
-  address: z.string().optional(),
-  apartment: z.string().optional(),
-  postalCode: z.string().optional(),
-  phone: z.string().optional(),
+
+  phone: z.string().regex(phoneRegex, 'Must be a valid phone number'),
 });
 
 export const customersNewFormValidator = withZod(
@@ -53,7 +49,12 @@ export const customersNewFormValidator = withZod(
       passwordConfirm: passwordConfirmRule,
       phone: phoneRule,
       note: noteRule,
-      address: addressRule,
+      company: z.string().optional(),
+      country: z.string(),
+      city: z.string(),
+      address: z.string(),
+      apartment: z.string(),
+      postalCode: z.string().min(4, { message: 'Postal code can`t be less then 4 characters' }),
     })
     .refine((data) => data.password === data.passwordConfirm, {
       message: "Passwords don't match",

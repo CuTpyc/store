@@ -4,11 +4,9 @@ import { FC, PropsWithChildren, ReactNode, useCallback, useState } from 'react';
 import { BaseNav } from '~/admin/navigations/BaseNav/BaseNav';
 import { AppBar } from '~/admin/components/AppBar/AppBar';
 import { TUserDto } from '~/.server/admin/dto/user.dto';
-import { TProductDto } from '~/.server/admin/dto/product.dto';
 
 export type BaseLayoutProps = PropsWithChildren<{
   user: TUserDto;
-  products: TProductDto
   children: ReactNode;
 }>;
 

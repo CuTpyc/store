@@ -14,7 +14,6 @@ export default function AdminUsersNew() {
     () => <ValidatedSubmitButton text='save' variant='primary' />,
     []
   );
-
   return (
     <ValidatedForm validator={usersNewFormValidator} method='post'>
       <Page

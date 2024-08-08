@@ -16,7 +16,7 @@ export const RoleCard = () => {
     },
     {
       label: 'Staff',
-      value: $Enums.AdminRole.STUFF,
+      value: $Enums.AdminRole.STAFF,
     }
   ]), []);
 

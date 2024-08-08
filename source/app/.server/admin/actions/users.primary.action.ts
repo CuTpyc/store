@@ -7,6 +7,8 @@ import {usersPrimaryInfoFormValidator} from '~/admin/components/UsersPrimaryInfo
 import {joinFirstName} from '~/admin/utils/user.util';
 
 export async function adminUsersPrimaryAction({request, params}: ActionFunctionArgs) {
+
+
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });

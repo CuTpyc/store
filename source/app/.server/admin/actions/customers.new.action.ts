@@ -7,6 +7,7 @@ import { prisma } from '~/.server/shared/utils/prisma.util';
 import { hashPassword } from '~/.server/shared/utils/auth.util';
 
 export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
+
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
@@ -19,11 +20,14 @@ export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
   if (data.error) {
     return validationError(data.error);
   }
-  const { email, password, lastName, firstName, phone, note, address } =
-    data.data;
-
+  const { email, password, lastName, firstName, phone, note, company, country, city, address, apartment, postalCode } =
+    data.submittedData;
   // check unique email
-  const exist = await prisma.customer.findFirst({ where: { email } });
+  const exist = await prisma.customer.findFirst({ where: { email: {
+    equals: email,
+    mode: 'insensitive',
+    not: '',
+  } } });
   if (exist) {
     return validationError({
       fieldErrors: {
@@ -42,7 +46,14 @@ export async function adminCustomersNewAction({ request }: ActionFunctionArgs) {
       phone,
       note,
       addresses: {
-        create: address,
+        create: {
+          company,
+          country,
+          city,
+          address,
+          apartment,
+          postalCode,
+        }
       },
     },
   });

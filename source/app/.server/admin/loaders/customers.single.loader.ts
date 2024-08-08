@@ -1,9 +1,9 @@
 // customers.single.loader.ts
-import { json, LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { prisma } from '~/.server/shared/utils/prisma.util';
 import { customerMapper } from '../mappers/customer.mapper';
 
-export const customersSingleLoader = async ({ params }: LoaderFunctionArgs) => {
+export const customersSingleLoader = async ({ params }:any ) => {
   const customer = await prisma.customer.findUnique({
     where: { id: Number(params.id) },
     include: { addresses: true },
