@@ -12,7 +12,7 @@ export const action = adminCustomersNewAction
 export const loader = adminCustomersLoader;
 export default function AdminCustomersIndex() {
   const data = useLoaderData<typeof loader>();
-
+  console.log("AdminCustomersIndex", data)
   return (
     <Page
       fullWidth
@@ -26,8 +26,8 @@ export default function AdminCustomersIndex() {
     >
       <AdminCustomersTable
         customers={data.customers}
-        // query={data.query}
-        // pagination={data.pagination}
+        query={data.query}
+        pagination={data.pagination}
       />
 
       <Card>
