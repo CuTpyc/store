@@ -2,26 +2,16 @@ import { useState, useCallback } from 'react';
 import { useLoaderData, useActionData, useSubmit } from '@remix-run/react';
 import { Page, Banner } from '@shopify/polaris';
 import { adminUsersSingleLoader } from '~/.server/admin/loaders/users.single.loader';
-import { adminUsersRoleAction } from '~/.server/admin/actions/users.role.action';
-import { adminUsersDeleteAction } from '~/.server/admin/actions/users.delete.action';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 import { UsersSingle } from '~/admin/components/UsersSingle/UsersSingle';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { TUserDto } from '~/.server/admin/dto/user.dto';
 import DeleteUserModal from '~/admin/components/UsersSingle/DeleteUserModal';
+import { adminUsersModificationAction } from '~/.server/admin/actions/users.modification.actions';
 
 export const loader = adminUsersSingleLoader;
 
-export const action = async (args: LoaderFunctionArgs) => {
-  const formData = await args.request.formData();
-  const method = formData.get('_method') || args.request.method;
-
-  if (method === 'DELETE') {
-    return adminUsersDeleteAction(args);
-  } else {
-    return adminUsersRoleAction(args);
-  }
-};
+export const action = adminUsersModificationAction;
 
 export default function AdminUsersSingle() {
   const data = useLoaderData<{ user: TUserDto }>();
@@ -40,8 +30,8 @@ export default function AdminUsersSingle() {
   const handleDelete = () => {
     setActive(false);
     submit(
-      { deletedAt: user.deletedAt },
-      { method: 'post', action: `/admin/users/${user.id}?_method=delete` }
+      { deletedAt: user.deletedAt, actionType: 'deleteUser' },
+      { method: 'post', action: `/admin/users/${user.id}` }
     );
   };
 

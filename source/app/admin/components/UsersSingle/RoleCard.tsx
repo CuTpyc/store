@@ -59,6 +59,7 @@ export const RoleCard: FC<RoleCardProps> = (props) => {
             onClick={toggleActive}
             accessibilityLabel='Export variants'
             icon={EditIcon}
+
           />
         </InlineGrid>
         <Text as='p' variant='bodyMd'>
@@ -76,8 +77,11 @@ export const RoleCard: FC<RoleCardProps> = (props) => {
           method='post'
           onSubmit={toggleActive}
         >
+
           <Modal.Section>
             <FormLayout>
+
+            <input type='hidden' name='actionType' value='updateRole' />
               <ValidatedSelect
                 label={null}
                 name='role'

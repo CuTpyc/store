@@ -51,7 +51,7 @@ const DeleteUserModal: FC<DeleteUserModalProps> = ({
           handleDelete();
         }}
       >
-        <input type='hidden' name='_method' value='delete' />
+        <input type='hidden' value='delete' />
         <Modal.Section>
           <FormLayout>
             <ValidatedErrorBanner name='deletedAt' status='critical' />

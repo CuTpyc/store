@@ -1,53 +1,27 @@
-import { ActionFunctionArgs, redirect } from '@remix-run/node';
-import { authenticator } from '~/.server/admin/services/auth.service';
-import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { validationError } from 'remix-validated-form';
-import { prisma } from '~/.server/shared/utils/prisma.util';
-import { usersRoleFormValidator } from '~/admin/components/UsersSingle/UsersRoleForm.validator';
-import { $Enums } from '@prisma/client';
+import { $Enums } from "@prisma/client";
+import { validationError } from "remix-validated-form";
+import { usersRoleFormValidator } from "~/admin/components/UsersSingle/UsersRoleForm.validator";
 
-export async function adminUsersRoleAction({
-  request,
-  params,
-}: ActionFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: EAdminNavigation.authLogin,
-  });
+import { prisma } from "~/.server/shared/utils/prisma.util";
+import { Params, redirect } from "@remix-run/react";
+import { EAdminNavigation } from "~/admin/constants/navigation.constant";
 
-  const { id } = params;
-  if (!id) {
-    return redirect(EAdminNavigation.users);
-  }
+export async function chengeUserRole (
+  formData: FormData, user: { id: number; fullName: string | null; email: string; password: string; role: $Enums.AdminRole; createdAt: Date; updatedAt: Date; deletedAt: Date | null; }, params: Params<string>
+){
+      const id = Number(params.id);
+      const roleData = await usersRoleFormValidator.validate(formData);
+      if (roleData.error) {
+        return validationError(roleData.error);
+      };
 
-  // get user
-  const user = await prisma.user.findFirst({
-    where: { id: Number(id) },
-  });
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          role: roleData.data.role as $Enums.AdminRole,
+        },
+      });
 
-  // if not exist
-  if (!user) {
-    return redirect(EAdminNavigation.users);
-  }
 
-  const formData = await request.formData();
-
-  // validate form data
-  const data = await usersRoleFormValidator.validate(formData);
-
-  if (data.error) {
-    return validationError(data.error);
-  }
-
-  const { role } = data.data;
-
-  // update user
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      role: role as $Enums.AdminRole,
-    },
-  });
-
-  // redirect to user page
   return redirect(`${EAdminNavigation.users}/${user.id}`);
 }
