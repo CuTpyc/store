@@ -1,5 +1,5 @@
-import { User } from '@prisma/client';
-import { TUserDto } from '~/.server/admin/dto/user.dto';
+import {User} from '@prisma/client';
+import {TUserDto} from '~/.server/admin/dto/user.dto';
 
 export const userMapper = (user: User): TUserDto => {
   return {

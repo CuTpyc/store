@@ -1,75 +1,61 @@
-import {
-  ChoiceList,
-  IndexFilters,
-  IndexFiltersProps,
-  useSetIndexFiltersMode,
-} from '@shopify/polaris';
-import React, { FC, useCallback, useState } from 'react';
-import type {
-  EAccountStatus,
-  TAdminUsersLoaderData,
-} from '~/.server/admin/loaders/users.loader';
-import { useSearchParams } from '@remix-run/react';
-import { $Enums } from '@prisma/client';
+import {ChoiceList, IndexFilters, IndexFiltersProps, useSetIndexFiltersMode,} from '@shopify/polaris';
+import React, {FC, useCallback, useState} from 'react';
+import type {TAdminUsersLoaderData} from '~/.server/admin/loaders/users.loader';
+import {useSearchParams} from '@remix-run/react';
+import {$Enums} from '@prisma/client';
+import {reqSortToSort, sortArrToReqSort} from '~/admin/utils/filter.util';
+import {ESoftDeleteStatus} from '~/admin/constants/entries.constant';
+
+
+export enum EUsersSortVariant {
+  id_asc = 'id_asc',
+  id_desc = 'id_desc',
+  fullName_asc = 'fullName_asc',
+  fullName_desc = 'fullName_desc',
+  email_asc = 'email_asc',
+  email_desc = 'email_desc',
+  role_asc = 'role_asc',
+  role_desc = 'role_desc',
+  createdAt_asc = 'createdAt_asc',
+  createdAt_desc = 'createdAt_desc',
+  updatedAt_asc = 'updatedAt_asc',
+  updatedAt_desc = 'updatedAt_desc',
+  deletedAt_asc = 'deletedAt_asc',
+  deletedAt_desc = 'deletedAt_desc',
+}
 
 export interface UsersTableFiltersProps {
   query?: TAdminUsersLoaderData['query'];
 }
 
-export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
-  query,
-}) => {
+export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({query}) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   /* SORT START */
   const sortOptions: IndexFiltersProps['sortOptions'] = [
-    { label: 'ID', value: 'id asc', directionLabel: 'Oldest to newest' },
-    { label: 'ID', value: 'id desc', directionLabel: 'Newest to oldest' },
-    { label: 'Email', value: 'email asc', directionLabel: 'A-Z' },
-    { label: 'Email', value: 'email desc', directionLabel: 'Z-A' },
-    { label: 'Full Name', value: 'fullName asc', directionLabel: 'A-Z' },
-    { label: 'Full Name', value: 'fullName desc', directionLabel: 'Z-A' },
-    { label: 'Role', value: 'role asc', directionLabel: 'A-Z' },
-    { label: 'Role', value: 'role desc', directionLabel: 'Z-A' },
-    {
-      label: 'Created',
-      value: 'createdAt asc',
-      directionLabel: 'Oldest to newest',
-    },
-    {
-      label: 'Created',
-      value: 'createdAt desc',
-      directionLabel: 'Newest to oldest',
-    },
-    {
-      label: 'Updated',
-      value: 'updatedAt asc',
-      directionLabel: 'Oldest to newest',
-    },
-    {
-      label: 'Updated',
-      value: 'updatedAt desc',
-      directionLabel: 'Newest to oldest',
-    },
-    {
-      label: 'Deleted',
-      value: 'deletedAt asc',
-      directionLabel: 'Oldest to newest',
-    },
-    {
-      label: 'Deleted',
-      value: 'deletedAt desc',
-      directionLabel: 'Newest to oldest',
-    },
+    {label: 'ID', value: reqSortToSort(EUsersSortVariant.id_asc), directionLabel: 'Oldest to newest'},
+    {label: 'ID', value: reqSortToSort(EUsersSortVariant.id_desc), directionLabel: 'Newest to oldest'},
+    {label: 'Email', value: reqSortToSort(EUsersSortVariant.email_asc), directionLabel: 'A-Z'},
+    {label: 'Email', value: reqSortToSort(EUsersSortVariant.email_desc), directionLabel: 'Z-A'},
+    {label: 'Full Name', value: reqSortToSort(EUsersSortVariant.fullName_asc), directionLabel: 'A-Z'},
+    {label: 'Full Name', value: reqSortToSort(EUsersSortVariant.fullName_desc), directionLabel: 'Z-A'},
+    {label: 'Role', value: reqSortToSort(EUsersSortVariant.role_asc), directionLabel: 'A-Z'},
+    {label: 'Role', value: reqSortToSort(EUsersSortVariant.role_desc), directionLabel: 'Z-A'},
+    {label: 'Created', value: reqSortToSort(EUsersSortVariant.createdAt_asc), directionLabel: 'Oldest to newest'},
+    {label: 'Created', value: reqSortToSort(EUsersSortVariant.createdAt_desc), directionLabel: 'Newest to oldest'},
+    {label: 'Updated', value: reqSortToSort(EUsersSortVariant.updatedAt_asc), directionLabel: 'Oldest to newest'},
+    {label: 'Updated', value: reqSortToSort(EUsersSortVariant.updatedAt_desc), directionLabel: 'Newest to oldest'},
+    {label: 'Deleted', value: reqSortToSort(EUsersSortVariant.deletedAt_asc), directionLabel: 'Oldest to newest'},
+    {label: 'Deleted', value: reqSortToSort(EUsersSortVariant.deletedAt_desc), directionLabel: 'Newest to oldest'},
   ];
 
-  const sortOrder = query?.sort || 'id_desc';
-  const sortSelected = [sortOrder.replace('_', ' ')];
+  const sortOrder = query?.sort || EUsersSortVariant.id_desc;
+  const sortSelected = [reqSortToSort(sortOrder)];
 
   const setSortSelected = (value: string[]) => {
     setSearchParams((prev) => {
-      prev.set('sort', value[0].replace(' ', '_'));
+      prev.set('sort', sortArrToReqSort(value));
       return prev;
     });
   };
@@ -82,39 +68,39 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
 
   const timerRef = React.useRef<number | null>(null);
 
-  const handleFiltersQueryChange = useCallback(
-    (value: string) => {
-      setQueryValue(value);
+  const handleFiltersQueryChange = useCallback((value: string) => {
+    setQueryValue(value);
 
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
 
-      timerRef.current = window.setTimeout(() => {
-        setSearchParams((prev) => {
-          prev.delete('skip');
-          prev.delete('take');
+    timerRef.current = window.setTimeout(() => {
+      setSearchParams((prev) => {
+        prev.delete('skip');
+        prev.delete('take');
 
-          if (value === '') {
-            prev.delete('q');
-            return prev;
-          }
-
-          prev.set('q', value);
+        if (value === '') {
+          prev.delete('q');
           return prev;
-        });
-      }, 300);
-    },
-    [setSearchParams]
+        }
+
+        prev.set('q', value);
+        return prev;
+      });
+    }, 300);
+  }, [setSearchParams]);
+
+  const [role, setRole] = useState<string[] | undefined>(
+    query?.filters?.role,
   );
 
-  const [role, setRole] = useState<string[] | undefined>(query?.role);
+  const [softDeleteStatus, setSoftDeleteStatus] = useState<ESoftDeleteStatus | undefined>(
+    query?.filters?.softDeleteStatus,
+  );
 
-  const [accountStatus, setAccountStatus] = useState<
-    EAccountStatus | undefined
-  >(query?.accountStatus);
+  const {mode, setMode} = useSetIndexFiltersMode();
 
-  const { mode, setMode } = useSetIndexFiltersMode();
 
   const handleRoleFilterChange = useCallback(
     (value: string[]) => {
@@ -132,42 +118,42 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
         return prev;
       });
     },
-    [setSearchParams]
+    [setSearchParams],
   );
 
   const handleAccountStatusChange = useCallback(
-    (value: EAccountStatus[]) => {
-      setAccountStatus(value?.[0]);
+    (value: ESoftDeleteStatus[]) => {
+      setSoftDeleteStatus(value?.[0]);
       setSearchParams((prev) => {
         prev.delete('skip');
         prev.delete('take');
 
         if (value.length === 0) {
-          prev.delete('accountStatus');
+          prev.delete('softDeleteStatus');
           return prev;
         }
 
-        prev.set('accountStatus', value[0]);
+        prev.set('softDeleteStatus', value[0]);
         return prev;
       });
     },
-    [setSearchParams]
+    [setSearchParams],
   );
 
   const handleFiltersClearAll = useCallback(() => {
     setQueryValue('');
     setRole(undefined);
-    setAccountStatus(undefined);
+    setSoftDeleteStatus(undefined);
 
     setSearchParams((prev) => {
       prev.delete('q');
       prev.delete('role');
-      prev.delete('accountStatus');
+      prev.delete('softDeleteStatus');
       prev.delete('skip');
       prev.delete('take');
       return prev;
     });
-  }, [setSearchParams, setAccountStatus]);
+  }, [setSearchParams, setSoftDeleteStatus]);
 
   const filters = [
     {
@@ -189,8 +175,8 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
       shortcut: true,
     },
     {
-      key: 'accountStatus',
-      label: 'Account Status',
+      key: 'softDeleteStatus',
+      label: 'Soft Delete Status',
       filter: (
         <ChoiceList
           title="Role"
@@ -198,14 +184,14 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
           choices={[
             {
               label: 'Active',
-              value: 'active' as const,
+              value: ESoftDeleteStatus.active,
             },
             {
-              label: 'Inactive',
-              value: 'disabled' as const,
-            },
+              label: 'Deleted',
+              value: ESoftDeleteStatus.deleted,
+            }
           ]}
-          selected={accountStatus ? [accountStatus] : []}
+          selected={softDeleteStatus ? [softDeleteStatus] : []}
           onChange={handleAccountStatusChange}
           allowMultiple={false}
         />
@@ -223,11 +209,11 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
       onRemove: handleRoleFilterChange.bind(null, []),
     });
   }
-  if (accountStatus && !isEmpty(accountStatus)) {
-    const key = 'accountStatus';
+  if (softDeleteStatus && !isEmpty(softDeleteStatus)) {
+    const key = 'softDeleteStatus';
     appliedFilters.push({
       key,
-      label: `Account status ${accountStatus}`,
+      label: `Soft Delete Status ${softDeleteStatus}`,
       onRemove: handleAccountStatusChange.bind(null, []),
     });
   }
@@ -252,6 +238,7 @@ export const AdminUsersTableFilters: FC<UsersTableFiltersProps> = ({
     />
   );
 };
+
 
 function isEmpty(value: string | string[]): boolean {
   if (Array.isArray(value)) {

@@ -1,22 +1,21 @@
-// admin.customers._index.tsx
-import { useLoaderData } from '@remix-run/react';
-import { BlockStack, Card, Page, Text } from '@shopify/polaris';
-import { PlusIcon } from '@shopify/polaris-icons';
-import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { adminCustomersLoader } from '~/.server/admin/loaders/customers.loader';
-import { AdminCustomersTable } from '~/admin/components/CustomersTable/CustomersTable';
-import { adminCustomersNewAction } from '~/.server/admin/actions/customers.new.action';
+import React from 'react';
+import {useLoaderData} from '@remix-run/react';
+import {Page} from '@shopify/polaris';
+import {PlusIcon} from '@shopify/polaris-icons';
+import {EAdminNavigation} from '~/admin/constants/navigation.constant';
+import type {TAdminCustomersLoader} from '~/.server/admin/loaders/customers/index/loader';
+import {Index} from '~/admin/components/customers/Index/Index';
 
-export const action = adminCustomersNewAction
+export {loader} from '~/.server/admin/loaders/customers/index/loader';
 
-export const loader = adminCustomersLoader;
+
 export default function AdminCustomersIndex() {
-  const data = useLoaderData<typeof loader>();
-  console.log("AdminCustomersIndex", data)
+  const data = useLoaderData<TAdminCustomersLoader>();
+  
   return (
     <Page
       fullWidth
-      title='Customers'
+      title="Customers"
       primaryAction={{
         content: 'Create customer',
         icon: PlusIcon,
@@ -24,20 +23,8 @@ export default function AdminCustomersIndex() {
         url: EAdminNavigation.customersCreate,
       }}
     >
-      <AdminCustomersTable
-        customers={data.customers}
-        query={data.query}
-        pagination={data.pagination}
-      />
-
-      <Card>
-        <BlockStack gap='200'>
-          <Text as='h2' variant='headingSm'>
-            Credit card
-          </Text>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </BlockStack>
-      </Card>
+      <Index customers={data.customers} query={data.query} pagination={data.pagination}/>
     </Page>
   );
 }
+

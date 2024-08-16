@@ -1,4 +1,4 @@
-import {User} from '@prisma/client';
+import type {User} from '@prisma/client';
 
 type ExcludedField = 'id' | 'password' | 'createdAt' | 'updatedAt' | 'deletedAt'
 

@@ -1,57 +1,63 @@
-import {
-  HomeIcon,
-  OrderIcon,
-  PersonIcon,
-  ProductIcon,
-  WorkIcon,
-} from '@shopify/polaris-icons';
-import { NavLink } from '@remix-run/react';
-import { useLocation } from 'react-router';
-import { LinkItem } from '../NavItem';
+import {Navigation} from '@shopify/polaris';
+import {HomeIcon, OrderIcon, PersonIcon, ProductIcon, WorkIcon} from '@shopify/polaris-icons';
+import {EAdminNavigation} from '~/admin/constants/navigation.constant';
+import {useLocation} from 'react-router';
 
-const linkItems: LinkItem[] = [
-  { label: 'Home', url: '/admin/dashboard', icon: HomeIcon },
-  { label: 'Users', url: '/admin/users', icon: PersonIcon },
-  { label: 'Customers', url: '/admin/customers', icon: WorkIcon },
-  { label: 'Products', url: '/admin/products', icon: ProductIcon },
-  { label: 'Orders', url: '/admin/orders', icon: OrderIcon },
-];
-
-export function BaseNav() {
-  return (
-    <nav className='Polaris-Navigation'>
-      <div className='Polaris-Navigation__PrimaryNavigation Polaris-Scrollable'>
-        <ul className='Polaris-Navigation__Section'>
-          {linkItems.map((el) => (
-            <NavItem key={el.label} linkItem={el} />
-          ))}
-        </ul>
-      </div>
-    </nav>
-  );
-}
-
-function NavItem({ linkItem }: { linkItem: LinkItem }) {
-  const { pathname } = useLocation();
-  const isActive =
-    pathname === linkItem.url
-      ? 'Polaris-Navigation__ItemInnerWrapper--selected'
-      : '';
+export const BaseNav = () => {
+  const location = useLocation();
 
   return (
-    <li className='Polaris-Navigation__ListItem'>
-      <div className='Polaris-Navigation__ItemWrapper'>
-        <div className={`Polaris-Navigation__ItemInnerWrapper ${isActive}`}>
-          <linkItem.icon className='Polaris-Navigation__Icon' />
-          <NavLink
-            to={linkItem.url}
-            className='Polaris-Navigation__Item Polaris-Navigation__Text'
-            style={{ fontWeight: 'bold' }}
-          >
-            {linkItem.label}
-          </NavLink>
-        </div>
-      </div>
-    </li>
+    <Navigation location={location.pathname}>
+      <Navigation.Section
+        items={[
+          {
+            url: EAdminNavigation.dashboard,
+            label: 'Home',
+            icon: HomeIcon,
+            matchPaths: [EAdminNavigation.dashboard]
+          },
+          {
+            url: EAdminNavigation.users,
+            label: 'Users',
+            icon: WorkIcon,
+            matchPaths: [EAdminNavigation.users]
+          },
+          {
+            url: EAdminNavigation.customers,
+            label: 'Customers',
+            icon: PersonIcon,
+          },
+          {
+            url: EAdminNavigation.categories,
+            label: 'Categories',
+            icon: PersonIcon,
+          },
+          {
+            url: EAdminNavigation.products,
+            label: 'Products',
+            icon: ProductIcon,
+            subNavigationItems: [
+              {
+                url: EAdminNavigation.categories,
+                disabled: false,
+                label: 'Categories',
+              },
+            ],
+          },
+          {
+            url: EAdminNavigation.orders,
+            label: 'Orders',
+            icon: OrderIcon,
+            subNavigationItems: [
+              {
+                url: EAdminNavigation.carts,
+                disabled: false,
+                label: 'Carts',
+              },
+            ],
+          },
+        ]}
+      />
+    </Navigation>
   );
-}
+};

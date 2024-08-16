@@ -1,16 +1,14 @@
-// BaseLayout.tsx
-import { Frame } from '@shopify/polaris';
-import { FC, PropsWithChildren, ReactNode, useCallback, useState } from 'react';
-import { BaseNav } from '~/admin/navigations/BaseNav/BaseNav';
-import { AppBar } from '~/admin/components/AppBar/AppBar';
-import { TUserDto } from '~/.server/admin/dto/user.dto';
+import {Frame} from '@shopify/polaris';
+import {FC, PropsWithChildren, useCallback, useState} from 'react';
+import {BaseNav} from '~/admin/navigations/BaseNav/BaseNav';
+import {AppBar} from '~/admin/components/AppBar/AppBar';
+import {TUserDto} from '~/.server/admin/dto/user.dto';
+import { TCategoryDto } from '~/.server/admin/dto/category.dto';
 
 export type BaseLayoutProps = PropsWithChildren<{
   user: TUserDto;
-  children: ReactNode;
 }>;
-
-export const BaseLayout: FC<BaseLayoutProps> = ({ children, user }) => {
+export const BaseLayout: FC<BaseLayoutProps> = ({children, user}) => {
   const [mobileNavigationActive, setMobileNavigationActive] = useState(false);
 
   const logo = {
@@ -25,18 +23,16 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children, user }) => {
   const toggleMobileNavigationActive = useCallback(
     () =>
       setMobileNavigationActive(
-        (mobileNavigationActive) => !mobileNavigationActive
+        (mobileNavigationActive) => !mobileNavigationActive,
       ),
-    []
+    [],
   );
 
   return (
     <Frame
       logo={logo}
-      topBar={
-        <AppBar user={user} onNavigationToggle={toggleMobileNavigationActive} />
-      }
-      navigation={<BaseNav />}
+      topBar={<AppBar user={user} onNavigationToggle={toggleMobileNavigationActive}/>}
+      navigation={<BaseNav/>}
       showMobileNavigation={mobileNavigationActive}
       onNavigationDismiss={toggleMobileNavigationActive}
     >
@@ -44,3 +40,6 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children, user }) => {
     </Frame>
   );
 };
+
+
+

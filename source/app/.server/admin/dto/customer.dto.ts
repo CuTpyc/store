@@ -1,21 +1,18 @@
-import { Customer, CustomerAddress } from '@prisma/client';
+import type {Customer, CustomerAddress} from '@prisma/client';
 
-export type CustomerWithAddresses = Customer & {
-  addresses: CustomerAddress[];
-};
-
-type ExcludedField = 'id' | 'createdAt' | 'updatedAt' | 'deletedAt';
-
+type ExcludedField = 'id' | 'password' | 'createdAt' | 'updatedAt' | 'deletedAt'
 export type TCustomerDto = Omit<Customer, ExcludedField> & {
   id: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
   addresses: TCustomerAddressDto[];
-};
+}
 
-export type TCustomerAddressDto = Omit<CustomerAddress, ExcludedField> & {
+type ExcludedAddressField = 'id' | 'customerId' | 'createdAt' | 'updatedAt'
+export type TCustomerAddressDto = Omit<CustomerAddress, ExcludedAddressField> & {
   id: string;
+  customerId: string;
   createdAt: string;
   updatedAt: string;
-};
+}

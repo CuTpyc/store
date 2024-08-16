@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-1.1.x"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -20,76 +19,123 @@ model User {
   fullName  String?
   email     String    @unique
   password  String
-  role      AdminRole @default(STAFF)
+  role      AdminRole @default(STUFF)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-}
 
-// Enums
-enum AdminRole {
-  STAFF
-  ADMIN
+  @@index([createdAt], name: "UserCreatedAtIndex")
+  @@index([updatedAt], name: "UserUpdatedAtIndex")
+  @@index([deletedAt], name: "UserDeletedAtIndex")
+  @@index([role], name: "UserRoleIndex")
+  @@index([fullName], name: "UserFullNameIndex")
 }
 
 model Customer {
-  id        Int               @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   firstName String
   lastName  String
-  email     String            @unique
+  email     String    @unique
   password  String
   phone     String?
   note      String?
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+
   addresses CustomerAddress[]
+
+  @@index([createdAt], name: "CustomerCreatedAtIndex")
+  @@index([updatedAt], name: "CustomerUpdatedAtIndex")
+  @@index([deletedAt], name: "CustomerDeletedAtIndex")
+  @@index([firstName, lastName, email, phone], name: "CustomerSearchIndex")
 }
 
 model CustomerAddress {
   id         Int      @id @default(autoincrement())
   customerId Int
-  customer   Customer @relation(fields: [customerId], references: [id])
-  country    String?
-  firstName  String?
-  lastName   String?
+  country    String
+  firstName  String
+  lastName   String
   company    String?
-  address    String?
+  address    String
   apartment  String?
-  city       String?
-  postalCode String?
-  phone      String?
+  city       String
+  postalCode String
+  phone      String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId], name: "CustomerAddressCustomerIdIndex")
+  @@index([firstName, lastName, company, address, phone], name: "CustomerAddressSearchIndex")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  title       String
+  description String?
+  image       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  products Product[]
+
+  @@index([createdAt], name: "CategoryCreatedAtIndex")
+  @@index([updatedAt], name: "CategoryUpdatedAtIndex")
+  @@index([deletedAt], name: "CategoryDeletedAtIndex")
+  @@index([title, slug], name: "CategorySearchIndex")
 }
 
 model Product {
-  id                Int          @id @default(autoincrement())
-  slug              String       @unique
-  title             String
-  description       String?
-  price             Float
-  compareAtPrice    Float?
-  costPerItem      Float?
-  quantity          Int
-  sku               String?
-  barcode           String?
-  status            ProductStatus
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  deletedAt         DateTime?
-  images            ProductImage[]
+  id             Int           @id @default(autoincrement())
+  slug           String        @unique
+  title          String
+  description    String
+  price          Int
+  costPerItem    Int
+  compareAtPrice Int
+  quantity       Int
+  sku            String?
+  barcode        String?
+  status         ProductStatus @default(DRAFT)
+  avgRate        Int           @default(0)
+  totalReviews   Int           @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  // categories      Category[]
+  // images          ProductImage[]
+  // variants        ProductVariant[]
+  // reviews         ProductReview[]
+
+  @@index([status], name: "ProductStatusIndex")
+  @@index([categoryId], name: "ProductCategoryIdIndex")
+  @@index([createdAt], name: "ProductCreatedAtIndex")
+  @@index([updatedAt], name: "ProductUpdatedAtIndex")
+  @@index([deletedAt], name: "ProductDeletedAtIndex")
+  @@index([title, slug, sku, barcode], name: "ProductSearchIndex")
+  @@index([price], name: "ProductPriceIndex")
+  @@index([compareAtPrice], name: "ProductCompareAtPriceIndex")
+  @@index([avgRate], name: "ProductAvgRateIndex")
+  @@index([totalReviews], name: "ProductTotalReviewsIndex")
 }
 
-model ProductImage {
-  id        Int    @id @default(autoincrement())
-  productId Int
-  image     String
-
-  product   Product @relation(fields: [productId], references: [id])
+// Enums
+enum AdminRole {
+  STUFF
+  ADMIN
 }
 
 enum ProductStatus {
-  active
-  draft
+  ACTIVE
+  DRAFT
+  ARCHIVED
 }

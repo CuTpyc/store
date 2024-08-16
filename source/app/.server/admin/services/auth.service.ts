@@ -3,7 +3,7 @@ import {Authenticator} from 'remix-auth';
 import {FormStrategy} from 'remix-auth-form';
 import {sessionStorage} from '~/.server/admin/utils/session.util';
 import {comparePassword} from '~/.server/shared/utils/auth.util';
-import {prisma} from '~/.server/shared/utils/prisma.util';
+import {prisma} from '~/.server/shared/services/prisma.service';
 import {ValidatorErrorWrapper} from '~/.server/shared/errors/validator-error-wrapper';
 import {authLoginFormValidator} from '~/admin/components/AuthLoginForm/AuthLoginForm.validator';
 

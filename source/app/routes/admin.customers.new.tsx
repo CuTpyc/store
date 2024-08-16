@@ -1,36 +1,29 @@
-import { useCallback } from 'react';
-import { Page } from '@shopify/polaris';
-import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { CustomersNewForm } from '~/admin/components/CustomersNewForm/CustomersNewForm';
-import { customersNewFormValidator } from '~/admin/components/CustomersNewForm/CustomersNewForm.validator';
-import { ValidatedForm } from 'remix-validated-form';
-import { ValidatedSubmitButton } from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
-import { adminCustomersNewAction } from '~/.server/admin/actions/customers.new.action';
-import { adminCustomersLoader } from '~/.server/admin/loaders/customers.loader';
-import { useLoaderData } from '@remix-run/react';
+import React, {useCallback} from 'react';
+import {Page} from '@shopify/polaris';
+import {EAdminNavigation} from '~/admin/constants/navigation.constant';
+import {ValidatedForm} from 'remix-validated-form';
+import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
+import {newFormValidator} from '~/admin/components/customers/NewForm/NewForm.validator';
+import {NewForm} from '~/admin/components/customers/NewForm/NewForm';
 
+export {action} from '~/.server/admin/actions/customers/new/action';
 
-export const action = adminCustomersNewAction
+export default function AdminCustomerNew() {
+  const primaryAction = useCallback(() => (
+    <ValidatedSubmitButton text="save" variant="primary"/>
+  ), []);
 
-export default function AdminCustomersNew() {
-
-  const primaryAction = useCallback(
-    () => <ValidatedSubmitButton text='save' variant='primary' />,
-    []
-  );
   return (
-    <ValidatedForm validator={customersNewFormValidator} method='post'>
+    <ValidatedForm validator={newFormValidator} method="post">
       <Page
-        title='Create new customer'
+        title="Create new customer"
         backAction={{
-          url: EAdminNavigation.customers,
+          url: EAdminNavigation.customers
         }}
         primaryAction={primaryAction()}
       >
-        <CustomersNewForm />
+        <NewForm/>
       </Page>
-      <ValidatedSubmitButton text="Submit"/>
     </ValidatedForm>
-
   );
 }

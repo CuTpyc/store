@@ -1,20 +1,18 @@
-import { Customer, CustomerAddress } from '@prisma/client';
-import {
-  TCustomerDto,
-  TCustomerAddressDto,
-} from '~/.server/admin/dto/customer.dto';
+import {Customer, CustomerAddress} from '@prisma/client';
+import {TCustomerAddressDto, TCustomerDto} from '~/.server/admin/dto/customer.dto';
 
-export const customerMapper = (
-  customer: Customer & { addresses: CustomerAddress[] }
-): TCustomerDto => {
+export type CustomerWithRelations = Customer & {
+  addresses: CustomerAddress[];
+};
+
+export const customerMapper = (customer: CustomerWithRelations): TCustomerDto => {
   return {
     id: String(customer.id),
     firstName: customer.firstName,
     lastName: customer.lastName,
-    email: customer.email,
-    password: customer.password,
     phone: customer.phone,
     note: customer.note,
+    email: customer.email,
     createdAt: customer.createdAt.toJSON(),
     updatedAt: customer.updatedAt.toJSON(),
     deletedAt: customer.deletedAt ? customer.deletedAt.toJSON() : null,
@@ -22,22 +20,20 @@ export const customerMapper = (
   };
 };
 
-export const customerAddressMapper = (
-  address: CustomerAddress
-): TCustomerAddressDto => {
+export const customerAddressMapper = (address: CustomerAddress): TCustomerAddressDto => {
   return {
     id: String(address.id),
-    customerId: address.customerId,
-    country: address.country,
+    customerId: String(address.customerId),
     firstName: address.firstName,
     lastName: address.lastName,
-    company: address.company,
-    address: address.address,
-    apartment: address.apartment,
-    city: address.city,
-    postalCode: address.postalCode,
     phone: address.phone,
+    address: address.address,
+    city: address.city,
+    country: address.country,
+    company: address.company,
+    apartment: address.apartment,
+    postalCode: address.postalCode,
     createdAt: address.createdAt.toJSON(),
-    updatedAt: address.updatedAt.toJSON(),
+    updatedAt: address.updatedAt.toJSON()
   };
 };

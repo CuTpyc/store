@@ -1,77 +1,59 @@
-import { useState, useCallback } from 'react';
-import { useLoaderData, useActionData, useSubmit } from '@remix-run/react';
-import { Page, Banner } from '@shopify/polaris';
-import { adminUsersSingleLoader } from '~/.server/admin/loaders/users.single.loader';
-import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { UsersSingle } from '~/admin/components/UsersSingle/UsersSingle';
-import { LoaderFunctionArgs } from '@remix-run/node';
-import { TUserDto } from '~/.server/admin/dto/user.dto';
-import DeleteUserModal from '~/admin/components/UsersSingle/DeleteUserModal';
-import { adminUsersModificationAction } from '~/.server/admin/actions/users.modification.actions';
+import React, {useCallback, useMemo, useState} from 'react';
+import {useLoaderData} from '@remix-run/react';
+import {Modal, Page} from '@shopify/polaris';
+import {EAdminNavigation} from '~/admin/constants/navigation.constant';
+import {UsersSingle} from '~/admin/components/UsersSingle/UsersSingle';
+import {adminUsersSingleLoader} from '~/.server/admin/loaders/users.single.loader';
+import {adminUsersSingleAction} from '~/.server/admin/actions/users.single.action';
+import {UsersDeleteForm} from '~/admin/components/UsersSingle/UsersDeleteForm';
 
 export const loader = adminUsersSingleLoader;
 
-export const action = adminUsersModificationAction;
+export const action = adminUsersSingleAction;
 
 export default function AdminUsersSingle() {
-  const data = useLoaderData<{ user: TUserDto }>();
-  const actionData = useActionData();
+  const {user} = useLoaderData<typeof loader>();
   const [active, setActive] = useState(false);
-  const submit = useSubmit();
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
-  if (!data || !data.user) {
-    return <div>Loading...</div>;
-  }
-
-  const { user } = data;
-
-  const handleDelete = () => {
-    setActive(false);
-    submit(
-      { deletedAt: user.deletedAt, actionType: 'deleteUser' },
-      { method: 'post', action: `/admin/users/${user.id}` }
-    );
-  };
-
-  const secondaryActions = [];
-
-  if (!user.deletedAt) {
-    secondaryActions.push({
-      content: 'Remove',
-      onAction: toggleActive,
+  const deleteAction = useMemo(() => (
+    {
+      content: 'Delete user',
       destructive: true,
-      accessibilityLabel: 'Delete User',
-    });
-  }
+      onAction: toggleActive,
+    }
+  ), [toggleActive]);
 
-  secondaryActions.push({
-    content: 'Security',
-    accessibilityLabel: 'Security',
-    url: `${EAdminNavigation.users}/${user.id}/security`,
-  });
+  const securityAction = useMemo(() => (
+    {
+      content: 'Security',
+      accessibilityLabel: 'Security',
+      url: `${EAdminNavigation.users}/${user.id}/security`
+    }
+  ), [user.id]);
+
+  const secondaryActions = useMemo(() => {
+    return user.deletedAt ? [securityAction] : [deleteAction, securityAction];
+  }, [deleteAction, securityAction, user.deletedAt]);
 
   return (
     <Page
       title={user.fullName || ''}
       backAction={{
-        url: EAdminNavigation.users,
+        url: EAdminNavigation.users
       }}
       secondaryActions={secondaryActions}
     >
-      {actionData?.error && (
-        <Banner status='critical'>
-          <p>{actionData.error}</p>
-        </Banner>
-      )}
-      <UsersSingle user={user} />
-      <DeleteUserModal
-        active={active}
-        toggleActive={toggleActive}
-        handleDelete={handleDelete}
-        error={actionData?.error}
-      />
+      <UsersSingle user={user}/>
+      <Modal
+        size="small"
+        open={active}
+        onClose={toggleActive}
+        title="Delete user"
+      >
+        <UsersDeleteForm toggleActive={toggleActive} fullName={user.fullName}/>
+      </Modal>
     </Page>
   );
 }
