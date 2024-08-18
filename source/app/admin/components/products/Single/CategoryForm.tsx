@@ -1,88 +1,44 @@
-import {Autocomplete, Box, Button, Divider, FormLayout, InlineStack, SelectProps} from '@shopify/polaris';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import {ValidatedForm, useField} from 'remix-validated-form';
+import {Box, Button, Divider, FormLayout, InlineStack} from '@shopify/polaris';
+import {FC} from 'react';
+import {ValidatedForm} from 'remix-validated-form';
 import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import {ValidatedAction} from '~/admin/ui/ValidatedAction/ValidatedAction';
 import {EAdminProductAction} from '~/admin/constants/action.constant';
-import {TProductDto} from '~/.server/admin/dto/product.dto';
 import {categoryFormValidator} from '~/admin/components/products/Single/CategoryForm.validator';
 import {TCategoryDto} from '~/.server/admin/dto/category.dto';
-import {useFetcher} from '@remix-run/react';
-import {EAdminNavigation} from '~/admin/constants/navigation.constant';
-import type {TAdminCategoriesLoader} from '~/.server/admin/loaders/categories/index/loader';
+import { ValidatedAutocompleteWrapper } from './CategoryFormAutocompliteHOC';
+import { useFetcher } from '@remix-run/react';
+import { TAdminApiCategoriesLoader } from '~/.server/admin/loaders/api/categories/index/loader';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 
 type Props = {
-  categoryId: TProductDto['categoryId'];
+  category: Pick<TCategoryDto, 'id' | 'title' | 'slug'> | null;
   categories: TCategoryDto[];
   toggleActive: () => void;
 }
 
 export const CategoryForm: FC<Props> = (props) => {
-  const {categoryId, categories, toggleActive} = props;
-  const fetcher = useFetcher<TAdminCategoriesLoader>();
+  const {category, toggleActive} = props;
+  const defaultCategoryOption = category ? {
+    label: `${category.title} (${category.slug})`,
+    value: category.id,
+  } : undefined;
+  const fetcher = useFetcher<TAdminApiCategoriesLoader>();
+  const fetchCategories = (query: string | undefined) => {
+    if (query) {
+      fetcher.load(`${EAdminNavigation.apiCategories}?q=${query}`);
+    } else {
+      fetcher.load(`${EAdminNavigation.apiCategories}`);
+    }
+  }
 
-  const roleOptions: SelectProps['options'] = useMemo(() => (
-    [
-      {
-        label: 'Select category',
-        value: '',
-      },
-      ...categories.map((category) => ({
-        label: category.title,
-        value: category.id,
-      }))
-    ]
-  ), [categories]);
-
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState(roleOptions.slice(0, 5));
-  const [allOptions] = useState(roleOptions);
-
-  useEffect(() => {
-    setOptions(roleOptions.slice(0, 5));
-  }, [roleOptions]);
-
-  const updateText = useCallback(
-    (value: string) => {
-      setInputValue(value);
-
-      if (value === '') {
-        setOptions(roleOptions.slice(0, 5));
-        return;
-      }
-
-      const filterRegex = new RegExp(value, 'i');
-      const resultOptions = allOptions.filter((option) =>
-        option.label.match(filterRegex),
-      );
-      setOptions(resultOptions);
-    },
-    [allOptions, roleOptions],
-  );
-
-  const updateSelection = useCallback(
-    (selected: string[]) => {
-      const selectedValue = selected.map((selectedItem) => {
-        const matchedOption = options.find((option) => option.value === selectedItem);
-        return matchedOption && matchedOption.label;
-      });
-
-      setSelectedOptions(selected);
-      setInputValue(selectedValue[0] || '');
-    },
-    [options],
-  );
-
-  const textField = (
-    <Autocomplete.TextField
-      onChange={updateText}
-      label="Category"
-      value={inputValue}
-      placeholder="Search"
-      autoComplete="off"
-    />
-  );
+  const pickCategories = () => {
+    const { categories = [] } = fetcher?.data ?? {}
+    return categories.map((category) => ({
+      value: category.id,
+      label: `${category.title} (${category.slug})`,
+    }));
+  }
 
   return (
     <ValidatedForm validator={categoryFormValidator} method="post" onSubmit={toggleActive}>
@@ -92,13 +48,14 @@ export const CategoryForm: FC<Props> = (props) => {
 
       <Box padding="400" paddingBlockStart="200">
         <FormLayout>
-          <Autocomplete
-            options={options}
-            selected={selectedOptions}
-            onSelect={updateSelection}
-            textField={textField}
+          <ValidatedAutocompleteWrapper
+            label="Category"
+            name="categoryId"
+            fetcherData={fetcher.data}
+            fetchOptions={fetchCategories}
+            pickOptions={pickCategories}
+            initialOption={defaultCategoryOption}
           />
-          <input type="hidden" name="categoryId" value={selectedOptions[0] || ''} />
         </FormLayout>
       </Box>
       <Divider/>
@@ -111,3 +68,6 @@ export const CategoryForm: FC<Props> = (props) => {
     </ValidatedForm>
   );
 };
+function setOptions(arg0: { value: string; label: string; }[]) {
+  throw new Error('Function not implemented.');
+}

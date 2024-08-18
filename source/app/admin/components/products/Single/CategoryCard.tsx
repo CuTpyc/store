@@ -42,7 +42,7 @@ export const CategoryCard: FC<Props> = (props) => {
         onClose={toggleActive}
         title="Change category"
       >
-        <CategoryForm categoryId={categoryId} toggleActive={toggleActive} categories={categories}/>
+        <CategoryForm category={category} toggleActive={toggleActive} categories={categories}/>
       </Modal>
     </Card>
   );
