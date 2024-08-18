@@ -6,7 +6,7 @@ import {ValidatedAction} from '~/admin/ui/ValidatedAction/ValidatedAction';
 import {EAdminProductAction} from '~/admin/constants/action.constant';
 import {categoryFormValidator} from '~/admin/components/products/Single/CategoryForm.validator';
 import {TCategoryDto} from '~/.server/admin/dto/category.dto';
-import { ValidatedAutocompleteWrapper } from './CategoryFormAutocompliteHOC';
+import { ValidatedAutocompleteWrapper } from '../../../ui/ValidatedAutocomplete/ValidatedAutocompliteHOC';
 import { useFetcher } from '@remix-run/react';
 import { TAdminApiCategoriesLoader } from '~/.server/admin/loaders/api/categories/index/loader';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
