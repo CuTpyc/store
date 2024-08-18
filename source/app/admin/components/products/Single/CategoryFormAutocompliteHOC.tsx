@@ -15,8 +15,8 @@ export type ValidatedTextFieldProps = {
   fetcherData?: object;
   initialOption?: Option;
   options?: Option[];
-  fetchOptions: (query: string) => void;
-  pickOptions: () => Option[];
+  fetchOptions?: (query: string) => void;
+  pickOptions?: () => Option[];
 }
 
 export const ValidatedAutocompleteWrapper = (props: ValidatedTextFieldProps) => {

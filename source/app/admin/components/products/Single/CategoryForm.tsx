@@ -24,7 +24,7 @@ export const CategoryForm: FC<Props> = (props) => {
     value: category.id,
   } : undefined;
   const fetcher = useFetcher<TAdminApiCategoriesLoader>();
-  const fetchCategories = (query: string | undefined) => {
+  const fetchCategories = (query: string | undefined = '') => {
     if (query) {
       fetcher.load(`${EAdminNavigation.apiCategories}?q=${query}`);
     } else {
