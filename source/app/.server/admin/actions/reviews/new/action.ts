@@ -19,7 +19,7 @@ export async function action({request}: ActionFunctionArgs) {
     return validationError(data.error);
   }
 
-  const {rate, review} = data.data;
+  const {rate, review, product_id, customer_id} = data.data;
 
   // check rate field
 
@@ -31,17 +31,20 @@ export async function action({request}: ActionFunctionArgs) {
     });
   }
 
+
+
   // create new Category
   const newReview = await prisma.productReview.create({
     data: {
       rate,
       review,
+      productId: product_id,
+      customerId: customer_id,
     },
-    include: {
-      product: true,
-      customer: true
-    }
+
   });
 
-  return redirect(`${EAdminNavigation.categories}/${newReview.id}`);
+  return redirect(`${EAdminNavigation.reviews}/${newReview.id}`);
 }
+
+

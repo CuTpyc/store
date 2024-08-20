@@ -1,18 +1,18 @@
 import {BlockStack, Layout} from '@shopify/polaris';
 import React, {FC} from 'react';
-import {PrimaryInfoCard} from './PrimaryInfoCard';
-import {TCategoryDto} from '~/.server/admin/dto/category.dto';
+import { PrimaryInfoCard } from './PrimaryInfoCard';
+import {TReviewDto} from '~/.server/admin/dto/review.dto';
 
 export type SingleProps = {
-  category: TCategoryDto;
+  review: TReviewDto;
 }
 
-export const Single: FC<SingleProps> = ({category}) => {
+export const Single: FC<SingleProps> = ({review}) => {
   return (
     <Layout>
       <Layout.Section>
         <BlockStack gap="500">
-          <PrimaryInfoCard category={category}/>
+          <PrimaryInfoCard review={review}/>
         </BlockStack>
       </Layout.Section>
 

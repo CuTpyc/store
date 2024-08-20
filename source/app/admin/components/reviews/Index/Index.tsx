@@ -46,7 +46,7 @@ export const Index: FC<ListProps> = ({reviews, query, pagination}) => {
         key={id}
         position={index}
       >
-        <IndexTable.Cell><Link url={`${EAdminNavigation.categories}/${id}`}>{id}</Link></IndexTable.Cell>
+        <IndexTable.Cell><Link url={`${EAdminNavigation.reviews}/${id}`}>{id}</Link></IndexTable.Cell>
         <IndexTable.Cell>{rate}</IndexTable.Cell>
         <IndexTable.Cell>{review}</IndexTable.Cell>
         <IndexTable.Cell>{productId}</IndexTable.Cell>

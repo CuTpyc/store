@@ -2,23 +2,23 @@ import {Box, Button, Divider, InlineStack, Text} from '@shopify/polaris';
 import React, {FC} from 'react';
 import {ValidatedForm} from 'remix-validated-form';
 import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
-import type {TCategoryDto} from '~/.server/admin/dto/category.dto';
+import type {TReviewDto} from '~/.server/admin/dto/review.dto';
 import {deleteFormValidator} from '~/admin/components/categories/Single/DeleteForm.validator';
 
 type Props = {
-  category: Pick<TCategoryDto, 'title'>;
+  review: Pick<TReviewDto, 'id'>;
   toggleActive: () => void;
 }
 
 export const DeleteForm: FC<Props> = (props) => {
-  const {category, toggleActive} = props;
-  const {title} = category;
+  const {review, toggleActive} = props;
+  const {id} = review;
 
   return (
     <ValidatedForm validator={deleteFormValidator} method="post" onSubmit={toggleActive}>
       <Box padding="400" paddingBlockStart="200">
         <Text as="p">
-          Are you sure you want to delete {title}?
+          Are you sure you want to delete {id}?
         </Text>
       </Box>
       <Divider/>

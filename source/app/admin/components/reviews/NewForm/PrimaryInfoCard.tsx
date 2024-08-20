@@ -18,15 +18,27 @@ export const PrimaryInfoCard: FC<Props> = (props) => {
         </Text>
         <FormLayout>
           <ValidatedTextField
-            label="Slug"
+            label="Rate"
             type="text"
-            name="slug"
+            name="rate"
             autoComplete="off"
           />
           <ValidatedTextField
-            label="Title"
+            label="Review"
             type="text"
-            name="title"
+            name="review"
+            autoComplete="off"
+          />
+          <ValidatedTextField
+            label="Product Id"
+            type="text"
+            name="product_id"
+            autoComplete="off"
+          />
+          <ValidatedTextField
+            label="Customer id"
+            type="text"
+            name="customer_id"
             autoComplete="off"
           />
         </FormLayout>

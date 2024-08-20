@@ -2,13 +2,13 @@ import {BlockStack, Button, Card, InlineGrid, Text} from '@shopify/polaris';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {EditIcon} from '@shopify/polaris-icons';
 import React, {FC} from 'react';
-import {TCategoryDto} from '~/.server/admin/dto/category.dto';
+import {TReviewDto} from '~/.server/admin/dto/review.dto';
 
 export type PrimaryInfoCardProps = {
-  category: TCategoryDto;
+  review: TReviewDto;
 }
 
-export const PrimaryInfoCard: FC<PrimaryInfoCardProps> = ({category}) => {
+export const PrimaryInfoCard: FC<PrimaryInfoCardProps> = ({review}) => {
   return (
     <Card>
       <BlockStack gap="200">
@@ -17,35 +17,28 @@ export const PrimaryInfoCard: FC<PrimaryInfoCardProps> = ({category}) => {
             Primary info
           </Text>
           <Button
-            url={`${EAdminNavigation.categories}/${category.id}/edit-primary`}
+            url={`${EAdminNavigation.reviews}/${review.id}/edit-primary`}
             accessibilityLabel="Edit primary info"
             icon={EditIcon}
           />
         </InlineGrid>
         <BlockStack gap="200">
           <Text as="h3" variant="headingXs" fontWeight="medium">
-            Slug
+            id
           </Text>
           <Text as="p" variant="bodyMd">
-            {category.slug}
+            {review.id}
           </Text>
         </BlockStack>
         <BlockStack gap="200">
           <Text as="h3" variant="headingXs" fontWeight="medium">
-            Title
+            Review
           </Text>
           <Text as="p" variant="bodyMd">
-            {category.title}
+            {review.review}
           </Text>
         </BlockStack>
-        <BlockStack gap="200">
-          <Text as="h3" variant="headingXs" fontWeight="medium">
-            Description
-          </Text>
-          <Text as="p" variant="bodyMd">
-            {category.description}
-          </Text>
-        </BlockStack>
+
       </BlockStack>
     </Card>
   );
