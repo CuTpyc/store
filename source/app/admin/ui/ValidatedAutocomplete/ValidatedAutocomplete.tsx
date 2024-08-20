@@ -1,55 +1,38 @@
 import {useField} from 'remix-validated-form';
 import {Autocomplete} from '@shopify/polaris';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
-type Option = {
-  value: string;
-  label: string;
+export type TAutocompleteOption = {
+  value: string; label: string
 }
 
-export type ValidatedTextFieldProps = {
+export type ValidatedAutocompleteProps = {
   name: string;
   label?: string;
   listTitle?: string;
   placeholder?: string;
   autoComplete?: string;
-  selectedOption?: Option;
-  setSelectedOption: (selectedOption: Option) => void;
-  setQuery: (query: string) => void;
-  options: Option[];
+  defaultValue?: TAutocompleteOption;
+  onChangeSearchQuery: (searchQuery: string) => void;
+  options: TAutocompleteOption[];
+  onSelect?: (selected: string[]) => void;
+  isFetching?: boolean;
 }
 
-export const PureValidatedAutocomplete = (props: ValidatedTextFieldProps) => {
-  const {selectedOption, setSelectedOption, setQuery, options, name, autoComplete, listTitle, label, placeholder} = props;
-
-  const timerRef = React.useRef<number | null>(null);
-
+export const ValidatedAutocomplete = (props: ValidatedAutocompleteProps) => {
+  const {
+    name, label, listTitle, placeholder, autoComplete, defaultValue, onChangeSearchQuery,
+    options, onSelect, isFetching
+  } = props;
   const {error, getInputProps} = useField(name);
   const {onChange: inputPropsOnChange} = getInputProps();
 
-  const [textFieldValue, setTextFieldValue] = useState<string>('');
-  const [selectedValue, setSelectedValue] = useState<string>(selectedOption?.value ?? '');
-  const [selectedOptions, setSelectedOptions] = useState<string[]>(selectedOption ? [selectedOption.value] : []);
+  const [value, setValue] = useState<string>(defaultValue?.value ?? '');
+  const [search, setSearch] = useState<string>(defaultValue?.label ?? '');
+  const defaultSelected = defaultValue ? [defaultValue.value] : [];
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(defaultSelected);
 
-  useEffect(() => {
-    const { value = '', label = '' } = selectedOption ?? {}
-    setSelectedOptions(value ? [value] : []);
-    setSelectedValue(value);
-    setTextFieldValue(label)
-  }, [selectedOption]);
-
-  const updateText = useCallback(
-    (value: string) => {
-      setTextFieldValue(value)
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      timerRef.current = window.setTimeout(() => {
-        setQuery(value)
-      }, 300);
-    },
-    [],
-  );
+  const timerRef = React.useRef<number | null>(null);
 
   const handleSelect = useCallback((selected: string[]) => {
     const selectedOption = options.find((option) => option.value === selected[0]);
@@ -58,19 +41,29 @@ export const PureValidatedAutocomplete = (props: ValidatedTextFieldProps) => {
       return;
     }
 
-    setSelectedOption(selectedOption)
-
+    setValue(selectedOption.value);
+    setSearch(selectedOption.label);
+    setSelectedOptions([selectedOption.value]);
     inputPropsOnChange?.();
-  }, [options, inputPropsOnChange]);
+    onSelect?.([selectedOption.value]);
+  }, [inputPropsOnChange, setValue, onSelect, options]);
+
+  const handleSearch = useCallback(
+    (value: string) => {
+      setSearch(value);
+      onChangeSearchQuery(value);
+    },
+    [onChangeSearchQuery],
+  );
 
   const textField = (
     <Autocomplete.TextField
+      onChange={handleSearch}
       label={label}
-      value={textFieldValue}
+      value={search}
       placeholder={placeholder}
-      autoComplete={autoComplete ?? 'off'}
+      autoComplete={autoComplete || 'off'}
       error={error}
-      onChange={updateText}
     />
   );
 
@@ -81,11 +74,12 @@ export const PureValidatedAutocomplete = (props: ValidatedTextFieldProps) => {
         options={options}
         selected={selectedOptions}
         textField={textField}
-        loading={false}
-        willLoadMoreResults={false}
         onSelect={handleSelect}
+        loading={isFetching}
+        willLoadMoreResults={false}
       />
-      <input type="hidden" name={name} value={selectedValue}/>
+      <input type="hidden" name={name} value={value}/>
     </>
   );
 };
+

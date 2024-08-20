@@ -1,15 +1,17 @@
 import {Box, Button, Divider, FormLayout, InlineStack} from '@shopify/polaris';
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {ValidatedForm} from 'remix-validated-form';
 import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import {ValidatedAction} from '~/admin/ui/ValidatedAction/ValidatedAction';
 import {EAdminProductAction} from '~/admin/constants/action.constant';
 import {categoryFormValidator} from '~/admin/components/products/Single/CategoryForm.validator';
 import {TCategoryDto} from '~/.server/admin/dto/category.dto';
-import { ValidatedAutocompleteWrapper } from '../../../ui/ValidatedAutocomplete/ValidatedAutocompliteHOC';
-import { useFetcher } from '@remix-run/react';
-import { TAdminApiCategoriesLoader } from '~/.server/admin/loaders/api/categories/index/loader';
-import { EAdminNavigation } from '~/admin/constants/navigation.constant';
+import { ValidatedLazyAutocomplete } from '~/admin/ui/ValidatedLazyAutocomplete/ValidatedLazyAutocomplete';
+import {EAdminNavigation} from '~/admin/constants/navigation.constant';
+import {
+  TAdminApiCategoriesLoader,
+  TAdminApiCategoriesLoaderData
+} from '~/.server/admin/loaders/api/categories/index/loader';
 
 type Props = {
   category: Pick<TCategoryDto, 'id' | 'title' | 'slug'> | null;
@@ -17,28 +19,20 @@ type Props = {
   toggleActive: () => void;
 }
 
+const responseToOptions = (data?: TAdminApiCategoriesLoaderData) => {
+  return data?.categories?.map((category) => ({
+    value: category.id,
+    label: `${category.title} (${category.slug})`,
+  })) || [];
+};
+
 export const CategoryForm: FC<Props> = (props) => {
   const {category, toggleActive} = props;
-  const defaultCategoryOption = category ? {
+
+  const defaultValue = category ? {
     label: `${category.title} (${category.slug})`,
     value: category.id,
   } : undefined;
-  const fetcher = useFetcher<TAdminApiCategoriesLoader>();
-  const fetchCategories = (query: string | undefined = '') => {
-    if (query) {
-      fetcher.load(`${EAdminNavigation.apiCategories}?q=${query}`);
-    } else {
-      fetcher.load(`${EAdminNavigation.apiCategories}`);
-    }
-  }
-
-  const pickCategories = () => {
-    const { categories = [] } = fetcher?.data ?? {}
-    return categories.map((category) => ({
-      value: category.id,
-      label: `${category.title} (${category.slug})`,
-    }));
-  }
 
   return (
     <ValidatedForm validator={categoryFormValidator} method="post" onSubmit={toggleActive}>
@@ -48,13 +42,12 @@ export const CategoryForm: FC<Props> = (props) => {
 
       <Box padding="400" paddingBlockStart="200">
         <FormLayout>
-          <ValidatedAutocompleteWrapper
+        <ValidatedLazyAutocomplete<TAdminApiCategoriesLoader>
             label="Category"
             name="categoryId"
-            fetcherData={fetcher.data}
-            fetchOptions={fetchCategories}
-            pickOptions={pickCategories}
-            initialOption={defaultCategoryOption}
+            url={EAdminNavigation.apiCategories}
+            responseToOptions={responseToOptions}
+            defaultValue={defaultValue}
           />
         </FormLayout>
       </Box>
@@ -68,6 +61,3 @@ export const CategoryForm: FC<Props> = (props) => {
     </ValidatedForm>
   );
 };
-function setOptions(arg0: { value: string; label: string; }[]) {
-  throw new Error('Function not implemented.');
-}

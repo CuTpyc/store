@@ -44,6 +44,7 @@ model Customer {
   deletedAt DateTime?
 
   addresses CustomerAddress[]
+  reviews    ProductReview[]
 
   @@index([createdAt], name: "CustomerCreatedAtIndex")
   @@index([updatedAt], name: "CustomerUpdatedAtIndex")
@@ -90,6 +91,29 @@ model Category {
   @@index([title, slug], name: "CategorySearchIndex")
 }
 
+
+model ProductReview {
+  id          Int       @id @default(autoincrement())
+  rate        Int
+  review      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@index([productId], name: "ReviewProductIdIndex")
+  @@index([customerId], name: "ReviewCustomerIdIndex")
+  @@index([rate], name: "ReviewRateIndex")
+  @@index([createdAt], name: "ReviewCreatedAtIndex")
+  @@index([updatedAt], name: "ReviewUpdatedAtIndex")
+  @@index([deletedAt], name: "ReviewDeletedAtIndex")
+
+  productId   Int
+  customerId  Int
+
+  product  Product  @relation(fields: [productId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id])
+}
+
 model Product {
   id             Int           @id @default(autoincrement())
   slug           String        @unique
@@ -114,7 +138,7 @@ model Product {
   // categories      Category[]
   // images          ProductImage[]
   // variants        ProductVariant[]
-  // reviews         ProductReview[]
+  reviews         ProductReview[]
 
   @@index([status], name: "ProductStatusIndex")
   @@index([categoryId], name: "ProductCategoryIdIndex")
