@@ -9,7 +9,7 @@ type Props = {
 
 export const PrimaryInfoCard: FC<Props> = (props) => {
   const {review} = props;
-
+  console.log(review)
   return (
     <Card>
       <BlockStack gap="200">

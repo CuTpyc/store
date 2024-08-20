@@ -10,21 +10,21 @@ export async function action({request, params}: ActionFunctionArgs) {
 
   const {id} = params;
   if (!id) {
-    return redirect(EAdminNavigation.categories);
+    return redirect(EAdminNavigation.reviews);
   }
 
   // get category
-  const category = await prisma.category.findFirst({
+  const review = await prisma.productReview.findFirst({
     where: {id: Number(id)}
   });
 
   // if not exist
-  if (!category) {
-    return redirect(EAdminNavigation.categories);
+  if (!review) {
+    return redirect(EAdminNavigation.reviews);
   }
 
   // update category
-  await prisma.category.update({
+  await prisma.productReview.update({
     where: {id: Number(id)},
     data: {
       deletedAt: new Date()
@@ -32,5 +32,5 @@ export async function action({request, params}: ActionFunctionArgs) {
   });
 
   // redirect to user page
-  return redirect(`${EAdminNavigation.categories}/${id}`);
+  return redirect(`${EAdminNavigation.reviews}/${id}`);
 }

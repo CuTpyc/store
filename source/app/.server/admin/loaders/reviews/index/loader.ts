@@ -62,7 +62,7 @@ export async function loader({request}: LoaderFunctionArgs) {
       deletedAt: null
     };
   }
-
+  console.log("filterAccountStatusQuery  1",filterAccountStatusQuery)
   const Reviews = await prisma.productReview.findMany({
     take: pagination.take,
     skip: pagination.skip,
@@ -80,7 +80,7 @@ export async function loader({request}: LoaderFunctionArgs) {
       ...filterAccountStatusQuery,
     }
   });
-
+  console.log("filterAccountStatusQuery  2",filterAccountStatusQuery)
   pagination.hasNext = hasNextCalculate(pagination);
 
   return json({reviews: Reviews.map(reviewMapper), query: makeQuery(search, sort, data), pagination});

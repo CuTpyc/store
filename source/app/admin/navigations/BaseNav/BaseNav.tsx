@@ -42,6 +42,11 @@ export const BaseNav = () => {
                 disabled: false,
                 label: 'Categories',
               },
+              {
+                url: EAdminNavigation.reviews,
+                disabled: false,
+                label: 'Reviews',
+              },
             ],
           },
           {
