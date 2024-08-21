@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {useRouteLoaderData} from '@remix-run/react';
 import {Modal, Page} from '@shopify/polaris';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
@@ -8,7 +8,7 @@ import { TAdminReviewSingleLoader } from '~/.server/admin/loaders/reviews/single
 
 export {action} from '~/.server/admin/actions/reviews/single/action';
 
-export default function AdminReviewIdIndex() {
+export default function AdminReviewsIdIndex() {
   const data = useRouteLoaderData<TAdminReviewSingleLoader>('routes/admin.reviews.$id');
   const [active, setActive] = useState(false);
 
@@ -16,7 +16,7 @@ export default function AdminReviewIdIndex() {
 
   const deleteAction = useMemo(() => (
     {
-      content: 'Delete review',
+      content: 'Delete Review',
       destructive: true,
       onAction: toggleActive,
     }
@@ -32,7 +32,7 @@ export default function AdminReviewIdIndex() {
 
   return (
     <Page
-      title={`${data?.review.id}`}
+      title={`Review id #${data?.review.id}`}
       backAction={{
         url: EAdminNavigation.reviews
       }}

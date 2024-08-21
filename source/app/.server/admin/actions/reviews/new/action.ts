@@ -19,32 +19,27 @@ export async function action({request}: ActionFunctionArgs) {
     return validationError(data.error);
   }
 
-  const {rate, review, product_id, customer_id} = data.data;
+  const {rate, review, productId, customerId} = data.data;
 
-  // check rate field
+  const newReview = await prisma.productReview.create({
+    data: { rate, review, productId, customerId }
+  });
 
-  if (!rate) {
-    return validationError({
-      fieldErrors: {
-        rate: 'You need to set rate'
-      }
+  if (newReview) {
+    const totalReviews = await prisma.productReview.count({
+      where: { productId, deletedAt: null }
+    });
+    const { _avg } = await prisma.productReview.aggregate({
+      where: { productId, deletedAt: null },
+      _avg: { rate: true }
+    });
+    const avgRate = (_avg.rate && _avg.rate * 100) || 0;
+
+    await prisma.product.update({
+      where: { id: productId },
+      data: { totalReviews, avgRate }
     });
   }
 
-
-
-  // create new Category
-  const newReview = await prisma.productReview.create({
-    data: {
-      rate,
-      review,
-      productId: product_id,
-      customerId: customer_id,
-    },
-
-  });
-
   return redirect(`${EAdminNavigation.reviews}/${newReview.id}`);
 }
-
-

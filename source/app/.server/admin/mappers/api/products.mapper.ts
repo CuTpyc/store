@@ -1,7 +1,5 @@
-import { Product } from '@prisma/client';
-import { TApiProductDto } from '../../dto/api/product.dto';
-
-
+import { Product } from "@prisma/client";
+import { TApiProductDto } from "../../dto/api/product.dto";
 
 export const apiProductMapper = (product: Product): TApiProductDto => {
   return {

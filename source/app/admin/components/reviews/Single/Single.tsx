@@ -1,7 +1,9 @@
 import {BlockStack, Layout} from '@shopify/polaris';
 import React, {FC} from 'react';
-import { PrimaryInfoCard } from './PrimaryInfoCard';
+import { PrimaryInfoCard, PrimaryInfoCardProps } from './PrimaryInfoCard';
 import {TReviewDto} from '~/.server/admin/dto/review.dto';
+import { TProductDto } from '~/.server/admin/dto/product.dto';
+import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
 
 export type SingleProps = {
   review: TReviewDto;

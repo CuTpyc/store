@@ -2,8 +2,10 @@ import {json, LoaderFunctionArgs, redirect} from '@remix-run/node';
 import {authenticator} from '~/.server/admin/services/auth.service';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {prisma} from '~/.server/shared/services/prisma.service';
-import { reviewMapper } from '~/.server/admin/mappers/rewiev.mapper';
 import {SerializeFrom} from '@remix-run/server-runtime';
+import { productMapper } from '~/.server/admin/mappers/product.mapper';
+import { customerMapper } from '~/.server/admin/mappers/customer.mapper';
+import { reviewMapper } from '~/.server/admin/mappers/review.mapper';
 
 export async function loader({request, params}: LoaderFunctionArgs) {
   await authenticator.isAuthenticated(request, {
@@ -12,21 +14,41 @@ export async function loader({request, params}: LoaderFunctionArgs) {
 
   const {id} = params;
   if (!id) {
-    return redirect(EAdminNavigation.categories);
+    return redirect(EAdminNavigation.reviews);
   }
 
-  // get user
-  const review = await prisma.productReview.findFirst({
+  const productReview = await prisma.productReview.findFirst({
     where: {id: Number(id)}
   });
 
-  // if not exist
-  if (!review) {
-    return redirect(EAdminNavigation.categories);
+  if (!productReview) {
+    return redirect(EAdminNavigation.reviews);
   }
 
-  return json({review: reviewMapper(review)});
+  const product = await prisma.product.findFirst({
+    where: { id: productReview.productId },
+    include: {
+      reviews: true,
+      category: true,
+    }
+  });
+  const customer = await prisma.customer.findFirst({
+    where: { id: productReview.customerId },
+    include: {
+      addresses: true,
+      reviews: true,
+    }
+  });
+  if (!product || !customer) {
+    return redirect(EAdminNavigation.reviews);
+  }
+
+  return json({
+    review: reviewMapper(productReview),
+    product: productMapper(product),
+    customer: customerMapper(customer),
+  });
 }
 
-export type TAdminReviewSingleLoader = typeof loader;
-export type TAdminReviewSingleLoaderData = SerializeFrom<typeof loader>;
+export type TAdminReviewsSingleLoader = typeof loader;
+export type TAdminReviewsSingleLoaderData = SerializeFrom<typeof loader>;

@@ -3,6 +3,8 @@ import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {EditIcon} from '@shopify/polaris-icons';
 import React, {FC} from 'react';
 import {TReviewDto} from '~/.server/admin/dto/review.dto';
+import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
+import { TProductDto } from '~/.server/admin/dto/product.dto';
 
 export type PrimaryInfoCardProps = {
   review: TReviewDto;

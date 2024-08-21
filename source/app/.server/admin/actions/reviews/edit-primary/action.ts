@@ -3,7 +3,7 @@ import {authenticator} from '~/.server/admin/services/auth.service';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import {validationError} from 'remix-validated-form';
-import {editPrimaryFormValidator} from '~/admin/components/categories/EditPrimaryForm/EditPrimaryForm.validator';
+import {editPrimaryFormValidator} from '~/admin/components/reviews/EditPrimaryForm/EditPrimaryForm.validator';
 
 export async function action({request, params}: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
@@ -12,20 +12,17 @@ export async function action({request, params}: ActionFunctionArgs) {
 
   const {id} = params;
   if (!id) {
-    return redirect(EAdminNavigation.categories);
+    return redirect(EAdminNavigation.reviews);
   }
 
-  // get category
-  const category = await prisma.category.findFirst({
+  const productReview = await prisma.productReview.findFirst({
     where: {id: Number(id)}
   });
 
-  // if not exist
-  if (!category) {
-    return redirect(EAdminNavigation.categories);
+  if (!productReview) {
+    return redirect(EAdminNavigation.reviews);
   }
 
-  // validate form data
   const data = await editPrimaryFormValidator.validate(
     await request.formData()
   );
@@ -34,36 +31,23 @@ export async function action({request, params}: ActionFunctionArgs) {
     return validationError(data.error);
   }
 
-  const {slug, title, description} = data.data;
+  const {customerId, productId, rate, review} = data.data;
 
-  // check unique slug
-  const exist = await prisma.category.findFirst({
-    where: {
-      slug,
-      id: {
-        not: Number(id)
-      }
-    }
+  await prisma.productReview.update({
+    where: { id: Number(id) },
+    data: { customerId, productId, rate, review },
   });
 
-  if (exist) {
-    return validationError({
-      fieldErrors: {
-        slug: 'Category with this slug already exist'
-      }
-    });
-  }
+  const { _avg } = await prisma.productReview.aggregate({
+    where: { productId: productReview.productId, deletedAt: null },
+    _avg: { rate: true },
+  });
+  const avgRate = (_avg.rate && _avg.rate * 100) || 0;
 
-  // update category
-  await prisma.category.update({
-    where: {id: Number(id)},
-    data: {
-      slug,
-      title,
-      description
-    }
+  await prisma.product.update({
+    where: { id: productReview.productId },
+    data: { avgRate },
   });
 
-  // redirect to user page
-  return redirect(`${EAdminNavigation.categories}/${id}`);
+  return redirect(`${EAdminNavigation.reviews}/${id}`);
 }
