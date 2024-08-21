@@ -10,9 +10,16 @@ import type {TAdminCategoriesLoaderData} from '~/.server/admin/loaders/categorie
 import { Filters } from './Filters';
 import { TReviewDto } from '~/.server/admin/dto/review.dto';
 import { TAdminReviewsLoaderData } from '~/.server/admin/loaders/reviews/index/loader';
+import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
+import { TProductDto } from '~/.server/admin/dto/product.dto';
+
+export type reviewsWithRelations = TReviewDto & {
+  product: TProductDto
+  customer: TCustomerDto
+}
 
 export interface ListProps {
-  reviews: TReviewDto[];
+  reviews: reviewsWithRelations[];
   query?: TAdminReviewsLoaderData['query'];
   pagination: IOffsetPaginationInfoDto;
 }
@@ -26,19 +33,19 @@ export const Index: FC<ListProps> = ({reviews, query, pagination}) => {
   }), []);
 
   const headings: NonEmptyArray<IndexTableHeading> = useMemo(() => ([
-    {title: 'ID'},
     {title: 'Rate'},
     {title: 'Review'},
-    {title: 'Product id'},
-    {title: 'Customer id'},
+    {title: 'Product title'},
+    {title: 'Customer'},
     {title: 'Created at'},
     {title: 'Updated at'},
     {title: 'Deleted at'},
   ]), []);
+  console.log("reviews", reviews)
 
   const rowMarkup = reviews.map(
     (
-      {id, rate, review, productId, customerId, createdAt, updatedAt, deletedAt},
+      {id ,rate, review, product, customer, createdAt, updatedAt, deletedAt},
       index,
     ) => (
       <IndexTable.Row
@@ -46,11 +53,11 @@ export const Index: FC<ListProps> = ({reviews, query, pagination}) => {
         key={id}
         position={index}
       >
-        <IndexTable.Cell><Link url={`${EAdminNavigation.reviews}/${id}`}>{id}</Link></IndexTable.Cell>
         <IndexTable.Cell>{rate}</IndexTable.Cell>
-        <IndexTable.Cell>{review}</IndexTable.Cell>
-        <IndexTable.Cell>{productId}</IndexTable.Cell>
-        <IndexTable.Cell>{customerId}</IndexTable.Cell>
+        <IndexTable.Cell><Link url={`${EAdminNavigation.reviews}/${id}`}>{review}</Link></IndexTable.Cell>
+
+        <IndexTable.Cell><Link url={`${EAdminNavigation.products}/${product.id}`}>{`${product.title} (${product.slug})`}</Link></IndexTable.Cell>
+        <IndexTable.Cell><Link url={`${EAdminNavigation.customers}/${customer.id}`}>{`${customer.firstName} ${customer.lastName}`}</Link></IndexTable.Cell>
         <IndexTable.Cell>{createdAt}</IndexTable.Cell>
         <IndexTable.Cell>{updatedAt}</IndexTable.Cell>
         <IndexTable.Cell>{deletedAt}</IndexTable.Cell>

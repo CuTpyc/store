@@ -6,7 +6,7 @@ export type TCustomerDto = Omit<Customer, ExcludedField> & {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  addresses: TCustomerAddressDto[];
+  addresses?: TCustomerAddressDto[];
 }
 
 type ExcludedAddressField = 'id' | 'customerId' | 'createdAt' | 'updatedAt'

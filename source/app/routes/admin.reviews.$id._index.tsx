@@ -4,12 +4,13 @@ import {Modal, Page} from '@shopify/polaris';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {Single} from '~/admin/components/reviews/Single/Single';
 import {DeleteForm} from '~/admin/components/reviews/Single/DeleteForm';
-import { TAdminReviewSingleLoader } from '~/.server/admin/loaders/reviews/single/loader';
+import { TAdminReviewsSingleLoader } from '~/.server/admin/loaders/reviews/single/loader';
+
 
 export {action} from '~/.server/admin/actions/reviews/single/action';
 
 export default function AdminReviewsIdIndex() {
-  const data = useRouteLoaderData<TAdminReviewSingleLoader>('routes/admin.reviews.$id');
+  const data = useRouteLoaderData<TAdminReviewsSingleLoader>('routes/admin.reviews.$id');
   const [active, setActive] = useState(false);
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);

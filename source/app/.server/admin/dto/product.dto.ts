@@ -15,5 +15,5 @@ export type TProductDto = Omit<Product, ExcludedField> & {
   updatedAt: string;
   deletedAt: string | null;
   categoryId: string | null;
-  category: TCategoryDto | null;
+  category?: TCategoryDto | null;
 }

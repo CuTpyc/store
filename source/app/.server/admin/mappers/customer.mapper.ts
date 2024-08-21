@@ -1,8 +1,8 @@
-import {Customer, CustomerAddress} from '@prisma/client';
+import {Customer, CustomerAddress, ProductReview} from '@prisma/client';
 import {TCustomerAddressDto, TCustomerDto} from '~/.server/admin/dto/customer.dto';
 
 export type CustomerWithRelations = Customer & {
-  addresses: CustomerAddress[];
+  addresses?: CustomerAddress[];
 };
 
 export const customerMapper = (customer: CustomerWithRelations): TCustomerDto => {
@@ -16,7 +16,7 @@ export const customerMapper = (customer: CustomerWithRelations): TCustomerDto =>
     createdAt: customer.createdAt.toJSON(),
     updatedAt: customer.updatedAt.toJSON(),
     deletedAt: customer.deletedAt ? customer.deletedAt.toJSON() : null,
-    addresses: customer.addresses.map(customerAddressMapper),
+    addresses: customer.addresses?.map(customerAddressMapper),
   };
 };
 

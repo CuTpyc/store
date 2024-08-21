@@ -10,7 +10,7 @@ export {loader} from '~/.server/admin/loaders/reviews/index/loader';
 
 export default function AdminProductReviewsIndex() {
   const data = useLoaderData<TAdminReviewsLoaderData>();
-
+  console.log("data", data)
   return (
     <Page
       fullWidth

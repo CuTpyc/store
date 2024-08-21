@@ -1,4 +1,4 @@
-import {json, LoaderFunctionArgs} from '@remix-run/node';
+import {json, LoaderFunctionArgs, redirect} from '@remix-run/node';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import {withZod} from '@rvf/zod';
 import {z} from 'zod';
@@ -17,10 +17,11 @@ import {containsInsensitive} from '~/.server/shared/utils/prisma.util';
 import {ESoftDeleteStatus} from '~/admin/constants/entries.constant';
 import { EReviewsSortVariant } from '~/admin/components/reviews/Index/Filters';
 import { reviewMapper } from '~/.server/admin/mappers/review.mapper';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 
 type ProductReviewOrderByWithRelationInput = Prisma.ProductReviewOrderByWithRelationInput;
 
-export const ProductReviewQueryValidator = withZod(
+export const ReviewQueryValidator = withZod(
   z.object({
     softDeleteStatus: z.nativeEnum(ESoftDeleteStatus).optional(),
   })
@@ -28,7 +29,7 @@ export const ProductReviewQueryValidator = withZod(
 
 export async function loader({request}: LoaderFunctionArgs) {
   const searchParams = requestToSearchParams(request);
-  const { data } = await ProductReviewQueryValidator.validate(searchParams);
+  const { data } = await ReviewQueryValidator.validate(searchParams);
   const search = await queryToSearch(searchParams);
   const pagination = await queryToPagination(searchParams);
   const sort = await queryToSort(searchParams, EReviewsSortVariant, EReviewsSortVariant.createdAt_desc);
@@ -58,19 +59,18 @@ export async function loader({request}: LoaderFunctionArgs) {
   }
 
   const reviews = await prisma.productReview.findMany({
+    take: pagination.take,
+    skip: pagination.skip,
+    include: {
+      customer: true,
+      product: true,
+    },
     where: {
       ...searchQuery,
       ...filterAccountStatusQuery,
     },
-    include: {
-      product: true,
-      customer: true,
-    },
-    take: pagination.take,
-    skip: pagination.skip,
-    orderBy
+    orderBy,
   });
-
   pagination.count = reviews.length;
   pagination.total = await prisma.productReview.count({
     where: {

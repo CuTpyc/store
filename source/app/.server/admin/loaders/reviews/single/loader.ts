@@ -17,23 +17,23 @@ export async function loader({request, params}: LoaderFunctionArgs) {
     return redirect(EAdminNavigation.reviews);
   }
 
-  const productReview = await prisma.productReview.findFirst({
+  const review = await prisma.productReview.findFirst({
     where: {id: Number(id)}
   });
 
-  if (!productReview) {
+  if (!review) {
     return redirect(EAdminNavigation.reviews);
   }
 
   const product = await prisma.product.findFirst({
-    where: { id: productReview.productId },
+    where: { id: review.productId },
     include: {
       reviews: true,
       category: true,
     }
   });
   const customer = await prisma.customer.findFirst({
-    where: { id: productReview.customerId },
+    where: { id: review.customerId },
     include: {
       addresses: true,
       reviews: true,
@@ -44,7 +44,7 @@ export async function loader({request, params}: LoaderFunctionArgs) {
   }
 
   return json({
-    review: reviewMapper(productReview),
+    review: reviewMapper(review),
     product: productMapper(product),
     customer: customerMapper(customer),
   });

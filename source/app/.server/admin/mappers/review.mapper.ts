@@ -1,16 +1,25 @@
-import {ProductReview} from '@prisma/client';
-import {TReviewDto} from '~/.server/admin/dto/review.dto';
+import { Customer, Product, ProductReview } from "@prisma/client";
+import { TReviewDto } from "../dto/review.dto";
+import { productMapper } from "./product.mapper";
+import { customerMapper } from "./customer.mapper";
 
-export const reviewMapper = (review: ProductReview): TReviewDto => {
-  return {
-    id: String(review.id),
-    rate: review.rate,
-    review: review.review,
-    createdAt: review.createdAt.toJSON(),
-    updatedAt: review.updatedAt.toJSON(),
-    deletedAt: review.deletedAt ? review.deletedAt.toJSON() : null,
-    productId: String(review.productId),
-    customerId:  String(review.customerId),
-  };
+type ProductReviewWithRelations = ProductReview & {
+  product?: Product;
+  customer?: Customer;
 };
 
+export const reviewMapper = (productReview: ProductReviewWithRelations): TReviewDto => {
+
+  return {
+    id: String(productReview.id),
+    rate: productReview.rate,
+    review: productReview.review,
+    productId: productReview.productId,
+    customerId: productReview.customerId,
+    product: productReview.product ? productMapper(productReview.product) : null,
+    customer: productReview.customer ? customerMapper(productReview.customer) : null,
+    createdAt: productReview.createdAt.toJSON(),
+    updatedAt: productReview.updatedAt.toJSON(),
+    deletedAt: productReview.deletedAt ? productReview.deletedAt.toJSON() : null,
+  };
+};

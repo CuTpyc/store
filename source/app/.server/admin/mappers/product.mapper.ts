@@ -1,12 +1,13 @@
-import {Category, Product} from '@prisma/client';
-import {TProductDto} from '~/.server/admin/dto/product.dto';
-import {categoryMapper} from '~/.server/admin/mappers/category.mapper';
+import { Category, Product } from "@prisma/client";
+import { TProductDto } from "~/.server/admin/dto/product.dto";
+import { categoryMapper } from "~/.server/admin/mappers/category.mapper";
 
 export type ProductWithRelations = Product & {
-  category: Category | null;
+  category?: Category | null;
 };
 
 export const productMapper = (product: ProductWithRelations): TProductDto => {
+
   return {
     id: String(product.id),
     slug: product.slug,
@@ -19,7 +20,7 @@ export const productMapper = (product: ProductWithRelations): TProductDto => {
     sku: product.sku,
     barcode: product.barcode,
     status: product.status,
-    avgRate: String(product.avgRate),
+    avgRate: (product.avgRate / 100).toFixed(2),
     totalReviews: String(product.totalReviews),
     categoryId: product.categoryId ? String(product.categoryId) : null,
     category: product.category ? categoryMapper(product.category) : null,
