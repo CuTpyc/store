@@ -28,11 +28,6 @@ export const BaseNav = () => {
             icon: PersonIcon,
           },
           {
-            url: EAdminNavigation.categories,
-            label: 'Categories',
-            icon: PersonIcon,
-          },
-          {
             url: EAdminNavigation.products,
             label: 'Products',
             icon: ProductIcon,

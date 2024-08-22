@@ -4,6 +4,7 @@ import {PrimaryInfoCard} from './PrimaryInfoCard';
 import {TProductDto} from '~/.server/admin/dto/product.dto';
 import {CategoryCard} from '~/admin/components/products/Single/CategoryCard';
 import {TCategoryDto} from '~/.server/admin/dto/category.dto';
+import { ProductReviewsList } from './ProductReviewsList';
 
 export type SingleProps = {
   product: TProductDto;
@@ -21,6 +22,12 @@ export const Single: FC<SingleProps> = ({product, categories}) => {
 
       <Layout.Section variant="oneThird">
         <CategoryCard product={product} categories={categories}/>
+      </Layout.Section>
+
+      <Layout.Section>
+        <BlockStack gap="500">
+          <ProductReviewsList product={product}/>
+        </BlockStack>
       </Layout.Section>
     </Layout>
   );

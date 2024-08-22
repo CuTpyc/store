@@ -18,6 +18,7 @@ import {ESoftDeleteStatus} from '~/admin/constants/entries.constant';
 import { EReviewsSortVariant } from '~/admin/components/reviews/Index/Filters';
 import { reviewMapper } from '~/.server/admin/mappers/review.mapper';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
+import { authenticator } from '~/.server/admin/services/auth.service';
 
 type ProductReviewOrderByWithRelationInput = Prisma.ProductReviewOrderByWithRelationInput;
 
@@ -28,6 +29,10 @@ export const ReviewQueryValidator = withZod(
 );
 
 export async function loader({request}: LoaderFunctionArgs) {
+  await authenticator.isAuthenticated(request, {
+    failureRedirect: EAdminNavigation.authLogin,
+  });
+
   const searchParams = requestToSearchParams(request);
   const { data } = await ReviewQueryValidator.validate(searchParams);
   const search = await queryToSearch(searchParams);

@@ -11,6 +11,8 @@ export type PrimaryInfoCardProps = {
 }
 
 export const PrimaryInfoCard: FC<PrimaryInfoCardProps> = ({review}) => {
+  const product = review.product
+  const customer = review.customer
   return (
     <Card>
       <BlockStack gap="200">
@@ -26,10 +28,10 @@ export const PrimaryInfoCard: FC<PrimaryInfoCardProps> = ({review}) => {
         </InlineGrid>
         <BlockStack gap="200">
           <Text as="h3" variant="headingXs" fontWeight="medium">
-            id
+            Rate
           </Text>
           <Text as="p" variant="bodyMd">
-            {review.id}
+            {review.rate}
           </Text>
         </BlockStack>
         <BlockStack gap="200">
@@ -40,7 +42,22 @@ export const PrimaryInfoCard: FC<PrimaryInfoCardProps> = ({review}) => {
             {review.review}
           </Text>
         </BlockStack>
-
+        <BlockStack gap="200">
+          <Text as="h3" variant="headingXs" fontWeight="medium">
+            Customer
+          </Text>
+          <Text as="p" variant="bodyMd">
+            {`${customer?.firstName} ${customer?.lastName}`}
+          </Text>
+        </BlockStack>
+        <BlockStack gap="200">
+          <Text as="h3" variant="headingXs" fontWeight="medium">
+            Product
+          </Text>
+          <Text as="p" variant="bodyMd">
+          {`${product?.title} (${product?.slug})`}
+          </Text>
+        </BlockStack>
       </BlockStack>
     </Card>
   );

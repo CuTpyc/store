@@ -46,7 +46,7 @@ export default function AdminReviewsIdIndex() {
         onClose={toggleActive}
         title="Delete review"
       >
-        <DeleteForm toggleActive={toggleActive} review={data?.review}/>
+        <DeleteForm toggleActive={toggleActive} review={data?.review} product={data?.review.product} customer={data?.review.customer}/>
       </Modal>
     </Page>
   );

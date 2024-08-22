@@ -8,10 +8,9 @@ import {EditPrimaryForm} from '~/admin/components/reviews/EditPrimaryForm/EditPr
 import {editPrimaryFormValidator} from '~/admin/components/reviews/EditPrimaryForm/EditPrimaryForm.validator';
 import { TAdminReviewsSingleLoader } from '~/.server/admin/loaders/reviews/single/loader';
 
-
 export {action} from '~/.server/admin/actions/reviews/edit-primary/action';
 
-export default function AdminProductReviewsIdEditPrimary() {
+export default function AdminReviewIdEditPrimary() {
   const data = useRouteLoaderData<TAdminReviewsSingleLoader>('routes/admin.reviews.$id');
 
   const primaryAction = useCallback(() => (
@@ -31,7 +30,7 @@ export default function AdminProductReviewsIdEditPrimary() {
         }}
         primaryAction={primaryAction()}
       >
-        <EditPrimaryForm review={data.review} product={data.product} customer={data.customer}/>
+        <EditPrimaryForm review={data.review} product={data?.review.product} customer={data?.review.customer}/>
       </Page>
     </ValidatedForm>
   );
