@@ -15,17 +15,14 @@ export async function action({request, params}: ActionFunctionArgs) {
     return redirect(EAdminNavigation.products);
   }
 
-  // get product
   const product = await prisma.product.findFirst({
     where: {id: Number(id)}
   });
 
-  // if not exist
   if (!product) {
     return redirect(EAdminNavigation.products);
   }
 
-  // validate form data
   const data = await editPrimaryFormValidator.validate(
     await request.formData()
   );
@@ -36,7 +33,6 @@ export async function action({request, params}: ActionFunctionArgs) {
 
   const {slug} = data.data;
 
-  // check unique slug
   const exist = await prisma.product.findFirst({
     where: {
       slug,
@@ -54,7 +50,6 @@ export async function action({request, params}: ActionFunctionArgs) {
     });
   }
 
-  // update Product
   await prisma.product.update({
     where: {id: Number(id)},
     data: {
@@ -62,6 +57,5 @@ export async function action({request, params}: ActionFunctionArgs) {
     }
   });
 
-  // redirect to user page
   return redirect(`${EAdminNavigation.products}/${id}`);
 }

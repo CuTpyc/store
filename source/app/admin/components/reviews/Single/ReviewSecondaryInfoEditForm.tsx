@@ -1,23 +1,13 @@
 import {Box, Button, Card, Text, Divider, FormLayout, InlineStack} from '@shopify/polaris';
 import React, {FC} from 'react';
-import {ValidatedForm} from 'remix-validated-form';
-import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import {ValidatedAction} from '~/admin/ui/ValidatedAction/ValidatedAction';
 import {EAdminProductAction} from '~/admin/constants/action.constant';
-import {categoryFormValidator} from '~/admin/components/products/Single/CategoryForm.validator';
 import {TCategoryDto} from '~/.server/admin/dto/category.dto';
 import { ValidatedLazyAutocomplete } from '~/admin/ui/ValidatedLazyAutocomplete/ValidatedLazyAutocomplete';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
-import {
-  TAdminApiCategoriesLoader,
-  TAdminApiCategoriesLoaderData
-} from '~/.server/admin/loaders/api/categories/index/loader';
 import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
 import { TAdminApiProductsLoader, TAdminApiProductsLoaderData } from '~/.server/admin/loaders/api/products/index/loader';
 import { TAdminApiCustomersLoader, TAdminApiCustomersLoaderData } from '~/.server/admin/loaders/api/customers/index/loader';
-import { reviewSecondaryInfoEditFormValidator } from './ReviewSecondaryInfoEditForm.validator';
-import { ValidatedSelect } from '~/admin/ui/ValidatedSelect/ValidatedSelect';
-import { ValidatedTextField } from '~/admin/ui/ValidatedTextField/ValidatedTextField';
 import { TReviewDto } from '~/.server/admin/dto/review.dto';
 
 

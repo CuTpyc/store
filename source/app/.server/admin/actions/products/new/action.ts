@@ -10,7 +10,6 @@ export async function action({request}: ActionFunctionArgs) {
     failureRedirect: EAdminNavigation.authLogin,
   });
 
-  // validate form data
   const data = await newFormValidator.validate(
     await request.formData()
   );
@@ -21,7 +20,6 @@ export async function action({request}: ActionFunctionArgs) {
 
   const {description, title, slug, sku, compareAtPrice, price, barcode, quantity, costPerItem} = data.data;
 
-  // check unique slug
   const exist = await prisma.product.findFirst({where: {slug}});
   if (exist) {
     return validationError({
@@ -31,7 +29,6 @@ export async function action({request}: ActionFunctionArgs) {
     });
   }
 
-  // create new Product
   const newProduct = await prisma.product.create({
     data: {
       slug,

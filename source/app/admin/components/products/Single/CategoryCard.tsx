@@ -12,7 +12,7 @@ type Props = {
 
 export const CategoryCard: FC<Props> = (props) => {
   const {product, categories} = props;
-  const {category, categoryId} = product;
+  const {category} = product;
   const [active, setActive] = useState(false);
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);

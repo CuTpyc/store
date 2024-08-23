@@ -5,8 +5,6 @@ import {IndexTableHeading} from '@shopify/polaris/build/ts/src/components/IndexT
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {IOffsetPaginationInfoDto} from '~/.server/shared/dto/offset-pagination-info.dto';
 import {usePagination} from '~/admin/hooks/usePagination';
-import {TCategoryDto} from '~/.server/admin/dto/category.dto';
-import type {TAdminCategoriesLoaderData} from '~/.server/admin/loaders/categories/index/loader';
 import { Filters } from './Filters';
 import { TReviewDto } from '~/.server/admin/dto/review.dto';
 import { TAdminReviewsLoaderData } from '~/.server/admin/loaders/reviews/index/loader';

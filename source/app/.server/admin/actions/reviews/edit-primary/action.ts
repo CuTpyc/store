@@ -34,11 +34,10 @@ export async function action({request, params}: ActionFunctionArgs) {
 
   const {customerId, productId, rate, review} = data.data;
 
-  console.warn( JSON.parse(JSON.stringify({ customerId, productId, rate, review })))
 
   await prisma.productReview.update({
     where: { id: Number(id) },
-    data: JSON.parse(JSON.stringify({ customerId, productId, rate, review }))
+    data:  {customerId, productId, rate, review}
   });
 
   const { _avg } = await prisma.productReview.aggregate({

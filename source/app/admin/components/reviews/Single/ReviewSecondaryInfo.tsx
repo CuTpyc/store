@@ -4,7 +4,6 @@ import React, {FC, useCallback, useState} from 'react';
 import {TProductDto} from '~/.server/admin/dto/product.dto';
 import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
-import { ReviewSecondaryInfoEditForm } from './ReviewSecondaryInfoEditForm';
 import { TReviewDto } from '~/.server/admin/dto/review.dto';
 
 type Props = {

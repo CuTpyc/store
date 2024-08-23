@@ -4,10 +4,7 @@ import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {ValidatedForm} from 'remix-validated-form';
 import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import {useRouteLoaderData} from '@remix-run/react';
-import {EditPrimaryForm} from '~/admin/components/reviews/EditPrimaryForm/EditPrimaryForm';
-import {editPrimaryFormValidator} from '~/admin/components/reviews/EditPrimaryForm/EditPrimaryForm.validator';
 import { TAdminReviewsSingleLoader } from '~/.server/admin/loaders/reviews/single/loader';
-import { Single } from '~/admin/components/reviews/Single/Single';
 import { ReviewSecondaryInfoEditForm } from '~/admin/components/reviews/Single/ReviewSecondaryInfoEditForm';
 import { reviewSecondaryInfoEditFormValidator } from '~/admin/components/reviews/Single/ReviewSecondaryInfoEditForm.validator';
 

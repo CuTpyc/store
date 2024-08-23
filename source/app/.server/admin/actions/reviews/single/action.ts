@@ -44,7 +44,6 @@ export async function action({request, params}: ActionFunctionArgs) {
       data: { totalReviews, avgRate },
     });
 
-    // return redirect(`${EAdminNavigation.reviews}`);
   }
 
   return redirect(`${EAdminNavigation.reviews}/${id}`);

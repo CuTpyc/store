@@ -1,6 +1,5 @@
 import React from 'react';
 import {Outlet, useLoaderData} from '@remix-run/react';
-import {TAdminCategoriesSingleLoader} from '~/.server/admin/loaders/categories/single/loader';
 import { TAdminReviewsSingleLoader } from '~/.server/admin/loaders/reviews/single/loader';
 
 export {loader} from '~/.server/admin/loaders/reviews/single/loader'

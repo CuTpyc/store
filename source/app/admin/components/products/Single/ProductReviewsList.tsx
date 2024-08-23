@@ -1,7 +1,6 @@
 import {Avatar, BlockStack, Card, EmptyState, InlineGrid, ResourceItem, ResourceList, Text} from '@shopify/polaris';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {FC} from 'react';
-import {TProductDto} from '~/.server/admin/dto/product.dto';
 import { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination-info.dto';
 import { usePagination } from '~/admin/hooks/usePagination';
 import { TReviewDto } from '~/.server/admin/dto/review.dto';
