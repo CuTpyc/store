@@ -33,10 +33,10 @@ export const Filters: FC<FiltersProps> = ({query}) => {
 
   /* SORT START */
   const sortOptions: IndexFiltersProps['sortOptions'] = [
-    {label: 'Rate', value: reqSortToSort(EReviewsSortVariant.rate_asc), directionLabel: 'Oldest to newest'},
-    {label: 'Rate', value: reqSortToSort(EReviewsSortVariant.rate_desc), directionLabel: 'Newest to oldest'},
-    {label: 'Review', value: reqSortToSort(EReviewsSortVariant.review_asc), directionLabel: 'Oldest to newest'},
-    {label: 'Review', value: reqSortToSort(EReviewsSortVariant.review_desc), directionLabel: 'Newest to oldest'},
+    {label: 'Rate', value: reqSortToSort(EReviewsSortVariant.rate_asc), directionLabel: 'High to low'},
+    {label: 'Rate', value: reqSortToSort(EReviewsSortVariant.rate_desc), directionLabel: 'Low to high'},
+    {label: 'Review', value: reqSortToSort(EReviewsSortVariant.review_asc), directionLabel: 'A-Z'},
+    {label: 'Review', value: reqSortToSort(EReviewsSortVariant.review_desc), directionLabel: 'Z-A'},
     {label: 'Customer Id', value: reqSortToSort(EReviewsSortVariant.customerId_asc), directionLabel: 'Oldest to newest'},
     {label: 'Customer Id', value: reqSortToSort(EReviewsSortVariant.customerId_desc), directionLabel: 'Newest to oldest'},
     {label: 'Product Id', value: reqSortToSort(EReviewsSortVariant.productId_asc), directionLabel: 'Oldest to newest'},

@@ -6,15 +6,8 @@ import { TAdminApiProductsLoader, TAdminApiProductsLoaderData } from '~/.server/
 import { ValidatedLazyAutocomplete } from '~/admin/ui/ValidatedLazyAutocomplete/ValidatedLazyAutocomplete';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 import { TAdminApiCustomersLoader, TAdminApiCustomersLoaderData } from '~/.server/admin/loaders/api/customers/index/loader';
-import { TProductDto } from '~/.server/admin/dto/product.dto';
-import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
-import { TReviewDto } from '~/.server/admin/dto/review.dto';
 
-type Props = {
-  review?: TReviewDto
-  product?: TProductDto
-  customer?: TCustomerDto
-}
+
 
 const productsResponseToOptions = (data?: TAdminApiProductsLoaderData) => {
   return data?.products?.map((product) => ({
@@ -30,18 +23,12 @@ const customersResponseToOptions = (data?: TAdminApiCustomersLoaderData) => {
   })) || [];
 };
 
-export const PrimaryInfoCard: FC<Props> = (props) => {
-  const {review, product, customer} = props;
+export const PrimaryInfoCard = () => {
 
-  const ProductDefaultValue = product ? {
-    label: `${product.title} (${product.slug})`,
-    value: product.id,
-  } : undefined;
-
-  const CustomerDefaultValue = customer ? {
-    label: `${customer.firstName} ${customer.lastName}`,
-    value: customer.id,
-  } : undefined;
+  const DefaultValue =  {
+    label: ``,
+    value: '',
+  }
 
   return (
     <Card>
@@ -54,14 +41,13 @@ export const PrimaryInfoCard: FC<Props> = (props) => {
             label="Rate"
             name="rate"
             options={["0", "1", "2", "3", "4", "5"]}
-            defaultValue={String(review?.rate)}
+            defaultValue={String(0)}
           />
           <ValidatedTextField
             label="Review"
             type="text"
             name="review"
             autoComplete="off"
-            defaultValue={review?.review || ''}
             multiline={5}
           />
           <ValidatedLazyAutocomplete<TAdminApiProductsLoader>
@@ -70,15 +56,13 @@ export const PrimaryInfoCard: FC<Props> = (props) => {
             name="productId"
             url={EAdminNavigation.apiProducts}
             responseToOptions={productsResponseToOptions}
-            defaultValue={ProductDefaultValue}
           />
           <ValidatedLazyAutocomplete<TAdminApiCustomersLoader>
-            key='customer'
+            key='Customer'
             label="Customers"
             name="customerId"
             url={EAdminNavigation.apiCustomers}
             responseToOptions={customersResponseToOptions}
-            defaultValue={CustomerDefaultValue}
           />
         </FormLayout>
       </BlockStack>
