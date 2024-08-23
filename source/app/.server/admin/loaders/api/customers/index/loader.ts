@@ -23,7 +23,6 @@ export async function loader({request}: LoaderFunctionArgs) {
       OR: [
         {firstName: containsInsensitive(search)},
         {lastName: containsInsensitive(search)},
-        {email: containsInsensitive(search)},
       ]
     };
   }

@@ -40,7 +40,6 @@ export const ReviewSecondaryInfo: FC<Props> = (props) => {
           <Link url={`${EAdminNavigation.products}/${product?.id}`}>{`${product?.title} (${product?.slug})` || 'No category'}</Link>
           </Text>
         </BlockStack>
-        <Divider/>
         <BlockStack gap="200">
           <Text as="p" variant="headingXs" fontWeight="medium">
             Customer:

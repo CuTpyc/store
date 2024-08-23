@@ -6,29 +6,18 @@ import { TAdminApiProductsLoader, TAdminApiProductsLoaderData } from '~/.server/
 import { ValidatedLazyAutocomplete } from '~/admin/ui/ValidatedLazyAutocomplete/ValidatedLazyAutocomplete';
 import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 import { TAdminApiCustomersLoader, TAdminApiCustomersLoaderData } from '~/.server/admin/loaders/api/customers/index/loader';
+import { TProductDto } from '~/.server/admin/dto/product.dto';
+import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
+import { TReviewDto } from '~/.server/admin/dto/review.dto';
+
+type Props = {
+  review?: TReviewDto
+}
 
 
 
-const productsResponseToOptions = (data?: TAdminApiProductsLoaderData) => {
-  return data?.products?.map((product) => ({
-    value: product.id,
-    label: `${product.title} (${product.slug})`,
-  })) || [];
-};
-
-const customersResponseToOptions = (data?: TAdminApiCustomersLoaderData) => {
-  return data?.customers?.map((customer) => ({
-    value: customer.id,
-    label: `${customer.firstName} ${customer.lastName}`,
-  })) || [];
-};
-
-export const PrimaryInfoCard = () => {
-
-  const DefaultValue =  {
-    label: ``,
-    value: '',
-  }
+export const PrimaryInfoCard: FC<Props> = (props) => {
+  const {review} = props;
 
   return (
     <Card>
@@ -41,28 +30,15 @@ export const PrimaryInfoCard = () => {
             label="Rate"
             name="rate"
             options={["0", "1", "2", "3", "4", "5"]}
-            defaultValue={String(0)}
+            defaultValue={String(review?.rate)}
           />
           <ValidatedTextField
             label="Review"
             type="text"
             name="review"
             autoComplete="off"
+            defaultValue={review?.review || ''}
             multiline={5}
-          />
-          <ValidatedLazyAutocomplete<TAdminApiProductsLoader>
-            key='product'
-            label="Products"
-            name="productId"
-            url={EAdminNavigation.apiProducts}
-            responseToOptions={productsResponseToOptions}
-          />
-          <ValidatedLazyAutocomplete<TAdminApiCustomersLoader>
-            key='Customer'
-            label="Customers"
-            name="customerId"
-            url={EAdminNavigation.apiCustomers}
-            responseToOptions={customersResponseToOptions}
           />
         </FormLayout>
       </BlockStack>

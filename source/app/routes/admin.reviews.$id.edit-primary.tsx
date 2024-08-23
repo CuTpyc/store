@@ -30,7 +30,7 @@ export default function AdminReviewIdEditPrimary() {
         }}
         primaryAction={primaryAction()}
       >
-        <EditPrimaryForm review={data.review} product={data?.review.product} customer={data?.review.customer}/>
+        <EditPrimaryForm review={data.review}/>
       </Page>
     </ValidatedForm>
   );

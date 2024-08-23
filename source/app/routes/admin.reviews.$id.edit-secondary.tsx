@@ -11,7 +11,7 @@ import { reviewSecondaryInfoEditFormValidator } from '~/admin/components/reviews
 export {action} from '~/.server/admin/actions/reviews/edit-primary/action';
 
 
-export default function AdminReviewIdEditPrimary() {
+export default function AdminReviewIdEditSecondary() {
   const data = useRouteLoaderData<TAdminReviewsSingleLoader>('routes/admin.reviews.$id');
 
 

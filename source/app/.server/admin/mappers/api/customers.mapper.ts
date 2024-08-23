@@ -6,6 +6,5 @@ export const apiCustomerMapper = (customer: Customer): TApiCustomerDto => {
     id: String(customer.id),
     firstName: customer.firstName,
     lastName: customer.lastName,
-    email: customer.email,
   };
 };

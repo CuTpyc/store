@@ -8,17 +8,15 @@ import {PrimaryInfoCard} from '~/admin/components/reviews/NewForm/PrimaryInfoCar
 
 type Props = {
   review: TReviewDto
-  product: TProductDto
-  customer: TCustomerDto
 }
 
-export const EditPrimaryForm: FC<Props> = ({review, product, customer}) => {
+export const EditPrimaryForm: FC<Props> = ({review}) => {
   return (
     <Box paddingBlockEnd="500">
       <Layout>
         <Layout.Section>
           <BlockStack gap="500">
-            <PrimaryInfoCard review={review} product={product} customer={customer}/>
+            <PrimaryInfoCard review={review}/>
           </BlockStack>
         </Layout.Section>
       </Layout>

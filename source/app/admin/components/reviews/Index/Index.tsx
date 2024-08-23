@@ -40,7 +40,6 @@ export const Index: FC<ListProps> = ({reviews, query, pagination}) => {
     {title: 'Updated at'},
     {title: 'Deleted at'},
   ]), []);
-  console.log("reviews", reviews)
 
   const rowMarkup = reviews.map(
     (

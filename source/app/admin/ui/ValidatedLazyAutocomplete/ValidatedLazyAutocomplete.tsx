@@ -43,7 +43,11 @@ export const ValidatedLazyAutocomplete = <TData = unknown>(props: ValidatedLazyA
     if (!defaultValue?.value) {
       fetcher.load(url);
     }
-  }, [defaultValue?.value]);
+    if (defaultValue?.label) {
+      fetcher.load(`${url}?q=${defaultValue.label}`);
+    }
+
+  }, [defaultValue?.label, defaultValue?.value]);
 
   useEffect(() => {
     if (fetcher.state === 'idle') {
@@ -53,7 +57,7 @@ export const ValidatedLazyAutocomplete = <TData = unknown>(props: ValidatedLazyA
         );
       }
     }
-  }, [fetcher.state]);
+  }, [fetcher]);
 
 
   return (

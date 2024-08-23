@@ -1,6 +1,6 @@
 import {useField} from 'remix-validated-form';
 import {Autocomplete} from '@shopify/polaris';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 export type TAutocompleteOption = {
   value: string; label: string
@@ -40,12 +40,12 @@ export const ValidatedAutocomplete = (props: ValidatedAutocompleteProps) => {
     if (!selectedOption) {
       return;
     }
-
     setValue(selectedOption.value);
     setSearch(selectedOption.label);
     setSelectedOptions([selectedOption.value]);
     inputPropsOnChange?.();
     onSelect?.([selectedOption.value]);
+    onChangeSearchQuery(selectedOption.label)
   }, [inputPropsOnChange, setValue, onSelect, options]);
 
   const handleSearch = useCallback(
@@ -66,7 +66,11 @@ export const ValidatedAutocomplete = (props: ValidatedAutocompleteProps) => {
       error={error}
     />
   );
-
+  useEffect(() => {
+    if (defaultValue?.label) {
+      handleSearch(defaultValue.label)
+    }
+  },[defaultValue?.label])
   return (
     <>
       <Autocomplete
