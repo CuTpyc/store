@@ -1,4 +1,4 @@
-import {Box, Button, Divider, FormLayout, InlineStack} from '@shopify/polaris';
+import {Box, Button, Card, Text, Divider, FormLayout, InlineStack} from '@shopify/polaris';
 import React, {FC} from 'react';
 import {ValidatedForm} from 'remix-validated-form';
 import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
@@ -57,7 +57,10 @@ export const ReviewSecondaryInfoEditForm: FC<Props> = (props) => {
   } : undefined;
 
   return (
-    <>
+    <Card>
+      <Text as="h2" variant="headingSm">
+          Secondary info
+        </Text>
       <Box padding="200" paddingBlockEnd="0">
         <ValidatedAction action={EAdminProductAction.updateReview}/>
       </Box>
@@ -82,6 +85,6 @@ export const ReviewSecondaryInfoEditForm: FC<Props> = (props) => {
       </Box>
 
       <Divider/>
-    </>
+    </Card>
   );
 };
