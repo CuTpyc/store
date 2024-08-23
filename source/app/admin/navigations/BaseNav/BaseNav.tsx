@@ -1,63 +1,64 @@
-import {Navigation} from '@shopify/polaris';
-import {HomeIcon, OrderIcon, PersonIcon, ProductIcon, WorkIcon} from '@shopify/polaris-icons';
-import {EAdminNavigation} from '~/admin/constants/navigation.constant';
-import {useLocation} from 'react-router';
+import {
+  HomeIcon,
+  OrderIcon,
+  PersonIcon,
+  ProductIcon,
+  WorkIcon,
+  CategoriesIcon,
+  ViewIcon,
+} from "@shopify/polaris-icons";
+import { EAdminNavigation } from "~/admin/constants/navigation.constant";
+import { NavItem } from "../NavItem";
+
+const linkItems = [
+  {
+    label: "Home",
+    href: EAdminNavigation.dashboard,
+    icon: HomeIcon,
+  },
+  {
+    label: "Users",
+    href: EAdminNavigation.users,
+    icon: PersonIcon,
+  },
+  {
+    label: "Customers",
+    href: EAdminNavigation.customers,
+    icon: WorkIcon,
+  },
+  {
+    label: "Products",
+    href: EAdminNavigation.products,
+    icon: ProductIcon,
+    sublinks: [
+      {
+        label: "Categories",
+        href: EAdminNavigation.categories,
+        icon: CategoriesIcon,
+      },
+      { label: "Reviews", href: EAdminNavigation.reviews, icon: ViewIcon },
+    ],
+  },
+  {
+    label: "Orders",
+    href: EAdminNavigation.orders,
+    icon: OrderIcon,
+  },
+];
 
 export const BaseNav = () => {
-  const location = useLocation();
-
   return (
-    <Navigation location={location.pathname}>
-      <Navigation.Section
-        items={[
-          {
-            url: EAdminNavigation.dashboard,
-            label: 'Home',
-            icon: HomeIcon,
-            matchPaths: [EAdminNavigation.dashboard]
-          },
-          {
-            url: EAdminNavigation.users,
-            label: 'Users',
-            icon: WorkIcon,
-            matchPaths: [EAdminNavigation.users]
-          },
-          {
-            url: EAdminNavigation.customers,
-            label: 'Customers',
-            icon: PersonIcon,
-          },
-          {
-            url: EAdminNavigation.products,
-            label: 'Products',
-            icon: ProductIcon,
-            subNavigationItems: [
-              {
-                url: EAdminNavigation.categories,
-                disabled: false,
-                label: 'Categories',
-              },
-              {
-                url: EAdminNavigation.reviews,
-                disabled: false,
-                label: 'Reviews',
-              },
-            ],
-          },
-          {
-            url: EAdminNavigation.orders,
-            label: 'Orders',
-            icon: OrderIcon,
-            subNavigationItems: [
-              {
-                url: EAdminNavigation.carts,
-                disabled: false,
-                label: 'Carts',
-              },
-            ],
-          },
-        ]}
-      />
-    </Navigation>
+    <nav className="Polaris-Navigation">
+      <div className="Polaris-Navigation__PrimaryNavigation Polaris-Scrollable">
+        <ul className="Polaris-Navigation__Section">
+          {linkItems.map((item) => (
+            <NavItem key={item.label} href={item.href} sublinks={item.sublinks}>
+              <item.icon className="Polaris-Navigation__Icon" />
+              {item.label}
+            </NavItem>
+          ))}
+        </ul>
+      </div>
+    </nav>
   );
 };
