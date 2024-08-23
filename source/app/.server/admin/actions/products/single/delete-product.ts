@@ -19,5 +19,5 @@ export async function deleteProduct({id}: Args) {
   });
 
   // redirect to user page
-  return redirect(`${EAdminNavigation.products}/${id}`);
+  return redirect(`${EAdminNavigation.products}`);
 }

@@ -29,7 +29,7 @@ export default function AdminCustomersSingle() {
   if (!data?.customer) {
     return null;
   }
-  
+
   return (
     <Page
       title={`${data?.customer.firstName} ${data?.customer.lastName}`}
@@ -38,7 +38,7 @@ export default function AdminCustomersSingle() {
       }}
       secondaryActions={secondaryActions}
     >
-      <Single customer={data?.customer}/>
+      <Single customer={data?.customer} reviews={data?.reviews} pagination={data?.pagination}/>
       <Modal
         size="small"
         open={active}

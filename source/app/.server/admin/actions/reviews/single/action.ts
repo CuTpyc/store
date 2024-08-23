@@ -4,6 +4,7 @@ import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {prisma} from '~/.server/shared/services/prisma.service';
 
 export async function action({request, params}: ActionFunctionArgs) {
+  console.warn("Edit-Single")
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
@@ -42,6 +43,8 @@ export async function action({request, params}: ActionFunctionArgs) {
       where: { id: review.productId },
       data: { totalReviews, avgRate },
     });
+
+    // return redirect(`${EAdminNavigation.reviews}`);
   }
 
   return redirect(`${EAdminNavigation.reviews}/${id}`);

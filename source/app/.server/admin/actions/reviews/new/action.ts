@@ -6,6 +6,7 @@ import {prisma} from '~/.server/shared/services/prisma.service';
 import { newFormValidator } from '~/admin/components/reviews/NewForm/NewForm.validator';
 
 export async function action({request}: ActionFunctionArgs) {
+  console.warn("New")
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
@@ -24,7 +25,6 @@ export async function action({request}: ActionFunctionArgs) {
   const newReview = await prisma.productReview.create({
     data: { rate, review, productId, customerId }
   });
-
   if (newReview) {
     const totalReviews = await prisma.productReview.count({
       where: { productId, deletedAt: null }

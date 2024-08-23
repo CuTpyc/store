@@ -25,7 +25,7 @@ export const Index: FC<ListProps> = ({categories, query, pagination}) => {
 
   const headings: NonEmptyArray<IndexTableHeading> = useMemo(() => ([
     {title: 'Category Name'},
-    {title: 'Email'},
+    {title: 'Description'},
     {title: 'Created at'},
     {title: 'Updated at'},
     {title: 'Deleted at'},

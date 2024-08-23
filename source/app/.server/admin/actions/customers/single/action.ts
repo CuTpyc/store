@@ -32,5 +32,5 @@ export async function action({request, params}: ActionFunctionArgs) {
   });
 
   // redirect to user page
-  return redirect(`${EAdminNavigation.customers}/${id}`);
+  return redirect(`${EAdminNavigation.customers}`);
 }

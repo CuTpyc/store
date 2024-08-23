@@ -12,6 +12,7 @@ import { TReviewDto } from '~/.server/admin/dto/review.dto';
 import { TAdminReviewsLoaderData } from '~/.server/admin/loaders/reviews/index/loader';
 import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
 import { TProductDto } from '~/.server/admin/dto/product.dto';
+import { makeTextShorter } from '~/admin/utils/shorted.text.util';
 
 export type reviewsWithRelations = TReviewDto & {
   product: TProductDto
@@ -54,7 +55,7 @@ export const Index: FC<ListProps> = ({reviews, query, pagination}) => {
         position={index}
       >
         <IndexTable.Cell>{rate}</IndexTable.Cell>
-        <IndexTable.Cell><Link url={`${EAdminNavigation.reviews}/${id}`}>{review}</Link></IndexTable.Cell>
+        <IndexTable.Cell><Link url={`${EAdminNavigation.reviews}/${id}`}>{makeTextShorter(review)}</Link></IndexTable.Cell>
 
         <IndexTable.Cell><Link url={`${EAdminNavigation.products}/${product.id}`}>{`${product.title} (${product.slug})`}</Link></IndexTable.Cell>
         <IndexTable.Cell><Link url={`${EAdminNavigation.customers}/${customer.id}`}>{`${customer.firstName} ${customer.lastName}`}</Link></IndexTable.Cell>

@@ -29,7 +29,6 @@ export default function AdminProductsIdIndex() {
   if (!data?.product) {
     return null;
   }
-
   return (
     <Page
       title={`${data?.product.title}`}
@@ -38,7 +37,7 @@ export default function AdminProductsIdIndex() {
       }}
       secondaryActions={secondaryActions}
     >
-      <Single product={data?.product} categories={data?.categories || []}/>
+      <Single product={data?.product} categories={data?.categories || []} reviews={data?.reviews} pagination={data?.pagination}/>
       <Modal
         size="small"
         open={active}

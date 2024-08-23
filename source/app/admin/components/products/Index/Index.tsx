@@ -1,4 +1,4 @@
-import {Card, IndexTable, Link,} from '@shopify/polaris';
+import {Card, IndexTable, Link, Text} from '@shopify/polaris';
 import React, {FC, useMemo} from 'react';
 import type {NonEmptyArray} from '@shopify/polaris/build/ts/src/types';
 import {IndexTableHeading} from '@shopify/polaris/build/ts/src/components/IndexTable/IndexTable';
@@ -8,6 +8,9 @@ import {usePagination} from '~/admin/hooks/usePagination';
 import {TProductDto} from '~/.server/admin/dto/product.dto';
 import type {TAdminProductsLoaderData} from '~/.server/admin/loaders/products/index/loader';
 import {Filters} from './Filters';
+import {
+  StarFilledIcon
+} from '@shopify/polaris-icons';
 
 export interface ListProps {
   products: TProductDto[];
@@ -27,6 +30,8 @@ export const Index: FC<ListProps> = ({products, query, pagination}) => {
     {title: 'Title'},
     {title: 'Slug'},
     {title: 'Category'},
+    {title: 'Total Reviews'},
+    {title: 'Average Rate'},
     {title: 'SKU'},
     {title: 'Barcode'},
     {title: 'Status'},
@@ -35,7 +40,7 @@ export const Index: FC<ListProps> = ({products, query, pagination}) => {
 
   const rowMarkup = products.map(
     (
-      {id, title, slug, sku, barcode, status, quantity, category},
+      {id, title, slug, totalReviews, avgRate, sku, barcode, status, quantity, category},
       index,
     ) => (
       <IndexTable.Row
@@ -48,6 +53,8 @@ export const Index: FC<ListProps> = ({products, query, pagination}) => {
         </IndexTable.Cell>
         <IndexTable.Cell>{slug}</IndexTable.Cell>
         <IndexTable.Cell>{category?.title || '-/-'}</IndexTable.Cell>
+        <IndexTable.Cell>{totalReviews}</IndexTable.Cell>
+        <IndexTable.Cell>{`★ ${avgRate}`}</IndexTable.Cell>
         <IndexTable.Cell>{sku}</IndexTable.Cell>
         <IndexTable.Cell>{barcode}</IndexTable.Cell>
         <IndexTable.Cell>{status}</IndexTable.Cell>

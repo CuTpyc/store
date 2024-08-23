@@ -14,4 +14,11 @@ export enum EAdminCustomerAction {
 export enum EAdminProductAction {
   updateCategory = 'update_category',
   deleteProduct = 'delete_product',
+  updateReview = "updateReview",
+  deleteReview = "deleteReview",
+}
+
+export enum EAdminReviewAction {
+  updateReview = 'update_review',
+  deleteReview = 'delete_review',
 }

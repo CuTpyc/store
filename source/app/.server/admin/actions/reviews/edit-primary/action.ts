@@ -6,6 +6,7 @@ import {validationError} from 'remix-validated-form';
 import {editPrimaryFormValidator} from '~/admin/components/reviews/EditPrimaryForm/EditPrimaryForm.validator';
 
 export async function action({request, params}: ActionFunctionArgs) {
+  console.warn("Edit-primary")
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
@@ -33,9 +34,11 @@ export async function action({request, params}: ActionFunctionArgs) {
 
   const {customerId, productId, rate, review} = data.data;
 
+  console.warn( JSON.parse(JSON.stringify({ customerId, productId, rate, review })))
+
   await prisma.productReview.update({
     where: { id: Number(id) },
-    data: { customerId, productId, rate, review },
+    data: JSON.parse(JSON.stringify({ customerId, productId, rate, review }))
   });
 
   const { _avg } = await prisma.productReview.aggregate({

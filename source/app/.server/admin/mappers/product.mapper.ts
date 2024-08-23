@@ -20,7 +20,7 @@ export const productMapper = (product: ProductWithRelations): TProductDto => {
     sku: product.sku,
     barcode: product.barcode,
     status: product.status,
-    avgRate: (product.avgRate / 100).toFixed(2),
+    avgRate: (product.avgRate / 100).toFixed(1),
     totalReviews: String(product.totalReviews),
     categoryId: product.categoryId ? String(product.categoryId) : null,
     category: product.category ? categoryMapper(product.category) : null,

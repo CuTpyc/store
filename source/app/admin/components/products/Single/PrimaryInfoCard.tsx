@@ -4,6 +4,7 @@ import {EditIcon} from '@shopify/polaris-icons';
 import React, {FC} from 'react';
 import {TProductDto} from '~/.server/admin/dto/product.dto';
 
+
 export type PrimaryInfoCardProps = {
   product: TProductDto;
 }

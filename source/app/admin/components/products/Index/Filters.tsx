@@ -6,6 +6,10 @@ import {reqSortToSort, sortArrToReqSort} from '~/admin/utils/filter.util';
 import {ESoftDeleteStatus} from '~/admin/constants/entries.constant';
 
 export enum EProductsSortVariant {
+  totalReviews_asc = 'totalReviews_asc',
+  totalReviews_desc = 'totalReviews_desc',
+  avgRate_asc = 'avgRate_asc',
+  avgRate_desc = 'avgRate_desc',
   createdAt_asc = 'createdAt_asc',
   createdAt_desc = 'createdAt_desc',
   updatedAt_asc = 'updatedAt_asc',
@@ -14,8 +18,8 @@ export enum EProductsSortVariant {
   title_desc = 'title_desc',
   quantity_asc = 'quantity_asc',
   quantity_desc = 'quantity_desc',
-  softDeleteStatus_asc = 'softDeleteStatus_asc',
-  softDeleteStatus_desc = 'softDeleteStatus_desc',
+  status_asc = 'status_asc',
+  status_desc = 'status_desc',
 }
 
 export interface FiltersProps {
@@ -32,12 +36,32 @@ export const Filters: FC<FiltersProps> = ({query}) => {
     {
       label: 'Title',
       value: reqSortToSort(EProductsSortVariant.title_asc),
-      directionLabel: 'A-Z'
+      directionLabel: 'Low to high'
     },
     {
       label: 'Title',
       value: reqSortToSort(EProductsSortVariant.title_desc),
-      directionLabel: 'Z-A'
+      directionLabel: 'High to low'
+    },
+    {
+      label: 'Total review',
+      value: reqSortToSort(EProductsSortVariant.totalReviews_asc),
+      directionLabel: 'Low to high'
+    },
+    {
+      label: 'Total review',
+      value: reqSortToSort(EProductsSortVariant.totalReviews_desc),
+      directionLabel: 'High to low'
+    },
+    {
+      label: 'Average rating',
+      value: reqSortToSort(EProductsSortVariant.avgRate_asc),
+      directionLabel: 'Low to high'
+    },
+    {
+      label: 'Average rating',
+      value: reqSortToSort(EProductsSortVariant.avgRate_desc),
+      directionLabel: 'High to low'
     },
     {
       label: 'Quantity',
@@ -51,12 +75,12 @@ export const Filters: FC<FiltersProps> = ({query}) => {
     },
     {
       label: 'Status',
-      value: reqSortToSort(EProductsSortVariant.softDeleteStatus_asc),
+      value: reqSortToSort(EProductsSortVariant.status_asc),
       directionLabel: 'A-Z'
     },
     {
       label: 'Status',
-      value: reqSortToSort(EProductsSortVariant.softDeleteStatus_desc),
+      value: reqSortToSort(EProductsSortVariant.status_desc),
       directionLabel: 'Z-A'
     },
     {

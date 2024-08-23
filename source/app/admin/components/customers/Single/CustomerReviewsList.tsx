@@ -12,7 +12,7 @@ export type PrimaryInfoCardProps = {
   pagination: IOffsetPaginationInfoDto;
 }
 
-export const ProductReviewsList: FC<PrimaryInfoCardProps> = ({ reviews, pagination }) => {
+export const CustomerReviewsList: FC<PrimaryInfoCardProps> = ({ reviews, pagination }) => {
   return (
     <Card>
       <BlockStack gap="200">
@@ -37,6 +37,7 @@ function ReviewsList({
   pagination: IOffsetPaginationInfoDto;
 }) {
   const paginationProps = usePagination(pagination);
+
 
   return (
     <ResourceList

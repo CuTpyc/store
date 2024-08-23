@@ -5,6 +5,7 @@ import React, {FC} from 'react';
 import {TReviewDto} from '~/.server/admin/dto/review.dto';
 import { TCustomerDto } from '~/.server/admin/dto/customer.dto';
 import { TProductDto } from '~/.server/admin/dto/product.dto';
+import { makeTextShorter } from '~/admin/utils/shorted.text.util';
 
 export type PrimaryInfoCardProps = {
   review: TReviewDto;
@@ -39,23 +40,7 @@ export const PrimaryInfoCard: FC<PrimaryInfoCardProps> = ({review}) => {
             Review
           </Text>
           <Text as="p" variant="bodyMd">
-            {review.review}
-          </Text>
-        </BlockStack>
-        <BlockStack gap="200">
-          <Text as="h3" variant="headingXs" fontWeight="medium">
-            Customer
-          </Text>
-          <Text as="p" variant="bodyMd">
-            {`${customer?.firstName} ${customer?.lastName}`}
-          </Text>
-        </BlockStack>
-        <BlockStack gap="200">
-          <Text as="h3" variant="headingXs" fontWeight="medium">
-            Product
-          </Text>
-          <Text as="p" variant="bodyMd">
-          {`${product?.title} (${product?.slug})`}
+            {makeTextShorter(review.review)}
           </Text>
         </BlockStack>
       </BlockStack>

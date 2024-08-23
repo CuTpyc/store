@@ -84,7 +84,7 @@ export async function loader({request, params}: LoaderFunctionArgs) {
     return redirect(EAdminNavigation.reviews);
   }
 
-  return json({ review: review});
+  return json({ review: reviewMapper(review)});
 }
 
 export type TAdminReviewsSingleLoader = typeof loader;

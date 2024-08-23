@@ -6,6 +6,10 @@ import {reqSortToSort, sortArrToReqSort} from '~/admin/utils/filter.util';
 import {ESoftDeleteStatus} from '~/admin/constants/entries.constant';
 
 export enum ECategoriesSortVariant {
+  title_asc = 'title_asc',
+  title_desc = 'title_desc',
+  description_asc = 'description_asc',
+  description_desc = 'description_desc',
   createdAt_asc = 'createdAt_asc',
   createdAt_desc = 'createdAt_desc',
   updatedAt_asc = 'updatedAt_asc',
@@ -24,6 +28,10 @@ export const Filters: FC<FiltersProps> = ({query}) => {
 
   /* SORT START */
   const sortOptions: IndexFiltersProps['sortOptions'] = [
+    {label: 'Category name', value: reqSortToSort(ECategoriesSortVariant.title_asc), directionLabel: 'A-Z'},
+    {label: 'Category name', value: reqSortToSort(ECategoriesSortVariant.title_desc), directionLabel: 'Z-A'},
+    {label: 'Description', value: reqSortToSort(ECategoriesSortVariant.description_asc), directionLabel: 'A-Z'},
+    {label: 'Description', value: reqSortToSort(ECategoriesSortVariant.description_desc), directionLabel: 'Z-A'},
     {label: 'Created', value: reqSortToSort(ECategoriesSortVariant.createdAt_asc), directionLabel: 'Oldest to newest'},
     {label: 'Created', value: reqSortToSort(ECategoriesSortVariant.createdAt_desc), directionLabel: 'Newest to oldest'},
     {label: 'Updated', value: reqSortToSort(ECategoriesSortVariant.updatedAt_asc), directionLabel: 'Oldest to newest'},
