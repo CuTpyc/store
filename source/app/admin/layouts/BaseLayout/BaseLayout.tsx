@@ -32,7 +32,7 @@ export const BaseLayout: FC<BaseLayoutProps> = ({children, user}) => {
     <Frame
       logo={logo}
       topBar={<AppBar user={user} onNavigationToggle={toggleMobileNavigationActive}/>}
-      navigation={<BaseNav/>}
+      navigation={<BaseNav user={user}/>}
       showMobileNavigation={mobileNavigationActive}
       onNavigationDismiss={toggleMobileNavigationActive}
     >

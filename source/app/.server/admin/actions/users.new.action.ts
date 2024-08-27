@@ -9,9 +9,13 @@ import {hashPassword} from '~/.server/shared/utils/auth.util';
 import {joinFirstName} from '~/admin/utils/user.util';
 
 export async function adminUsersNewAction({request}: ActionFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
+  const userAdmin = await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
+
+  if(userAdmin?.role === $Enums.AdminRole.STUFF) {
+    return redirect(EAdminNavigation.dashboard)
+  }
 
   // validate form data
   const data = await usersNewFormValidator.validate(

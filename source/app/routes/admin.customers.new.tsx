@@ -6,6 +6,7 @@ import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedS
 import {newFormValidator} from '~/admin/components/customers/NewForm/NewForm.validator';
 import {NewForm} from '~/admin/components/customers/NewForm/NewForm';
 
+export {loader} from '~/.server/admin/loaders/customers/new/loader';
 export {action} from '~/.server/admin/actions/customers/new/action';
 
 export default function AdminCustomerNew() {

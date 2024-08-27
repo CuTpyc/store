@@ -17,4 +17,5 @@ export enum EAdminNavigation {
   apiCategories = '/admin/api/categories',
   apiCustomers = '/admin/api/customers',
   apiProducts = '/admin/api/products',
+  unauthorized = '/admin/unauthorized'
 }

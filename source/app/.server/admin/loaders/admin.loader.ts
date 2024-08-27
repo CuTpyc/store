@@ -1,4 +1,4 @@
-import {json, LoaderFunctionArgs} from '@remix-run/node';
+import {json, LoaderFunctionArgs, redirect} from '@remix-run/node';
 import {authenticator} from '~/.server/admin/services/auth.service';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {userMapper} from '~/.server/admin/mappers/user.mapper';
@@ -18,6 +18,8 @@ export async function adminLoader({request}: LoaderFunctionArgs) {
   if (!user) {
     return await authenticator.logout(request, {redirectTo: EAdminNavigation.authLogin});
   }
+
+
 
   return json({user: userMapper(user)});
 }

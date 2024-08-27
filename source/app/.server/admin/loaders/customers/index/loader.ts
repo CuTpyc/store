@@ -1,8 +1,8 @@
-import {json, LoaderFunctionArgs} from '@remix-run/node';
+import {json, LoaderFunctionArgs, redirect} from '@remix-run/node';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import {withZod} from '@rvf/zod';
 import {z} from 'zod';
-import {Prisma} from '@prisma/client';
+import {$Enums, Prisma} from '@prisma/client';
 import type {SerializeFrom} from '@remix-run/server-runtime';
 import {customerMapper} from '~/.server/admin/mappers/customer.mapper';
 import {
@@ -17,6 +17,8 @@ import {
 import {containsInsensitive} from '~/.server/shared/utils/prisma.util';
 import {ECustomersSortVariant} from '~/admin/components/customers/Index/Filters';
 import {ESoftDeleteStatus} from '~/admin/constants/entries.constant';
+import { authenticator } from '~/.server/admin/services/auth.service';
+import { EAdminNavigation } from '~/admin/constants/navigation.constant';
 
 type CustomerOrderByWithRelationInput = Prisma.CustomerOrderByWithRelationInput;
 
@@ -29,6 +31,13 @@ export const customerQueryValidator = withZod(
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function loader({request}: LoaderFunctionArgs) {
+  const userAdmin = await authenticator.isAuthenticated(request, {
+    failureRedirect: EAdminNavigation.authLogin,
+  });
+
+  if(userAdmin?.role === $Enums.AdminRole.STUFF) {
+    return redirect(EAdminNavigation.dashboard)
+  }
   const searchParams = requestToSearchParams(request);
   const {data} = await customerQueryValidator.validate(
     searchParams

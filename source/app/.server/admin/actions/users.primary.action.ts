@@ -5,11 +5,16 @@ import {validationError} from 'remix-validated-form';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import {usersPrimaryInfoFormValidator} from '~/admin/components/UsersPrimaryInfoForm/UsersPrimaryInfoForm.validator';
 import {joinFirstName} from '~/admin/utils/user.util';
+import { $Enums } from '@prisma/client';
 
 export async function adminUsersPrimaryAction({request, params}: ActionFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
+  const userAdmin = await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
+
+  if(userAdmin?.role === $Enums.AdminRole.STUFF) {
+    return redirect(EAdminNavigation.dashboard)
+  }
 
   const {id} = params;
   if (!id) {

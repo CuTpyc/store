@@ -6,7 +6,9 @@ import {usersNewFormValidator} from '~/admin/components/UsersNewForm/UsersNewFor
 import {ValidatedForm} from 'remix-validated-form';
 import {ValidatedSubmitButton} from '~/admin/ui/ValidatedSubmitButton/ValidatedSubmitButton';
 import {adminUsersNewAction} from '~/.server/admin/actions/users.new.action';
+import { adminUsersNewLoader } from '~/.server/admin/loaders/users.new.loader';
 
+export const loader = adminUsersNewLoader;
 export const action = adminUsersNewAction;
 
 export default function AdminUsersNew() {

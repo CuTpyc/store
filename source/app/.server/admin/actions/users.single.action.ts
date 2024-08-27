@@ -6,11 +6,16 @@ import {EAdminUserAction, FORM_ACTION_FIELD} from '~/admin/constants/action.cons
 import {adminUsersSingleRoleAction} from '~/.server/admin/actions/users.single.role.action';
 import {validationError} from 'remix-validated-form';
 import {adminUsersSingleDeleteAction} from '~/.server/admin/actions/users.single.delete.action';
+import { $Enums } from '@prisma/client';
 
 export async function adminUsersSingleAction({request, params}: ActionFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
+  const userAdmin = await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
+
+  if(userAdmin?.role === $Enums.AdminRole.STUFF) {
+    return redirect(EAdminNavigation.dashboard)
+  }
 
   const {id} = params;
   if (!id) {

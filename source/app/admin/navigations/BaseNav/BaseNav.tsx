@@ -9,6 +9,8 @@ import {
 } from "@shopify/polaris-icons";
 import { EAdminNavigation } from "~/admin/constants/navigation.constant";
 import { NavItem } from "../NavItem";
+import { TUserDto } from "~/.server/admin/dto/user.dto";
+import { FC, PropsWithChildren } from "react";
 
 const linkItems = [
   {
@@ -20,11 +22,13 @@ const linkItems = [
     label: "Users",
     href: EAdminNavigation.users,
     icon: PersonIcon,
+    roles: ['ADMIN']
   },
   {
     label: "Customers",
     href: EAdminNavigation.customers,
     icon: WorkIcon,
+    roles: ['ADMIN']
   },
   {
     label: "Products",
@@ -46,16 +50,22 @@ const linkItems = [
   },
 ];
 
-export const BaseNav = () => {
+export type BaseNavProps = PropsWithChildren<{
+  user: TUserDto;
+}>
+
+export const BaseNav: FC<BaseNavProps>= ({ user }) => {
   return (
     <nav className="Polaris-Navigation">
       <div className="Polaris-Navigation__PrimaryNavigation Polaris-Scrollable">
         <ul className="Polaris-Navigation__Section">
           {linkItems.map((item) => (
+            (!item.roles || item.roles.includes(user.role)) && (
             <NavItem key={item.label} href={item.href} sublinks={item.sublinks}>
               <item.icon className="Polaris-Navigation__Icon" />
               {item.label}
             </NavItem>
+            )
           ))}
         </ul>
       </div>
