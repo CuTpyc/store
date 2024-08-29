@@ -1,5 +1,5 @@
 import {ActionFunctionArgs, redirect} from '@remix-run/node';
-import {authenticator} from '~/.server/admin/services/auth.service';
+import {authenticator, getAuthUser} from '~/.server/admin/services/auth.service';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import {EAdminUserAction, FORM_ACTION_FIELD} from '~/admin/constants/action.constant';
@@ -7,15 +7,11 @@ import {adminUsersSingleRoleAction} from '~/.server/admin/actions/users.single.r
 import {validationError} from 'remix-validated-form';
 import {adminUsersSingleDeleteAction} from '~/.server/admin/actions/users.single.delete.action';
 import { $Enums } from '@prisma/client';
+import { hasAdminRoleOrRedirect } from '../utils/auth.util';
 
 export async function adminUsersSingleAction({request, params}: ActionFunctionArgs) {
-  const userAdmin = await authenticator.isAuthenticated(request, {
-    failureRedirect: EAdminNavigation.authLogin,
-  });
-
-  if(userAdmin?.role === $Enums.AdminRole.STUFF) {
-    return redirect(EAdminNavigation.dashboard)
-  }
+  const authUser = await getAuthUser(request);
+  hasAdminRoleOrRedirect(authUser);
 
   const {id} = params;
   if (!id) {

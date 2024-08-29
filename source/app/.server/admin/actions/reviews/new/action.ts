@@ -1,15 +1,14 @@
 import {ActionFunctionArgs, redirect} from '@remix-run/node';
-import {authenticator} from '~/.server/admin/services/auth.service';
+import {authenticator, getAuthUser} from '~/.server/admin/services/auth.service';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {validationError} from 'remix-validated-form';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import { newFormValidator } from '~/admin/components/reviews/NewForm/NewForm.validator';
+import { hasAdminRoleOrRedirect } from '~/.server/admin/utils/auth.util';
 
 export async function action({request}: ActionFunctionArgs) {
-  console.warn("New")
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: EAdminNavigation.authLogin,
-  });
+  const authUser = await getAuthUser(request);
+  hasAdminRoleOrRedirect(authUser);
 
   // validate form data
   const data = await newFormValidator.validate(

@@ -5,6 +5,7 @@ import { IOffsetPaginationInfoDto } from '~/.server/shared/dto/offset-pagination
 import { usePagination } from '~/admin/hooks/usePagination';
 import { TReviewDto } from '~/.server/admin/dto/review.dto';
 import { makeTextShorter } from '~/admin/utils/shorted.text.util'
+import { TUserDto } from '~/.server/admin/dto/user.dto';
 
 export type PrimaryInfoCardProps = {
   reviews: TReviewDto[];

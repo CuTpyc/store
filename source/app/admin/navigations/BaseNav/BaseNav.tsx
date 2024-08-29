@@ -39,8 +39,12 @@ const linkItems = [
         label: "Categories",
         href: EAdminNavigation.categories,
         icon: CategoriesIcon,
+        roles: ['ADMIN']
       },
-      { label: "Reviews", href: EAdminNavigation.reviews, icon: ViewIcon },
+      { label: "Reviews",
+        href: EAdminNavigation.reviews,
+        icon: ViewIcon,
+        roles: ['ADMIN'] },
     ],
   },
   {
@@ -61,7 +65,10 @@ export const BaseNav: FC<BaseNavProps>= ({ user }) => {
         <ul className="Polaris-Navigation__Section">
           {linkItems.map((item) => (
             (!item.roles || item.roles.includes(user.role)) && (
-            <NavItem key={item.label} href={item.href} sublinks={item.sublinks}>
+            <NavItem key={item.label} href={item.href} sublinks=
+              {item.sublinks?.filter(
+                sublink => !sublink.roles || sublink.roles.includes(user.role)
+              )}>
               <item.icon className="Polaris-Navigation__Icon" />
               {item.label}
             </NavItem>

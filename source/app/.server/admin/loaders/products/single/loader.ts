@@ -1,5 +1,5 @@
 import {json, LoaderFunctionArgs, redirect} from '@remix-run/node';
-import {authenticator} from '~/.server/admin/services/auth.service';
+import {authenticator, getAuthUser} from '~/.server/admin/services/auth.service';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import {productMapper} from '~/.server/admin/mappers/product.mapper';
@@ -7,11 +7,11 @@ import {SerializeFrom} from '@remix-run/server-runtime';
 import {categoryMapper} from '~/.server/admin/mappers/category.mapper';
 import { hasNextCalculate, queryToPagination, requestToSearchParams } from '~/.server/admin/utils/query.util';
 import { reviewMapper } from '~/.server/admin/mappers/review.mapper';
+import { userMapper } from '~/.server/admin/mappers/user.mapper';
 
 export async function loader({request, params}: LoaderFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: EAdminNavigation.authLogin,
-  });
+  const authUser = await getAuthUser(request);
+
   const searchParams = requestToSearchParams(request);
   const pagination = await queryToPagination(searchParams);
 
@@ -57,6 +57,7 @@ export async function loader({request, params}: LoaderFunctionArgs) {
   });
 
   return json({
+    user: userMapper(authUser),
     product: productMapper(product),
     categories: categories.map(categoryMapper),
     reviews: reviews.map(reviewMapper),

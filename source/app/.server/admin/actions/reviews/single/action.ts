@@ -1,13 +1,12 @@
 import {ActionFunctionArgs, redirect} from '@remix-run/node';
-import {authenticator} from '~/.server/admin/services/auth.service';
+import {authenticator, getAuthUser} from '~/.server/admin/services/auth.service';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {prisma} from '~/.server/shared/services/prisma.service';
+import { hasAdminRoleOrRedirect } from '~/.server/admin/utils/auth.util';
 
 export async function action({request, params}: ActionFunctionArgs) {
-  console.warn("Edit-Single")
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: EAdminNavigation.authLogin,
-  });
+  const authUser = await getAuthUser(request);
+  hasAdminRoleOrRedirect(authUser);
 
   const {id} = params;
   if (!id) {
