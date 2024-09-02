@@ -4,6 +4,7 @@ export enum EAdminNavigation {
   authLogout = '/admin/auth/logout',
   users = '/admin/users',
   usersCreate = '/admin/users/new',
+  userChangeLanguage = '/admin',
   customers = '/admin/customers',
   customersCreate = '/admin/customers/new',
   categories = '/admin/categories',

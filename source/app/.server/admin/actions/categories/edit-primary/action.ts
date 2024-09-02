@@ -6,11 +6,12 @@ import {validationError} from 'remix-validated-form';
 import {editPrimaryFormValidator} from '~/admin/components/categories/EditPrimaryForm/EditPrimaryForm.validator';
 import { $Enums } from '@prisma/client';
 import { hasAdminRoleOrRedirect } from '~/.server/admin/utils/auth.util';
+import i18n from '~/localization/i18n.server';
 
 export async function action({request, params}: ActionFunctionArgs) {
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
-
+  let t = await i18n.getFixedT(request);
   const {id} = params;
   if (!id) {
     return redirect(EAdminNavigation.categories);
@@ -46,11 +47,11 @@ export async function action({request, params}: ActionFunctionArgs) {
       }
     }
   });
-
+  const slugError = t("category.action.edit.slug")
   if (exist) {
     return validationError({
       fieldErrors: {
-        slug: 'Category with this slug already exist'
+        slug: slugError
       }
     });
   }

@@ -10,45 +10,47 @@ import {
 import { EAdminNavigation } from "~/admin/constants/navigation.constant";
 import { NavItem } from "../NavItem";
 import { TUserDto } from "~/.server/admin/dto/user.dto";
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { hasAdminRole } from "~/admin/utils/access.util";
 
 const linkItems = [
   {
-    label: "Home",
+    label: "home",
     href: EAdminNavigation.dashboard,
     icon: HomeIcon,
   },
   {
-    label: "Users",
+    label: "users",
     href: EAdminNavigation.users,
     icon: PersonIcon,
     roles: ['ADMIN']
   },
   {
-    label: "Customers",
+    label: "customers",
     href: EAdminNavigation.customers,
     icon: WorkIcon,
     roles: ['ADMIN']
   },
   {
-    label: "Products",
+    label: "products",
     href: EAdminNavigation.products,
     icon: ProductIcon,
     sublinks: [
       {
-        label: "Categories",
+        label: "categories",
         href: EAdminNavigation.categories,
         icon: CategoriesIcon,
         roles: ['ADMIN']
       },
-      { label: "Reviews",
+      { label: "reviews",
         href: EAdminNavigation.reviews,
         icon: ViewIcon,
         roles: ['ADMIN'] },
     ],
   },
   {
-    label: "Orders",
+    label: "orders",
     href: EAdminNavigation.orders,
     icon: OrderIcon,
   },
@@ -59,21 +61,25 @@ export type BaseNavProps = PropsWithChildren<{
 }>
 
 export const BaseNav: FC<BaseNavProps>= ({ user }) => {
+  const { t } = useTranslation()
+
+
+  const lng = navigator.language
   return (
     <nav className="Polaris-Navigation">
       <div className="Polaris-Navigation__PrimaryNavigation Polaris-Scrollable">
         <ul className="Polaris-Navigation__Section">
           {linkItems.map((item) => (
-            (!item.roles || item.roles.includes(user.role)) && (
+            (hasAdminRole(user) && (
             <NavItem key={item.label} href={item.href} sublinks=
               {item.sublinks?.filter(
                 sublink => !sublink.roles || sublink.roles.includes(user.role)
               )}>
               <item.icon className="Polaris-Navigation__Icon" />
-              {item.label}
+              {t(`navigation.${item.label}`)}
             </NavItem>
             )
-          ))}
+          )))}
         </ul>
       </div>
     </nav>

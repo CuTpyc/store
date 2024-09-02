@@ -1,0 +1,27 @@
+{
+  "navigation": {
+    "home": "Home",
+    "users": "Users",
+    "customers": "Customers",
+    "products": "Products",
+    "categories": "Category",
+    "reviews": "Review",
+    "orders": "Orders"
+  },
+  "userMenu": {
+    "Change language": "Change language",
+    "Logout": "Logout"
+  },
+  "dashboard": {
+    "hello": "Welcome to Admin"
+  },
+  "category": {
+    "action": {
+      "add": "Add category",
+      "edit": {
+        "slug": "Category with this slug already exist"
+      },
+      "delete": "Delete category"
+    }
+  }
+}
