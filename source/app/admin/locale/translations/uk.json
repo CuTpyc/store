@@ -1,0 +1,142 @@
+{
+  "page.dashboard.title": "Панель керування",
+  "page.dashboard.meta.title": "Панель керування | Ecom CMS",
+  "navigation": {
+    "home": "Головна",
+    "users": "Користувачі",
+    "customers": "Клієнти",
+    "products": "Продукти",
+    "categories": "Категорії",
+    "reviews": "Відгуки",
+    "orders": "Замовлення"
+  },
+  "dashboard": {
+    "hello": "Ласкаво просимо до адміністративної панелі"
+  },
+  "category": {
+    "action": {
+      "add": "Додати категорію",
+      "edit": {
+        "slug": "Категорія з цим слагом вже існує"
+      },
+      "new": "Категорія з цим слагом вже існує",
+      "delete": "Видалити категорію"
+    },
+    "table": {
+      "sortOptions": {
+        "name": "Назва категорії",
+        "description": "Опис",
+        "created": "Створено",
+        "updated": "Оновлено",
+        "deleted": "Видалено"
+      },
+      "index":{
+        "singularTitle": "категорія",
+        "pluralTitle": "категорії",
+        "headings": {
+          "name": "Назва Категорії",
+          "description": "Опис",
+          "created": "Створено",
+          "updated": "Оновлено",
+          "deleted": "Видалено"
+        }
+      }
+    },
+    "create": {
+      "validationRules": {
+        "slugError": "Категорія вже існує",
+        "titleError": "Назва є обов'язковою",
+        "descriptionError": "Максимальна довжина опису: 1024 символи"
+      }
+    },
+    "primary": {
+      "slug": "Слаг",
+      "title": "Назва",
+      "description": "Опис"
+    }
+  },
+  "customer": {
+    "action": {
+      "add": "Додати категорію",
+      "edit": {
+        "error": "Електронна адреса вже існує"
+      },
+      "new": {
+        "error": "Клієнт вже існує"
+      },
+      "delete": "Видалити категорію"
+    },
+    "address": {
+      "actionError": "Неправильна дія"
+    }
+  },
+  "product": {
+    "action": {
+      "add": "Додати категорію",
+      "edit": {
+        "error": "Продукт з цим слагом вже існує"
+      },
+      "new": {
+        "error": "Продукт з цим слагом вже існує"
+      },
+      "delete": "Видалити категорію"
+    },
+    "single": {
+      "actionError": "Неправильна дія"
+    }
+  },
+  "user": {
+    "auth": {
+      "unknown": {
+        "error": "Невідома помилка"
+      },
+      "email": {
+        "error": "Невідома помилка"
+      },
+      "passwprd": {
+        "error": "Невідома помилка"
+      }
+    },
+    "create": {
+      "error": "Користувач вже існує"
+    },
+    "invalidAction": {
+      "error": "Неправильна дія"
+    }
+  },
+  "appBar": {
+    "languageSwitcher": {
+      "save": "Зберегти",
+      "select": "Оберіть свою мову"
+    },
+    "userMenu": {
+      "changeLanguage": "Змінити мову",
+      "Logout": "Вийти"
+    }
+  },
+  "authLoginForm": {
+    "textField": {
+      "email": "Електронна адреса",
+      "password": "Пароль",
+      "submit": "Відправити"
+    },
+    "errors": {
+      "email": "Електронна адреса є обов'язковою",
+      "validEmail": "Має бути дійсна електронна адреса",
+      "password": "Пароль не повинен бути порожнім"
+    }
+  },
+  "sortRules": {
+    "a-z": "А-Я",
+    "z-a": "Я-А",
+    "newest": "Від старого до нового",
+    "oldest": "Від нового до старого"
+  },
+  "search": {
+    "label": "Статус м'якого видалення",
+    "active": "Активний",
+    "deleted": "Видалений",
+    "softDeletedStatus": "Статус м'якого видалення {{softDeleteStatus}}",
+    "search": "Знайти категорію"
+  }
+}

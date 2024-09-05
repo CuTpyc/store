@@ -23,7 +23,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-  setedLanguage String?
+  language Language  @default(EN)
 
   @@index([createdAt], name: "UserCreatedAtIndex")
   @@index([updatedAt], name: "UserUpdatedAtIndex")
@@ -163,4 +163,9 @@ enum ProductStatus {
   ACTIVE
   DRAFT
   ARCHIVED
+}
+
+enum Language {
+  EN
+  UK
 }

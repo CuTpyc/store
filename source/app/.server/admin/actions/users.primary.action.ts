@@ -7,11 +7,12 @@ import {usersPrimaryInfoFormValidator} from '~/admin/components/UsersPrimaryInfo
 import {joinFirstName} from '~/admin/utils/user.util';
 import { $Enums } from '@prisma/client';
 import { hasAdminRoleOrRedirect } from '../utils/auth.util';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function adminUsersPrimaryAction({request, params}: ActionFunctionArgs) {
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
-
+  let t = await i18nServer.getFixedT(request);
   const {id} = params;
   if (!id) {
     return redirect(EAdminNavigation.users);
@@ -37,13 +38,13 @@ export async function adminUsersPrimaryAction({request, params}: ActionFunctionA
   }
 
   const {email, lastName, firstName} = data.data;
-
+  const userError = t("user.create.error")
   // check unique email
   const exist = await prisma.user.findFirst({where: {email}});
   if (exist && exist.id !== user.id) {
     return validationError({
       fieldErrors: {
-        email: 'User already exists'
+        email: userError
       }
     });
   }

@@ -6,12 +6,12 @@ import {validationError} from 'remix-validated-form';
 import {editPrimaryFormValidator} from '~/admin/components/categories/EditPrimaryForm/EditPrimaryForm.validator';
 import { $Enums } from '@prisma/client';
 import { hasAdminRoleOrRedirect } from '~/.server/admin/utils/auth.util';
-import i18n from '~/localization/i18n.server';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function action({request, params}: ActionFunctionArgs) {
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
-  let t = await i18n.getFixedT(request);
+  let t = await i18nServer.getFixedT(request);
   const {id} = params;
   if (!id) {
     return redirect(EAdminNavigation.categories);

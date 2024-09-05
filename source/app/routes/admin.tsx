@@ -5,7 +5,7 @@ import {AppProvider,} from '@shopify/polaris';
 import React from 'react';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import {adminLoader} from '~/.server/admin/loaders/admin.loader';
-import { changeUserLanguage } from '~/.server/admin/actions/language/action';
+import { changeUserLanguageLoader } from '~/.server/admin/loaders/language/loader';
 
 export const links: LinksFunction = () => [
   {rel: 'stylesheet', href: polarisStylesHref},
@@ -13,7 +13,7 @@ export const links: LinksFunction = () => [
 
 export const loader = adminLoader;
 
-export const action = changeUserLanguage
+export const action = changeUserLanguageLoader
 
 export default function Admin() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

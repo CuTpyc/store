@@ -7,5 +7,4 @@ export type TUserDto = Omit<User, ExcludedField> & {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  setedLanguage: string | null;
 }

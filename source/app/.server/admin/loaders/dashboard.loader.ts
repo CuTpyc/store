@@ -1,19 +1,13 @@
 import {json, LoaderFunctionArgs} from '@remix-run/node';
-import {authenticator} from '~/.server/admin/services/auth.service';
-import {EAdminNavigation} from '~/admin/constants/navigation.constant';
+import {getAuthUser} from '~/.server/admin/services/auth.service';
 import {userMapper} from '~/.server/admin/mappers/user.mapper';
-import {prisma} from '~/.server/shared/services/prisma.service';
+import i18nServer from '../services/i18next.service';
 
 export async function adminDashboardLoader({request}: LoaderFunctionArgs) {
-  const {id} = await authenticator.isAuthenticated(request, {
-    failureRedirect: EAdminNavigation.authLogin,
-  });
+  const user = await getAuthUser(request);
 
-  const user = await prisma.user.findUnique({where: {id, deletedAt: null}});
+  const t = await i18nServer.getFixedT(request);
+  const title = t('page.dashboard.meta.title');
 
-  if (!user) {
-    return await authenticator.logout(request, {redirectTo: EAdminNavigation.authLogin});
-  }
-
-  return json({user: userMapper(user)});
+  return json({user: userMapper(user), meta: {title}});
 }

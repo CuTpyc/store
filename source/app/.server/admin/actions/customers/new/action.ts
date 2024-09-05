@@ -7,11 +7,12 @@ import {hashPassword} from '~/.server/shared/utils/auth.util';
 import {newFormValidator} from '~/admin/components/customers/NewForm/NewForm.validator';
 import { $Enums } from '@prisma/client';
 import { hasAdminRoleOrRedirect } from '~/.server/admin/utils/auth.util';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function action({request}: ActionFunctionArgs) {
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
-
+  let t = await i18nServer.getFixedT(request);
   // validate form data
   const data = await newFormValidator.validate(
     await request.formData()
@@ -24,11 +25,12 @@ export async function action({request}: ActionFunctionArgs) {
   const {email, password, lastName, firstName, phone, address} = data.data;
 
   // check unique email
+  const customerError = t("customer.action.new.error")
   const exist = await prisma.customer.findFirst({where: {email}});
   if (exist) {
     return validationError({
       fieldErrors: {
-        email: 'Customer already exists'
+        email: customerError
       }
     });
   }

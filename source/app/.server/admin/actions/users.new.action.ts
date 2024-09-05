@@ -8,11 +8,12 @@ import {$Enums} from '@prisma/client';
 import {hashPassword} from '~/.server/shared/utils/auth.util';
 import {joinFirstName} from '~/admin/utils/user.util';
 import { hasAdminRoleOrRedirect } from '../utils/auth.util';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function adminUsersNewAction({request}: ActionFunctionArgs) {
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
-
+  let t = await i18nServer.getFixedT(request);
   // validate form data
   const data = await usersNewFormValidator.validate(
     await request.formData()
@@ -25,13 +26,13 @@ export async function adminUsersNewAction({request}: ActionFunctionArgs) {
   }
 
   const {email, password, lastName, firstName, role} = data.data;
-
+  const userError = t("user.create.error")
   // check unique email
   const exist = await prisma.user.findFirst({where: {email}});
   if (exist) {
     return validationError({
       fieldErrors: {
-        email: 'User already exists'
+        email: userError
       }
     });
   }

@@ -8,11 +8,12 @@ import {deleteAddress} from '~/.server/admin/actions/customers/addresses/edit/de
 import {editAddress} from '~/.server/admin/actions/customers/addresses/edit/edit-address';
 import { $Enums } from '@prisma/client';
 import { hasAdminRoleOrRedirect } from '~/.server/admin/utils/auth.util';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function action({request, params}: ActionFunctionArgs) {
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
-
+  let t = await i18nServer.getFixedT(request);
   const {id, addressId} = params;
   if (!id || !addressId) {
     return redirect(EAdminNavigation.customers);
@@ -35,10 +36,10 @@ export async function action({request, params}: ActionFunctionArgs) {
     case EAdminCustomerAction.editAddress:
       return editAddress({customerAddress, formData});
   }
-
+  const error = t("customer.address.actionError")
   return validationError({
     fieldErrors: {
-      [FORM_ACTION_FIELD]: 'Invalid action'
+      [FORM_ACTION_FIELD]: error
     }
   });
 

@@ -6,8 +6,10 @@ import {prisma} from '~/.server/shared/services/prisma.service';
 import {newFormValidator} from '~/admin/components/categories/NewForm/NewForm.validator';
 import { $Enums } from '@prisma/client';
 import { hasAdminRoleOrRedirect } from '~/.server/admin/utils/auth.util';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function action({request}: ActionFunctionArgs) {
+  let t = await i18nServer.getFixedT(request);
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
 
@@ -21,7 +23,7 @@ export async function action({request}: ActionFunctionArgs) {
   }
 
   const {title, slug, description} = data.data;
-
+  const slugError = t("category.action.new.slug")
   // check unique slug
   const exist = await prisma.category.findFirst({where: {slug}});
   if (exist) {

@@ -8,6 +8,7 @@ import {usePagination} from '~/admin/hooks/usePagination';
 import {TCategoryDto} from '~/.server/admin/dto/category.dto';
 import type {TAdminCategoriesLoaderData} from '~/.server/admin/loaders/categories/index/loader';
 import {Filters} from './Filters';
+import { useTranslation } from 'react-i18next';
 
 export interface ListProps {
   categories: TCategoryDto[];
@@ -18,18 +19,19 @@ export interface ListProps {
 
 export const Index: FC<ListProps> = ({categories, query, pagination}) => {
   const paginationProps = usePagination(pagination);
+  const { t, i18n } = useTranslation()
   const resourceName = useMemo(() => ({
-    singular: 'category',
-    plural: 'categories',
+    singular: t('category.table.index.singularTitle'),
+    plural: t('category.table.index.pluralTitle'),
   }), []);
 
   const headings: NonEmptyArray<IndexTableHeading> = useMemo(() => ([
-    {title: 'Category Name'},
-    {title: 'Description'},
-    {title: 'Created at'},
-    {title: 'Updated at'},
-    {title: 'Deleted at'},
-  ]), []);
+    {title: t('category.table.index.headings.name')},
+    {title: t('category.table.index.headings.description')},
+    {title: t('category.table.index.headings.created')},
+    {title: t('category.table.index.headings.updated')},
+    {title: t('category.table.index.headings.deleted')},
+  ]), [t, i18n.language]);
 
   const rowMarkup = categories.map(
     (

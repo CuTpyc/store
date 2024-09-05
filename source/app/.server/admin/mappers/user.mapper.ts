@@ -7,9 +7,9 @@ export const userMapper = (user: User): TUserDto => {
     email: user.email,
     role: user.role,
     fullName: user.fullName,
+    language: user.language,
     createdAt: user.createdAt.toJSON(),
     updatedAt: user.updatedAt.toJSON(),
     deletedAt: user.deletedAt ? user.deletedAt.toJSON() : null,
-    setedLanguage: user.setedLanguage,
   };
 };

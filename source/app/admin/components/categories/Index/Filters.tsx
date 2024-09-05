@@ -4,6 +4,7 @@ import {useSearchParams} from '@remix-run/react';
 import type {TAdminCategoriesLoaderData} from '~/.server/admin/loaders/categories/index/loader';
 import {reqSortToSort, sortArrToReqSort} from '~/admin/utils/filter.util';
 import {ESoftDeleteStatus} from '~/admin/constants/entries.constant';
+import { useTranslation } from 'react-i18next';
 
 export enum ECategoriesSortVariant {
   title_asc = 'title_asc',
@@ -25,19 +26,19 @@ export interface FiltersProps {
 export const Filters: FC<FiltersProps> = ({query}) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const { t } = useTranslation()
   /* SORT START */
   const sortOptions: IndexFiltersProps['sortOptions'] = [
-    {label: 'Category name', value: reqSortToSort(ECategoriesSortVariant.title_asc), directionLabel: 'A-Z'},
-    {label: 'Category name', value: reqSortToSort(ECategoriesSortVariant.title_desc), directionLabel: 'Z-A'},
-    {label: 'Description', value: reqSortToSort(ECategoriesSortVariant.description_asc), directionLabel: 'A-Z'},
-    {label: 'Description', value: reqSortToSort(ECategoriesSortVariant.description_desc), directionLabel: 'Z-A'},
-    {label: 'Created', value: reqSortToSort(ECategoriesSortVariant.createdAt_asc), directionLabel: 'Oldest to newest'},
-    {label: 'Created', value: reqSortToSort(ECategoriesSortVariant.createdAt_desc), directionLabel: 'Newest to oldest'},
-    {label: 'Updated', value: reqSortToSort(ECategoriesSortVariant.updatedAt_asc), directionLabel: 'Oldest to newest'},
-    {label: 'Updated', value: reqSortToSort(ECategoriesSortVariant.updatedAt_desc), directionLabel: 'Newest to oldest'},
-    {label: 'Deleted', value: reqSortToSort(ECategoriesSortVariant.deletedAt_asc), directionLabel: 'Oldest to newest'},
-    {label: 'Deleted', value: reqSortToSort(ECategoriesSortVariant.deletedAt_desc), directionLabel: 'Newest to oldest'},
+    {label: t("category.table.sortOptions.name"), value: reqSortToSort(ECategoriesSortVariant.title_asc), directionLabel: t("sortRules.a-z")},
+    {label: t("category.table.sortOptions.name"), value: reqSortToSort(ECategoriesSortVariant.title_desc), directionLabel: t("sortRules.z-a")},
+    {label: t("category.table.sortOptions.description"), value: reqSortToSort(ECategoriesSortVariant.description_asc), directionLabel: t("sortRules.a-z")},
+    {label: t("category.table.sortOptions.description"), value: reqSortToSort(ECategoriesSortVariant.description_desc), directionLabel: t("sortRules.z-a")},
+    {label: t("category.table.sortOptions.created"), value: reqSortToSort(ECategoriesSortVariant.createdAt_asc), directionLabel: t("sortRules.newest")},
+    {label: t("category.table.sortOptions.created"), value: reqSortToSort(ECategoriesSortVariant.createdAt_desc), directionLabel: t("sortRules.oldest")},
+    {label: t("category.table.sortOptions.updated"), value: reqSortToSort(ECategoriesSortVariant.updatedAt_asc), directionLabel: t("sortRules.newest")},
+    {label: t("category.table.sortOptions.updated"), value: reqSortToSort(ECategoriesSortVariant.updatedAt_desc), directionLabel: t("sortRules.oldest")},
+    {label: t("category.table.sortOptions.deleted"), value: reqSortToSort(ECategoriesSortVariant.deletedAt_asc), directionLabel: t("sortRules.newest")},
+    {label: t("category.table.sortOptions.deleted"), value: reqSortToSort(ECategoriesSortVariant.deletedAt_desc), directionLabel: t("sortRules.oldest")},
   ];
 
   const sortOrder = query?.sort || ECategoriesSortVariant.createdAt_desc;
@@ -123,18 +124,18 @@ export const Filters: FC<FiltersProps> = ({query}) => {
   const filters = [
     {
       key: 'softDeleteStatus',
-      label: 'Soft Delete Status',
+      label: t("search.label"),
       filter: (
         <ChoiceList
           title="Role"
           titleHidden
           choices={[
             {
-              label: 'Active',
+              label: t("search.active"),
               value: ESoftDeleteStatus.active,
             },
             {
-              label: 'Deleted',
+              label: t("search.deleted"),
               value: ESoftDeleteStatus.deleted,
             }
           ]}
@@ -146,13 +147,13 @@ export const Filters: FC<FiltersProps> = ({query}) => {
       shortcut: true,
     },
   ];
-
+  const softDeleteStatusLabel = t('search.softDeletedStatus', { softDeleteStatus: `${softDeleteStatus}` })
   const appliedFilters: IndexFiltersProps['appliedFilters'] = [];
   if (softDeleteStatus && !isEmpty(softDeleteStatus)) {
     const key = 'softDeleteStatus';
     appliedFilters.push({
       key,
-      label: `Soft Delete Status ${softDeleteStatus}`,
+      label: softDeleteStatusLabel,
       onRemove: handleAccountStatusChange.bind(null, []),
     });
   }
@@ -163,7 +164,7 @@ export const Filters: FC<FiltersProps> = ({query}) => {
       sortOptions={sortOptions}
       sortSelected={sortSelected}
       queryValue={queryValue}
-      queryPlaceholder="Search categories"
+      queryPlaceholder={t('search.search')}
       onQueryChange={handleFiltersQueryChange}
       onQueryClear={() => handleFiltersQueryChange('')}
       onSort={setSortSelected}

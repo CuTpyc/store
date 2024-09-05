@@ -6,12 +6,13 @@ import {EAdminProductAction, FORM_ACTION_FIELD} from '~/admin/constants/action.c
 import {validationError} from 'remix-validated-form';
 import {deleteProduct} from '~/.server/admin/actions/products/single/delete-product';
 import {editCategory} from '~/.server/admin/actions/products/single/edit-category';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function action({request, params}: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
-
+  let t = await i18nServer.getFixedT(request);
   const {id} = params;
   if (!id) {
     return redirect(EAdminNavigation.products);
@@ -34,10 +35,10 @@ export async function action({request, params}: ActionFunctionArgs) {
     case EAdminProductAction.deleteProduct:
       return deleteProduct({id: product.id});
   }
-
+  const slugError = t("product.single.actionError")
   return validationError({
     fieldErrors: {
-      [FORM_ACTION_FIELD]: 'Invalid action'
+      [FORM_ACTION_FIELD]: slugError
     }
   });
 }

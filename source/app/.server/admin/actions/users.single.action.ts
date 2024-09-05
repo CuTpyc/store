@@ -8,11 +8,12 @@ import {validationError} from 'remix-validated-form';
 import {adminUsersSingleDeleteAction} from '~/.server/admin/actions/users.single.delete.action';
 import { $Enums } from '@prisma/client';
 import { hasAdminRoleOrRedirect } from '../utils/auth.util';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function adminUsersSingleAction({request, params}: ActionFunctionArgs) {
   const authUser = await getAuthUser(request);
   hasAdminRoleOrRedirect(authUser);
-
+  let t = await i18nServer.getFixedT(request);
   const {id} = params;
   if (!id) {
     return redirect(EAdminNavigation.users);
@@ -35,10 +36,10 @@ export async function adminUsersSingleAction({request, params}: ActionFunctionAr
     case EAdminUserAction.deleteUser:
       return adminUsersSingleDeleteAction({id});
   }
-
+  const userError = t("user.invalidAction.error")
   return validationError({
     fieldErrors: {
-      [FORM_ACTION_FIELD]: 'Invalid action'
+      [FORM_ACTION_FIELD]: userError
     }
   });
 }

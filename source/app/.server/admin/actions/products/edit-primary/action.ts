@@ -4,12 +4,13 @@ import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import {prisma} from '~/.server/shared/services/prisma.service';
 import {validationError} from 'remix-validated-form';
 import {editPrimaryFormValidator} from '~/admin/components/products/EditPrimaryForm/EditPrimaryForm.validator';
+import i18nServer from '~/.server/admin/services/i18next.service';
 
 export async function action({request, params}: ActionFunctionArgs) {
   await authenticator.isAuthenticated(request, {
     failureRedirect: EAdminNavigation.authLogin,
   });
-
+  let t = await i18nServer.getFixedT(request);
   const {id} = params;
   if (!id) {
     return redirect(EAdminNavigation.products);
@@ -41,11 +42,11 @@ export async function action({request, params}: ActionFunctionArgs) {
       }
     }
   });
-
+  const slugError = t("Product.action.edit.slug")
   if (exist) {
     return validationError({
       fieldErrors: {
-        slug: 'Product with this slug already exist'
+        slug: slugError
       }
     });
   }

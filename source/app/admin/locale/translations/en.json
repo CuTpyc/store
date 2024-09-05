@@ -1,0 +1,143 @@
+{
+  "page.dashboard.title": "Dashboard",
+  "page.dashboard.meta.title": "Dashboard | Ecom CMS",
+  "navigation": {
+    "home": "Home",
+    "users": "Users",
+    "customers": "Customers",
+    "products": "Products",
+    "categories": "Category",
+    "reviews": "Review",
+    "orders": "Orders"
+  },
+  "dashboard": {
+    "hello": "Welcome to Admin"
+  },
+  "category": {
+    "action": {
+      "add": "Add category",
+      "edit": {
+        "slug": "Category with this slug already exist"
+      },
+      "new": "Category with this slug already exist",
+      "delete": "Delete category"
+    },
+    "table": {
+      "sortOptions": {
+        "name": "Category name",
+        "description": "Description",
+        "created": "Created",
+        "updated": "Updated",
+        "deleted": "Deleted"
+      },
+      "index":{
+        "singularTitle": "category",
+        "pluralTitle": "categories",
+        "headings": {
+          "name": "Category Name",
+          "description": "Description",
+          "created": "Created At",
+          "updated": "Updated At",
+          "deleted": "Deleted At"
+        }
+      }
+    },
+    "create": {
+      "validationRules": {
+        "slugError": "Category already exists",
+        "titleError": "Title is required",
+        "descriptionError": "Description max length: 1024"
+      }
+    },
+    "primary": {
+      "slug": "Slug",
+      "title": "Title",
+      "description": "Description"
+    }
+  },
+  "customer": {
+    "action": {
+      "add": "Add category",
+      "edit": {
+        "error": "Email already exists"
+      },
+      "new": {
+        "error": "Customer already exists"
+      },
+      "delete": "Delete category"
+    },
+    "address": {
+      "actionError": "Invalid action"
+    }
+  },
+  "product": {
+    "action": {
+      "add": "Add category",
+      "edit": {
+        "error": "Product with this slug already exist"
+      },
+      "new": {
+        "error": "Product with this slug already exist"
+      },
+      "delete": "Delete category"
+    },
+    "single": {
+      "actionError": "Invalid action"
+    }
+  },
+  "user": {
+    "auth": {
+      "unknown": {
+        "error": "Unknown Error"
+      },
+      "email": {
+        "error": "Unknown Error"
+      },
+      "passwprd": {
+        "error": "Unknown Error"
+      }
+    },
+    "create": {
+      "error": "User already exists"
+    },
+    "invalidAction": {
+      "error": "Invalid action"
+    }
+  },
+  "appBar": {
+    "languageSwitcher": {
+      "save": "Save",
+      "select": "Select your language"
+    },
+    "userMenu": {
+      "changeLanguage": "Change language",
+      "Logout": "Logout"
+    }
+
+  },
+  "authLoginForm": {
+    "textField": {
+      "email": "Email",
+      "password": "Password",
+      "submit": "Submit"
+    },
+    "errors": {
+      "email": "Email is required",
+      "validEmail": "Must be a valid email",
+      "password": "password must not be empty"
+    }
+  },
+  "sortRules": {
+    "a-z": "A-Z",
+    "z-a": "Z-A",
+    "newest": "Oldest to newest",
+    "oldest": "Newest to oldest"
+  },
+  "search": {
+    "label": "Soft Delete Status",
+    "active": "Active",
+    "deleted": "Deleted",
+    "softDeletedStatus": "Soft Delete Status {{softDeleteStatus}}",
+    "search": "Search categories"
+  }
+}
