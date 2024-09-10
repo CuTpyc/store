@@ -12,7 +12,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma:seed": "prisma db seed"
+    "prisma:seed": "prisma db seed",
+    "locale:update": "tsx ./libs/tolgee-export"
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
@@ -21,6 +22,8 @@
     "@remix-run/serve": "^2.10.3",
     "@rvf/zod": "^0.0.16",
     "@shopify/polaris": "^13.8.0",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "i18next": "^23.14.0",
     "i18next-browser-languagedetector": "^8.0.0",
@@ -42,6 +45,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.10.3",
+    "@types/adm-zip": "^0.5.5",
     "@types/bcryptjs": "^2.4.6",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",

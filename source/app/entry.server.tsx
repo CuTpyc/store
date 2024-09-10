@@ -9,9 +9,12 @@ import {createInstance, i18n as i18next} from 'i18next';
 import {I18nextProvider, initReactI18next} from 'react-i18next';
 import i18n from '~/admin/locale/i18n.config';
 import i18nServer from './.server/admin/services/i18next.service';
+import { verifyTolgeeActivity } from './.server/admin/utils/tolgee.watcher.util';
 
 
 const ABORT_DELAY = 5_000;
+
+setInterval(verifyTolgeeActivity, 60000);
 
 export default async function handleRequest(
   request: Request,

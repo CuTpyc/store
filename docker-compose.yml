@@ -3,6 +3,7 @@ name: "ecom-cms-test"
 volumes:
   db-data:
   pgadmin-data:
+  tolgee-data:
 
 services:
   remix:
@@ -19,6 +20,10 @@ services:
       DEFAULT_ADMIN_EMAIL: ${DEFAULT_ADMIN_EMAIL}
       DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD}
       COOKIE_SECRET: ${COOKIE_SECRET}
+      TOLGEE_API_KEY: ${TOLGEE_API_KEY}
+      TOLGEE_PROJECT_ID: ${TOLGEE_PROJECT_ID}
+      TOLGEE_API_URL: ${TOLGEE_API_URL}
+      TOLGEE_TRANSLATIONS_DIR: ${TOLGEE_TRANSLATIONS_DIR}
     volumes:
       - ./source:/app
     ports:
@@ -48,3 +53,12 @@ services:
       - 30082:80
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+
+  tolgee:
+    image: tolgee/tolgee:latest
+    volumes:
+      - tolgee-data:/data
+    environment:
+      TOLGEE_AUTHENTICATION_ENABLED: false
+    ports:
+      - '30081:8080'

@@ -1,142 +1,139 @@
 {
-  "page.dashboard.title": "Панель керування",
-  "page.dashboard.meta.title": "Панель керування | Ecom CMS",
-  "navigation": {
-    "home": "Головна",
-    "users": "Користувачі",
-    "customers": "Клієнти",
-    "products": "Продукти",
-    "categories": "Категорії",
-    "reviews": "Відгуки",
-    "orders": "Замовлення"
-  },
-  "dashboard": {
-    "hello": "Ласкаво просимо до адміністративної панелі"
-  },
-  "category": {
-    "action": {
-      "add": "Додати категорію",
-      "edit": {
-        "slug": "Категорія з цим слагом вже існує"
-      },
-      "new": "Категорія з цим слагом вже існує",
-      "delete": "Видалити категорію"
+  "appBar" : {
+    "languageSwitcher" : {
+      "save" : "Зберегти",
+      "select" : "Оберіть свою мову"
     },
-    "table": {
-      "sortOptions": {
-        "name": "Назва категорії",
-        "description": "Опис",
-        "created": "Створено",
-        "updated": "Оновлено",
-        "deleted": "Видалено"
+    "userMenu" : {
+      "Logout" : "Вийти",
+      "changeLanguage" : "Змінити мову"
+    }
+  },
+  "authLoginForm" : {
+    "errors" : {
+      "email" : "Електронна адреса є обов'язковою",
+      "password" : "Пароль не повинен бути порожнім",
+      "validEmail" : "Має бути дійсна електронна адреса"
+    },
+    "textField" : {
+      "email" : "Електронна адреса",
+      "password" : "Пароль",
+      "submit" : "Відправити"
+    }
+  },
+  "category" : {
+    "action" : {
+      "add" : "Додати категорію",
+      "delete" : "Видалити категорію",
+      "edit" : {
+        "slug" : "Категорія з цим слагом вже існує"
       },
-      "index":{
-        "singularTitle": "категорія",
-        "pluralTitle": "категорії",
-        "headings": {
-          "name": "Назва Категорії",
-          "description": "Опис",
-          "created": "Створено",
-          "updated": "Оновлено",
-          "deleted": "Видалено"
-        }
+      "new" : "Категорія з цим слагом вже існує"
+    },
+    "create" : {
+      "validationRules" : {
+        "descriptionError" : "Максимальна довжина опису: 1024 символи",
+        "slugError" : "Категорія вже існує",
+        "titleError" : "Назва є обов'язковою"
       }
     },
-    "create": {
-      "validationRules": {
-        "slugError": "Категорія вже існує",
-        "titleError": "Назва є обов'язковою",
-        "descriptionError": "Максимальна довжина опису: 1024 символи"
+    "primary" : {
+      "description" : "Опис",
+      "slug" : "Слаг",
+      "title" : "Назва"
+    },
+    "table" : {
+      "index" : {
+        "headings" : {
+          "created" : "Створено",
+          "deleted" : "Видалено",
+          "description" : "Опис",
+          "name" : "Назва Категорії",
+          "updated" : "Оновлено"
+        },
+        "pluralTitle" : "категорії",
+        "singularTitle" : "категорія"
+      },
+      "sortOptions" : {
+        "created" : "Створено",
+        "deleted" : "Видалено",
+        "description" : "Опис",
+        "name" : "Назва категорії",
+        "updated" : "Оновлено"
+      }
+    }
+  },
+  "customer" : {
+    "action" : {
+      "add" : "Додати категорію",
+      "delete" : "Видалити категорію",
+      "edit" : {
+        "error" : "Електронна адреса вже існує"
+      },
+      "new" : {
+        "error" : "Клієнт вже існує"
       }
     },
-    "primary": {
-      "slug": "Слаг",
-      "title": "Назва",
-      "description": "Опис"
+    "address" : {
+      "actionError" : "Неправильна дія"
     }
   },
-  "customer": {
-    "action": {
-      "add": "Додати категорію",
-      "edit": {
-        "error": "Електронна адреса вже існує"
+  "dashboard" : {
+    "hello" : "Ласкаво просимо до адміністративної панелі"
+  },
+  "navigation" : {
+    "categories" : "Категорії",
+    "customers" : "Клієнти",
+    "home" : "Головна",
+    "orders" : "Замовлення",
+    "products" : "Продукти",
+    "reviews" : "Відгуки",
+    "users" : "Користувачі"
+  },
+  "page" : {
+    "dashboard" : {
+      "meta" : {
+        "title" : "Панель керування | Ecom CMS"
       },
-      "new": {
-        "error": "Клієнт вже існує"
-      },
-      "delete": "Видалити категорію"
-    },
-    "address": {
-      "actionError": "Неправильна дія"
+      "title" : "Панель керування"
     }
   },
-  "product": {
-    "action": {
-      "add": "Додати категорію",
-      "edit": {
-        "error": "Продукт з цим слагом вже існує"
+  "product" : {
+    "action" : {
+      "add" : "Додати категорію",
+      "delete" : "Видалити категорію",
+      "edit" : {
+        "error" : "Продукт з цим слагом вже існує"
       },
-      "new": {
-        "error": "Продукт з цим слагом вже існує"
-      },
-      "delete": "Видалити категорію"
-    },
-    "single": {
-      "actionError": "Неправильна дія"
-    }
-  },
-  "user": {
-    "auth": {
-      "unknown": {
-        "error": "Невідома помилка"
-      },
-      "email": {
-        "error": "Невідома помилка"
-      },
-      "passwprd": {
-        "error": "Невідома помилка"
+      "new" : {
+        "error" : "Продукт з цим слагом вже існує"
       }
     },
-    "create": {
-      "error": "Користувач вже існує"
+    "content" : "Створити продукт",
+    "single" : {
+      "actionError" : "Неправильна дія"
     },
-    "invalidAction": {
-      "error": "Неправильна дія"
-    }
+    "title" : "Продукти"
   },
-  "appBar": {
-    "languageSwitcher": {
-      "save": "Зберегти",
-      "select": "Оберіть свою мову"
-    },
-    "userMenu": {
-      "changeLanguage": "Змінити мову",
-      "Logout": "Вийти"
-    }
+  "review" : "Огляди",
+  "search" : {
+    "active" : "Активний",
+    "deleted" : "Видалений",
+    "label" : "Статус м'якого видалення",
+    "search" : "Знайти категорію",
+    "softDeletedStatus" : "Статус м'якого видалення {{softDeleteStatus}}"
   },
-  "authLoginForm": {
-    "textField": {
-      "email": "Електронна адреса",
-      "password": "Пароль",
-      "submit": "Відправити"
-    },
-    "errors": {
-      "email": "Електронна адреса є обов'язковою",
-      "validEmail": "Має бути дійсна електронна адреса",
-      "password": "Пароль не повинен бути порожнім"
-    }
+  "sortRules" : {
+    "a-z" : "А-Я",
+    "newest" : "Від старого до нового",
+    "oldest" : "Від нового до старого",
+    "z-a" : "Я-А"
   },
-  "sortRules": {
-    "a-z": "А-Я",
-    "z-a": "Я-А",
-    "newest": "Від старого до нового",
-    "oldest": "Від нового до старого"
-  },
-  "search": {
-    "label": "Статус м'якого видалення",
-    "active": "Активний",
-    "deleted": "Видалений",
-    "softDeletedStatus": "Статус м'якого видалення {{softDeleteStatus}}",
-    "search": "Знайти категорію"
-  }
+  "test" : "Тест",
+  "user" : "Користувач",
+  "user.auth.email.error" : "Невідома помилка",
+  "user.auth.passwprd.error" : "Невідома помилка",
+  "user.auth.unknown.error" : "Невідома помилка",
+  "user.create.error" : "Користувач вже існує",
+  "user.invalidAction.error" : "Неправильна дія"
 }

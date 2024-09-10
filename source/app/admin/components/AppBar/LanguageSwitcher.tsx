@@ -32,7 +32,7 @@ export const LanguageSwitcher: FC<TLanguageSwitcherProps> = ({active, user, togg
         })),
       },
     ]
-  ), []);
+  ), [submit]);
 
 
   return (

@@ -5,21 +5,22 @@ import {PlusIcon} from '@shopify/polaris-icons';
 import {EAdminNavigation} from '~/admin/constants/navigation.constant';
 import type {TAdminProductsLoader} from '~/.server/admin/loaders/products/index/loader';
 import {Index} from '~/admin/components/products/Index/Index';
+import { useTranslation } from 'react-i18next';
 
 export {loader} from '~/.server/admin/loaders/products/index/loader';
 
 
 export default function AdminProductsIndex() {
   const data = useLoaderData<TAdminProductsLoader>();
-
+  const {t, i18n} = useTranslation();
   return (
     <Page
       fullWidth
-      title="Products"
+      title={t('product.title')}
       primaryAction={{
-        content: 'Create product',
+        content: t('product.content'),
         icon: PlusIcon,
-        accessibilityLabel: 'Create product',
+        accessibilityLabel: t('product.content'),
         url: EAdminNavigation.productsCreate,
       }}
     >
